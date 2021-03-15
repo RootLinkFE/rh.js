@@ -1,0 +1,24 @@
+{
+  "name": "rh",
+  "private": true,
+  "scripts": {
+    "build": "father build",
+    "watch:cli": "PACKAGE=cli father build --watch"
+  },
+  "devDependencies": {
+    "@types/npm": "^2.0.31",
+    "@typescript-eslint/eslint-plugin": "^4.17.0",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-plugin-import": "^2.22.1",
+    "lerna": "^4.0.0",
+    "tslint-config-prettier": "^1.18.0"
+  },
+  "dependencies": {
+    "@babel/core": "^7.13.10",
+    "execa": "^5.0.0",
+    "father": "^2.30.2",
+    "npm": "^7.6.3",
+    "npx": "^10.2.2",
+    "which": "^2.0.2"
+  }
+}
