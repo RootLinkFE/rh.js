@@ -13,9 +13,9 @@ export default function buildProgram(program: commander.Command) {
     .action(async (templateName, projectName, options) => {
       if (options.list) {
         const spinner = ora('Loading data').start();
-        listTemplates().then(pjs => {
+        listTemplates().then((pjs) => {
           spinner.stop();
-          pjs.forEach(pj => {
+          pjs.forEach((pj) => {
             console.log(
               `${chalk.red(pj.name.replace(/^rh-template-/, ''))}  ${
                 (pj as any).description
@@ -35,6 +35,8 @@ export default function buildProgram(program: commander.Command) {
             stdio: 'inherit',
           },
         );
+      } else {
+        console.log('[create] should have template-name and project-name');
       }
     });
 }
