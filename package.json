@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build": "father build",
+    "dev": "father build --watch",
     "watch:cli": "PACKAGE=cli father build --watch",
     "prepare": "husky install"
   },

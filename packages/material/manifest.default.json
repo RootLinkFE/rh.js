@@ -1,0 +1,7 @@
+[
+  {
+    "name": "rh-materials",
+    "description": "RootHome 私有物料库。",
+    "git": "https://gitlab.bighome360.com/frontend/rh/materials.git"
+  }
+]

@@ -3,4 +3,5 @@ export default {
   file: 'lib/index.js',
   target: 'node',
   cjs: 'babel',
+  pkgs: ['shared', 'material', 'cli'],
 };
