@@ -1,12 +1,13 @@
-import { Material } from '../lib/material';
 import { loadManifestConfig, MaterialResourcesConfigType } from './init';
 import { cloneMaterials } from './init/clone-materials';
-import { MaterialTypeKeys } from './material';
+import { MaterialTypeKeys, Material } from './material';
 import { MaterialResources, MaterialConfigType } from './material-resources';
+// import { InquirePrompt, MaterialPrompts } from './init/prompt';
 
 export class MaterialResourcesCollection {
   manifestsConfig: MaterialResourcesConfigType[] = [];
   materialResources: MaterialResources[] = [];
+  // promots: InquirePrompt[] = MaterialPrompts;
 
   constructor(private options: any) {}
 
@@ -23,7 +24,6 @@ export class MaterialResourcesCollection {
     } else {
       this.manifestsConfig = loadManifestConfig();
     }
-
     this.manifestsConfig.forEach((config) => {
       const materialResource = new MaterialResources(config);
       this.materialResources.push(materialResource);
@@ -42,24 +42,25 @@ export class MaterialResourcesCollection {
    *
    * @param key string '[scope]@[materialName]'
    */
-  getMaterial(key: string, type: MaterialTypeKeys): Material | undefined {
+  getMaterial(key?: string, type?: MaterialTypeKeys) {
     let result;
-    const [scope, materialKey] = key.split('@');
+    const _key = key || 'rh-materials@vue',
+      _type = type || 'scaffold';
+    const [scope, materialKey] = _key.split('@');
     if (!scope || !materialKey) {
-      throw new Error(`${key} 不符合格式：[scope]@[materialName]`);
+      throw new Error(`${_key} 不符合格式：[scope]@[materialName]`);
     }
-    this.materialResources.some((materialResource) => {
+    this.materialResources.map(async (materialResource) => {
       if (materialResource.config.name === scope) {
-        const materialsConfig = materialResource.resolveResources(type);
-        return materialsConfig.some((materialConfig) => {
-          if (materialConfig.key === materialKey) {
+        const materialsConfig = materialResource.resolveDepResources(_type);
+        const materialPrompt = await materialResource.resolveCommonPrompts();
+        materialsConfig.map((materialConfig) => {
+          // 获取模板本身依赖
+          if (materialConfig.key === materialPrompt['scaffolds']) {
             result = new Material(materialConfig.path, materialResource);
-            return true;
           }
-          return false;
         });
       }
-      return false;
     });
     return result;
   }

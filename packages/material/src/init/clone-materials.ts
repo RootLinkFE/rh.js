@@ -53,7 +53,7 @@ export async function downloadManifest(
         stdio: 'inherit',
       },
     );
-    logger(chalk.green.bold(`${material.config.name} 物理库初始化成功`));
+    logger(chalk.green.bold(`${material.config.name} 物料库初始化成功`));
   } catch (err) {
     console.error(err);
     throw err;

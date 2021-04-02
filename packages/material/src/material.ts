@@ -49,6 +49,10 @@ export class Material {
       this.materialItemPath,
       MATERIAL_INFO_FILE_NAME,
     ));
+    console.log(this.info, path.join(
+      this.materialItemPath,
+      MATERIAL_INFO_FILE_NAME,
+    ))
   }
 }
 

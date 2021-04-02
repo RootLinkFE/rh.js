@@ -4,10 +4,14 @@ import glob from 'globby';
 import { RH_MATERIAL_DIR } from './constant';
 import { MaterialResourcesConfigType } from './init';
 import { MaterialTypeKeys } from './material';
+import { InquirePrompt, MaterialPrompt } from './init/prompt';
+import inquirer from 'inquirer';
 
 export type MaterialConfigType = {
   path: string;
   title: string;
+  type: string;
+  belong?: string; // 归属那套框架下（区块、页面）
   namespace?: string;
   name?: string;
   key: string;
@@ -19,13 +23,32 @@ export type MaterialConfigType = {
   dependencies?: string[];
 };
 
+type MaterialType = {
+  name: string;
+  description: string;
+  lists: Array<MaterialListType>;
+};
+
+type MaterialListType = {
+  name: string;
+  cnName: string;
+  path: string;
+};
+
 export class MaterialResources {
   inited = false;
   path: string;
+  static materialPrefix = 'material-';
 
+  resource = {
+    scaffolds: [],
+    pages: {},
+    blocks: {},
+  };
   scaffolds: MaterialConfigType[] = [];
   pages: MaterialConfigType[] = [];
   blocks: MaterialConfigType[] = [];
+  prompts: InquirePrompt[] = [];
 
   constructor(public config: MaterialResourcesConfigType) {
     if (config.localPath) {
@@ -43,16 +66,16 @@ export class MaterialResources {
   }
 
   resolveScaffolds(): void {
-    this.scaffolds = this.resolveResources('scaffold');
+    this.scaffolds = this.resolveDepResources('scaffold');
   }
   resolvePages(): void {
-    this.pages = this.resolveResources('page');
+    this.pages = this.resolveDepResources('page');
   }
   resolveBlocks(): void {
-    this.blocks = this.resolveResources('block');
+    this.blocks = this.resolveDepResources('block');
   }
 
-  resolveResources(type: MaterialTypeKeys): MaterialConfigType[] {
+  resolveDepResources(type: MaterialTypeKeys): MaterialConfigType[] {
     const result: MaterialConfigType[] = [];
     const materialFiles = glob.sync(`${type}s/*/material.json`, {
       cwd: this.path,
@@ -65,5 +88,42 @@ export class MaterialResources {
       result.push(materialConfig);
     });
     return result;
+  }
+
+  async resolveScaffoldsPrompts() {
+    const path = `scaffolds/${MaterialResources.materialPrefix}scaffolds.json`;
+    await this.readFile(path).then((res: any) => {
+      const scaffolds = res.map((b: MaterialListType) => b.name);
+      this.resource['scaffolds'] = scaffolds;
+    });
+  }
+
+  async resolveCommonPrompts() {
+    await this.resolveScaffoldsPrompts();
+    const types = ['blocks', 'pages'];
+    this.resource = types.reduce((prev: any, curr) => {
+      const path = `${curr}/${MaterialResources.materialPrefix}${curr}.json`;
+      this.resource[curr] = this.readFilesync(path);
+      return this.resource;
+    }, this.resource);
+    const prompts = new MaterialPrompt(this.resource);
+    const promptsCollection = await prompts.inquireCombineMaterial();
+    return promptsCollection;
+  }
+
+  readFile(fileName: string): Promise<MaterialType> {
+    return new Promise((resolve, reject) => {
+      fse.readFile(path.join(this.path, fileName), 'utf-8', (err, file) => {
+        if (err) {
+          return reject(`获取${fileName}列表失败`);
+        }
+        return resolve(JSON.parse(file));
+      });
+    });
+  }
+
+  readFilesync(fileName: string) {
+    const content = fse.readFileSync(path.join(this.path, fileName), 'utf-8');
+    return JSON.parse(content);
   }
 }
