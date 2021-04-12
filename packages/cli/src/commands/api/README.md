@@ -14,11 +14,22 @@ Options:
   -h, --help             display help for command
 ```
 
+执行成功后，会在当前目录下的`./src/.rh/apis`生成多个源码文件。
+
+```js
+// 在业务代码中引入
+import API from '@/.rh/apis'
+
+// 调用API
+API.Common.api.basePositionAdd(xxx); 
+  // Common 对应 swagger 导出时的多个资源
+```
+
 ## 参数说明
 
 **out**  --  指定输出目录
 
-**js**  --  输出JS格式
+**js**  --  输出JS格式，默认TS格式
 
 **axiosConfig**  --  指定 axios 配置目录。
 
@@ -58,3 +69,7 @@ export default {
 - https://drp.bighome360.com/v2/api-docs?group=commonApi--公共API
 - https://drp.bighome360.com/swagger-ui.html
 - https://dapi.bighome360.com/visual-server/doc.html
+
+#### 建议使用 TypeScript
+
+TypeScript 有类型推导，能节省翻查文档时间。
