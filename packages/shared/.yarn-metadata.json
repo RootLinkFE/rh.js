@@ -1,0 +1,24 @@
+{
+  "manifest": {
+    "name": "@rh/shared",
+    "version": "1.0.0",
+    "description": "",
+    "main": "lib/index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": {},
+    "license": "ISC",
+    "_registry": "npm",
+    "_loc": "C:\\Users\\subin\\AppData\\Local\\Yarn\\Cache\\v6\\npm-@rh-shared-1.0.0-a4ed479c-8be3-4e3e-bdc8-67152dbfb5f4-1617765010417\\node_modules\\@rh\\shared\\package.json"
+  },
+  "artifacts": [],
+  "remote": {
+    "type": "copy",
+    "registry": "npm",
+    "hash": "ba92ae0b-e36b-46e1-9920-e62dbaa7ac8b-1617765123486",
+    "reference": "D:/dev/nvm/v14.16.0/node_modules/@rh/shared"
+  },
+  "registry": "npm",
+  "hash": "ba92ae0b-e36b-46e1-9920-e62dbaa7ac8b-1617765123486"
+}

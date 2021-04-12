@@ -1,10 +1,14 @@
 import commander from 'commander';
 import ora from 'ora';
 import execa from 'execa';
+import fse from 'fs-extra';
+import path from 'path';
 import chalk from 'chalk';
 import { MaterialResourcesCollection } from '@rh/material/lib/material-resources-collection';
 import { clearConsole } from '../../utils/logger';
 import { InquireMaterialCollection } from './prompt';
+
+const cwd = process.cwd();
 
 // options：获取当前私有物料库rh-materials列表、模板列表
 // init project
@@ -29,13 +33,16 @@ export default function InitCommand(program: commander.Command) {
       // clearConsole();
       // const templates = materialResourcesCollection.listAllScaffolds(options.all)
       // console.log(
-      //   materialResourcesCollection.getMaterial(
+      //   materialResourcesCollection.getFinalMaterial(
       //     options.scaffold,
       //     'scaffold',
       //   )
       // )
-
-      // return;
+      const dirPath = path.join(cwd, projectName);
+      if (fse.existsSync(dirPath)) {
+        console.log(chalk.red(`项目名称${projectName}已存在，请勿重复创建`));
+        return;
+      }
       if (options.list || options.all) {
         const spinner = ora('初始化物料库…').start();
         const materialResourcesCollection = new MaterialResourcesCollection(
@@ -78,16 +85,17 @@ export default function InitCommand(program: commander.Command) {
         await materialResourcesCollection.init();
         spinner.stop();
         const { materialAns } = await InquireMaterialCollection();
+        let materialResult;
         if (options.scaffold) {
           console.log(
-            materialResourcesCollection.getMaterial(
+            materialResourcesCollection.getFinalMaterial(
+              projectName,
               options.scaffold,
               'scaffold',
             ),
           );
         } else {
-          const materialResult = materialResourcesCollection.getMaterial();
-          // console.log(materialResult.prompts)
+          materialResult = await materialResourcesCollection.getFinalMaterial(projectName);
         }
         // clearConsole();
         materialResourcesCollection.listAllScaffolds();

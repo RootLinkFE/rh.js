@@ -1,5 +1,6 @@
 import { loadManifestConfig, MaterialResourcesConfigType } from './init';
 import { cloneMaterials } from './init/clone-materials';
+import { createProject } from './init/create-project';
 import { MaterialTypeKeys, Material } from './material';
 import { MaterialResources, MaterialConfigType } from './material-resources';
 // import { InquirePrompt, MaterialPrompts } from './init/prompt';
@@ -42,26 +43,21 @@ export class MaterialResourcesCollection {
    *
    * @param key string '[scope]@[materialName]'
    */
-  getMaterial(key?: string, type?: MaterialTypeKeys) {
-    let result;
+  async getFinalMaterial(projectName: string, key?: string, type?: MaterialTypeKeys) {
+    let result: any;
     const _key = key || 'rh-materials@vue',
       _type = type || 'scaffold';
     const [scope, materialKey] = _key.split('@');
     if (!scope || !materialKey) {
       throw new Error(`${_key} 不符合格式：[scope]@[materialName]`);
     }
-    this.materialResources.map(async (materialResource) => {
-      if (materialResource.config.name === scope) {
-        const materialsConfig = materialResource.resolveDepResources(_type);
-        const materialPrompt = await materialResource.resolveCommonPrompts();
-        materialsConfig.map((materialConfig) => {
-          // 获取模板本身依赖
-          if (materialConfig.key === materialPrompt['scaffolds']) {
-            result = new Material(materialConfig.path, materialResource);
-          }
-        });
+    for (let i = 0; i < this.materialResources.length; ++i) {
+      const _materialResource = this.materialResources[i];
+      if (_materialResource.config.name === scope) {
+        result = await _materialResource.combineResource();
       }
-    });
+    }
+    createProject(projectName, result);
     return result;
   }
 

@@ -8,13 +8,18 @@ import { materialFactory } from './init/material-factory';
 export type MaterialTypeKeys = 'page' | 'block' | 'scaffold';
 
 export class Material {
-  info: MaterialConfigType | undefined;
+  info: MaterialConfigType | any;
   dependencies: Material[] = [];
+  materialResources: MaterialResources;
+  materialItemPath: string;
 
   constructor(
-    protected materialItemPath: string,
-    protected materialResources: MaterialResources,
+    materialItemPath: string,
+    materialResources: MaterialResources,
+    private externalDependencies?: string[],
   ) {
+    this.materialResources = materialResources
+    this.materialItemPath = materialItemPath
     this.check();
     this.loadDependencies();
   }
@@ -26,7 +31,7 @@ export class Material {
 
   private loadDependencies() {
     if (this.info?.dependencies?.length) {
-      this.info?.dependencies.forEach((dependency) => {
+      this.info?.dependencies.forEach((dependency: any) => {
         const dependencyMaterial = materialFactory(
           path.join(this.materialResources.path, dependency),
           this.materialResources,
@@ -49,10 +54,15 @@ export class Material {
       this.materialItemPath,
       MATERIAL_INFO_FILE_NAME,
     ));
-    console.log(this.info, path.join(
-      this.materialItemPath,
-      MATERIAL_INFO_FILE_NAME,
-    ))
+    this.info.dependencies = this.externalDependencies
+      ? Array.from(
+          new Set([...this.info.dependencies, ...this.externalDependencies]),
+        )
+      : this.info.dependencies;
+    // console.log(this.info, path.join(
+    //   this.materialItemPath,
+    //   MATERIAL_INFO_FILE_NAME,
+    // ))
   }
 }
 

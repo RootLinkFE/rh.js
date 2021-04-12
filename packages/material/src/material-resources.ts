@@ -3,7 +3,7 @@ import path from 'path';
 import glob from 'globby';
 import { RH_MATERIAL_DIR } from './constant';
 import { MaterialResourcesConfigType } from './init';
-import { MaterialTypeKeys } from './material';
+import { MaterialTypeKeys, Material } from './material';
 import { InquirePrompt, MaterialPrompt } from './init/prompt';
 import inquirer from 'inquirer';
 
@@ -125,5 +125,64 @@ export class MaterialResources {
   readFilesync(fileName: string) {
     const content = fse.readFileSync(path.join(this.path, fileName), 'utf-8');
     return JSON.parse(content);
+  }
+
+  // 整合资源
+  async combineResource() {
+    let result;
+    const materialsConfig = this.resolveDepResources('scaffold');
+    const materialPrompt = await this.resolveCommonPrompts();
+    let materialsCollection: Material[] = [];
+    const combineMaterialFn = (materials: Material) => {
+      materials.dependencies.map((b: Material) => {
+        materialsCollection.push(b);
+        combineMaterialFn(b);
+      });
+      return materials;
+    };
+    materialsConfig.map((materialConfig) => {
+      const scaffolds = materialPrompt['scaffolds'];
+      // 获取模板本身依赖
+      if (materialConfig.key === scaffolds) {
+        const externalDependencies = this.removeExtraDependencie(
+          materialPrompt,
+        );
+        // result = new Material(materialConfig.path, this, externalDependencies)
+        result = combineMaterialFn(
+          new Material(materialConfig.path, this, externalDependencies),
+        );
+        result.dependencies = this.removeRepeatDependencie(materialsCollection);
+      }
+    });
+    return result;
+  }
+
+  // 去除交互选择的重复依赖
+  removeExtraDependencie(prompts: any): string[] {
+    const { scaffolds } = prompts;
+    const dependencies: string[] = [];
+    ['pages', 'blocks'].map((who) => {
+      const deps = prompts[who];
+      deps.map((dep: string) => {
+        dependencies.push(`${who}/${scaffolds}/${dep}`);
+      });
+    });
+    return dependencies;
+  }
+
+  // 去除嵌套中的重复依赖
+  removeRepeatDependencie(collcetions: Material[]): Material[] {
+    let obj = {};
+    let dependencies: Material[] = collcetions.reduce(function (
+      item: Material[],
+      next: Material,
+    ) {
+      const { type, belong, name } = next.info;
+      const key = `${type}/${belong}/${name}`;
+      obj[key] ? '' : (obj[key] = true && item.push(next));
+      return item;
+    },
+    []);
+    return dependencies;
   }
 }

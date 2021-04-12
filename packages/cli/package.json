@@ -10,8 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "@gitbeaker/node": "^28.0.4",
-    "@rh/material": "C:\\Users\\xiubin.hu\\environment\\dev\\nvm\\v14.15.3\\node_modules\\@rh\\material",
-    "@rh/shared": "C:\\Users\\xiubin.hu\\environment\\dev\\nvm\\v14.15.3\\node_modules\\@rh\\shared",
+    "@rh/material": "D:\\dev\\nvm\\v14.16.0\\node_modules\\@rh\\material",
+    "@rh/shared": "D:\\dev\\nvm\\v14.16.0\\node_modules\\@rh\\shared",
     "chalk": "^4.1.0",
     "commander": "^7.1.0",
     "execa": "^5.0.0",

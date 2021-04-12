@@ -1,0 +1,35 @@
+{
+  "manifest": {
+    "name": "@rh/material",
+    "version": "1.0.0",
+    "description": "",
+    "main": "lib/index.js",
+    "author": {},
+    "license": "ISC",
+    "dependencies": {
+      "@types/fs-extra": "^9.0.9",
+      "chalk": "^4.1.0",
+      "execa": "^5.0.0",
+      "fs-extra": "^9.1.0",
+      "glob": "^7.1.6",
+      "globby": "^11.0.3",
+      "inquirer": "^8.0.0",
+      "queue": "^6.0.2",
+      "yaml": "^1.10.2"
+    },
+    "devDependencies": {
+      "@types/inquirer": "^7.3.1"
+    },
+    "_registry": "npm",
+    "_loc": "C:\\Users\\subin\\AppData\\Local\\Yarn\\Cache\\v6\\npm-@rh-material-1.0.0-0687d246-19d3-4e21-a5e5-854839d2b5fe-1617765010024\\node_modules\\@rh\\material\\package.json"
+  },
+  "artifacts": [],
+  "remote": {
+    "type": "copy",
+    "registry": "npm",
+    "hash": "b06d2ad4-5d1f-43a2-a7d5-f87be4895b56-1617765123201",
+    "reference": "D:/dev/nvm/v14.16.0/node_modules/@rh/material"
+  },
+  "registry": "npm",
+  "hash": "b06d2ad4-5d1f-43a2-a7d5-f87be4895b56-1617765123201"
+}
