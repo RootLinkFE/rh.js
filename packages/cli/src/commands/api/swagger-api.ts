@@ -89,7 +89,7 @@ function getSwaggerSchemaJSON(url: string): Promise<Spec> {
           }
           return resolve(data);
         } catch (err) {
-          reject(err);
+          reject(new Error(NO_VALID_SWAGGER_JSON));
         }
       } else {
         reject(new Error(NO_VALID_SWAGGER_JSON));
