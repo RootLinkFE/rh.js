@@ -10,8 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "@gitbeaker/node": "^28.0.4",
-    "@rh/material": "^1.0.0",
-    "@rh/shared": "^1.0.0",
+    "@rh/material": "^0.0.1-alpha.0",
+    "@rh/shared": "^0.0.1",
     "@types/lodash": "^4.14.168",
     "@types/prettier": "^2.2.3",
     "chalk": "^4.1.0",
