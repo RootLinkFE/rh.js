@@ -1,4 +1,4 @@
-const package = require('../package.json');
+const { version } = require('../package.json');
 const request = require('request');
 var userName = require('git-user-name');
 var fse = require('fs-extra');
