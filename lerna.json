@@ -5,6 +5,11 @@
     "publish": {
       "registry": "https://nexus.bighome360.com/repository/npm-rh/",
       "npmClient": "npm"
+    },
+    "version": {
+      "message": "chore(release): publish",
+      "conventionalCommits": true,
+      "yes": true
     }
   }
 }
