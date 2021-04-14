@@ -8,9 +8,7 @@
     },
     "version": {
       "message": "chore(release): publish",
-      "conventionalCommits": true,
-      "yes": true,
-      "noPush": true
+      "conventionalCommits": true
     }
   }
 }
