@@ -1,20 +1,54 @@
 const package = require('../package.json');
 const request = require('request');
-const git = require('git-last-commit');
+var userName = require('git-user-name');
+var fse = require('fs-extra');
+var path = require('path');
+const fs = require('fs');
+const readline = require('readline');
 
 const WEB_HOOK =
   'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=d57bb8ec-34f5-4641-91b1-e6ca908d37e3';
 
-git.getLastCommit(function (err, commit) {
+function getChangeLog() {
+  const f = path.join(__dirname, '../CHANGELOG.md');
+  if (!fse.existsSync(f)) return;
+  const FRStream = fs.createReadStream(f);
+  const rl = readline.createInterface({
+    input: FRStream,
+    crlfDelay: Infinity,
+  });
+  return new Promise((resolve) => {
+    const result = [];
+    let isEnterChange = false;
+    let enterRegex = new RegExp(`^# \\[${version}\\]`);
+    rl.on('line', function (input) {
+      // console.log('input: ', input);
+      if (/^# \[(\w+\.?)\]/) {
+        if (isEnterChange) {
+          FRStream.close();
+        }
+      }
+      if (isEnterChange) {
+        result.push(input);
+      }
+      if (enterRegex.test(input)) {
+        isEnterChange = true;
+      }
+    });
+
+    FRStream.on('close', () => resolve(result.join('\n')));
+  });
+}
+
+getChangeLog().then((changelog) => {
   const data = {
     msgtype: 'markdown',
     markdown: {
-      content: `@rh/cli 发布成功，最新版本号为<font color="warning">${
-        package.version
-      }</font>
-    最后修改人：${commit.committer.name}(${commit.committer.email})
-    最后修改时间：${new Date(commit.committedOn * 1000)}
-    信息：${commit.subject}`,
+      content: `@rh/cli 发布成功，最新版本号为<font color="warning">${version}</font>
+      发布人：${userName()}
+      发布时间：${new Date()}
+      Changelog：
+      ${changelog}`,
     },
   };
   request.post(
