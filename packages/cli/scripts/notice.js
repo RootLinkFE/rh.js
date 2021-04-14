@@ -20,10 +20,9 @@ function getChangeLog() {
   return new Promise((resolve) => {
     const result = [];
     let isEnterChange = false;
-    let enterRegex = new RegExp(`^# \\[${version}\\]`);
+    let enterRegex = new RegExp(`^## \\[${version}\\]`);
     rl.on('line', function (input) {
-      // console.log('input: ', input);
-      if (/^# \[(\w+\.?)\]/) {
+      if (/^## \[(\w+\.?)\]/) {
         if (isEnterChange) {
           FRStream.close();
         }
@@ -48,6 +47,7 @@ getChangeLog().then((changelog) => {
       发布人：${userName()}
       发布时间：${new Date()}
       Changelog：
+      
       ${changelog}`,
     },
   };
