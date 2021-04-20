@@ -14,11 +14,11 @@ Options:
   -h, --help             display help for command
 ```
 
-执行成功后，会在当前目录下的`./src/.rh/apis`生成多个源码文件。
+执行成功后，会在当前目录下的`./src/rh/apis`生成多个源码文件。
 
 ```js
 // 在业务代码中引入
-import API from '@/.rh/apis'
+import API from '@/rh/apis'
 
 // 调用API
 API.Common.api.basePositionAdd(xxx); 

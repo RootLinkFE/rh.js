@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import prettier from 'prettier';
+import inquirer from 'inquirer';
 export default class EntryFile {
   files: string[] = [];
   imports: string[] = [];
@@ -29,7 +30,19 @@ export default class EntryFile {
     }
     return `import axiosConfig from '${configPath}';`;
   }
-  genFile(basePath: string) {
+  async genFile(basePath: string) {
+    const indexFilePath = path.join(basePath, 'index.' + this.ext);
+    if (fs.existsSync(indexFilePath)) {
+      const { ok } = await inquirer.prompt([
+        {
+          name: 'ok',
+          type: 'confirm',
+          message: `目录下已存在 index.${this.ext} ，是否覆盖?`,
+          default: false,
+        },
+      ]);
+      if (!ok) return;
+    }
     this.imports.push(this.importAxiosConfig());
     this.files.forEach((file) => {
       const fileO = path.parse(file);

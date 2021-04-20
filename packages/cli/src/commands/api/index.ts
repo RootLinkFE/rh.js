@@ -13,7 +13,7 @@ export default function InitCommand(program: commander.Command) {
     .option(
       '-o, --output <output>',
       'output path of typescript api file',
-      './src/.rh/apis',
+      './src/rh/apis',
     )
     .option('--js', 'generate js api module with declaration file', false)
     .option('--axiosConfig <path>','export default axios config file path')
