@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.2](http://gitlab.bighome360.com/frontend/rh/rh.js/compare/@rh/material@0.0.1...@rh/material@0.0.2) (2021-04-26)
+
+**Note:** Version bump only for package @rh/material
+
+
+
+
+
 ## [0.0.1](http://gitlab.bighome360.com/frontend/rh/rh.js/compare/@rh/material@0.0.1-alpha.0...@rh/material@0.0.1) (2021-04-14)
 
 

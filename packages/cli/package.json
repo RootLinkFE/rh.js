@@ -1,6 +1,6 @@
 {
   "name": "@rh/cli",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@gitbeaker/node": "^28.0.4",
-    "@rh/material": "^0.0.1",
+    "@rh/material": "^0.0.2",
     "@rh/shared": "^0.0.2",
     "@types/lodash": "^4.14.168",
     "@types/prettier": "^2.2.3",
