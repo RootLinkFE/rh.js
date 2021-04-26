@@ -1,5 +1,6 @@
 import { Spec } from 'swagger-schema-official';
 import { SwaggerApiCLIConfigType } from './swagger-api';
+
 import {
   generateApi,
   GenerateApiParams,
@@ -7,16 +8,9 @@ import {
   RouteNameInfo,
   SchemaComponent,
 } from 'swagger-typescript-api';
-import path from 'path';
-import { startCase, camelCase } from 'lodash';
+import { camelCase } from 'lodash';
 import EntryFile from './entry-file';
-
-function normalizeSchemaName(name: string) {
-  return startCase(camelCase(name))
-    .replace(/ /g, '')
-    .replace(/[^a-zA-Z]/g, '')
-    .replace(/api/gi, '');
-}
+import { normalizeSchemaName } from './utils';
 
 function resolveRequestFunctionName(requestPath: string) {
   const paths = requestPath.split('/');
@@ -45,7 +39,9 @@ export default class SwaggerGen {
     generateUnionEnums: false,
     extraTemplates: [],
     hooks: {
-      // onCreateComponent: (component: SchemaComponent) => {},
+      // onCreateComponent: (component: SchemaComponent) => {
+      //   console.log('component: ', JSON.stringify(component));
+      // },
       //  onCreateRequestParams: (rawType) => {},
       // onCreateRoute: (routeData: any) => {},
       onCreateRouteName: (

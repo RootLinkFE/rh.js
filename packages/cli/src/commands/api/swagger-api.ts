@@ -1,12 +1,12 @@
 import { Spec } from 'swagger-schema-official';
 import path from 'path';
-import rimraf from 'rimraf';
 import chalk from 'chalk';
 import request from 'request';
 
 import { getAllResources, SwaggerResourcesType } from './swagger-resources';
 
 import SwaggerGen from './swagger-gencode';
+import { fixDefinitionsChinese } from './utils';
 
 export type SwaggerApiCLIConfigType = { js: boolean; output: string };
 
@@ -24,6 +24,7 @@ export default async function SwaggerAPI(
   config.output = path.resolve(process.cwd(), config?.output);
 
   const specs: Spec[] = [];
+  let isSingleSpecs = true;
   // 尝试获取当前地址，判断是否JSON的返回内容
   try {
     const spec = await getSwaggerSchemaJSON(swaggerUrl);
@@ -31,21 +32,25 @@ export default async function SwaggerAPI(
     (spec as any).resourceName = new URL(swaggerUrl).hostname;
     specs.push(spec);
   } catch (err) {
+    isSingleSpecs = false;
     if (err.message !== NO_VALID_SWAGGER_JSON) {
       console.error(err);
       throw err;
     }
   }
-  try {
-    // 尝试获取资源文件
-    const resources = await getAllResources(swaggerUrl);
-    specs.push(
-      ...(await getSwaggerSchemaJSONByResources(resources, swaggerUrl)),
-    );
-  } catch (err) {
-    console.error(err);
-    console.log(chalk.red('不是可用的 swagger 资源链接'));
-    process.exit(-1);
+
+  if (!isSingleSpecs) {
+    try {
+      // 尝试获取资源文件
+      const resources = await getAllResources(swaggerUrl);
+      specs.push(
+        ...(await getSwaggerSchemaJSONByResources(resources, swaggerUrl)),
+      );
+    } catch (err) {
+      console.error(err);
+      console.log(chalk.red('不是可用的 swagger 资源链接'));
+      process.exit(-1);
+    }
   }
 
   specs.forEach((spec) => {
@@ -83,7 +88,7 @@ function getSwaggerSchemaJSON(url: string): Promise<Spec> {
       if (err) return reject(err);
       if (body) {
         try {
-          const data = JSON.parse(body);
+          const data = fixDefinitionsChinese(JSON.parse(body));
           if (!data.swagger) {
             reject(new Error(NO_VALID_SWAGGER_JSON));
           }
