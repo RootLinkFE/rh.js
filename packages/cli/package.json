@@ -39,6 +39,7 @@
     "@types/inquirer": "^7.3.1",
     "@types/request": "^2.48.5",
     "@types/rimraf": "^3.0.0",
-    "@types/semver": "^7.3.4"
+    "@types/semver": "^7.3.4",
+    "git-user-name": "^2.0.0"
   }
 }
