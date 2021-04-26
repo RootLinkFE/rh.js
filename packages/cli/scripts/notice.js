@@ -22,16 +22,17 @@ function getChangeLog() {
     let isEnterChange = false;
     let enterRegex = new RegExp(`^## \\[${version}\\]`);
     rl.on('line', function (input) {
-      if (/^## \[(\w+\.?)\]/) {
+      if (/^## \[(\d*\.?)*\]/.test(input)) {
         if (isEnterChange) {
+          isEnterChange = false;
           FRStream.close();
         }
       }
-      if (isEnterChange) {
-        result.push(input);
-      }
       if (enterRegex.test(input)) {
         isEnterChange = true;
+      }
+      if (isEnterChange) {
+        result.push(input);
       }
     });
 
@@ -48,6 +49,9 @@ getChangeLog().then((changelog) => {
       发布时间：${new Date()}
       Changelog：
       
+      -------------------------
+
+
       ${changelog}`,
     },
   };
