@@ -1,3 +1,6 @@
+import os from 'os';
+import path from 'path';
+import fse from 'fs-extra';
 import { Spec } from 'swagger-schema-official';
 import { SwaggerApiCLIConfigType } from './swagger-api';
 
@@ -8,13 +11,14 @@ import {
   RouteNameInfo,
   SchemaComponent,
 } from 'swagger-typescript-api';
-import { camelCase } from 'lodash';
+import { camelCase, kebabCase } from 'lodash';
 import EntryFile from './entry-file';
 import { normalizeSchemaName } from './utils';
 
-function resolveRequestFunctionName(requestPath: string) {
+function resolveRequestFunctionName(requestPath: string, moduleName: string) {
   const paths = requestPath.split('/');
-  return camelCase([paths.pop(), paths.pop()].reverse().join('-'));
+  const moduleNamePaths = kebabCase(moduleName).split('-');
+  return camelCase(paths.filter((p) => !moduleNamePaths.includes(p)).join('-'));
 }
 
 export default class SwaggerGen {
@@ -38,6 +42,8 @@ export default class SwaggerGen {
     moduleNameFirstTag: false,
     generateUnionEnums: false,
     extraTemplates: [],
+    modular: true,
+    silent: true,
     hooks: {
       // onCreateComponent: (component: SchemaComponent) => {
       //   console.log('component: ', JSON.stringify(component));
@@ -50,14 +56,22 @@ export default class SwaggerGen {
       ) => {
         routeNameInfo.original = routeNameInfo.usage = resolveRequestFunctionName(
           rawRouteInfo.route,
+          rawRouteInfo.moduleName,
         );
         return routeNameInfo;
       },
       // onFormatRouteName: (routeInfo, templateRouteName) => {},
-      // onFormatTypeName: (typeName, rawTypeName) => {},
+      // onFormatTypeName: (typeName: any, rawTypeName: any) => {},
       // onInit: (configuration) => {},
-      // onParseSchema: (originalSchema: any, parsedSchema: any) => {},
-      // onPrepareConfig: (currentConfiguration) => {},
+      onParseSchema: (originalSchema: any, parsedSchema: any) => {
+        if (parsedSchema.content === 'object') {
+          parsedSchema.content = 'any';
+        }
+        return parsedSchema;
+      },
+      // onPrepareConfig: (currentConfiguration: any) => {
+      //   console.log('currentConfiguration: ', JSON.stringify(currentConfiguration.rawModelTypes));
+      // },
     },
   };
   config: Omit<GenerateApiParams, 'url' | 'spec' | 'input'> | undefined;
@@ -69,20 +83,36 @@ export default class SwaggerGen {
   async gen() {
     const entryFile = new EntryFile(this.config);
     const output = this.config!.output!;
+    const tempOutput = path.join(os.tmpdir(), '.rh', 'api_tmp');
     return this.specs
       .reduce((_p, spec) => {
         delete spec.info.termsOfService;
         return _p.then(() => {
-          return new Promise((resolve) => {
+          return new Promise((resolve, reject) => {
             generateApi({
               ...this.config,
               name: `${normalizeSchemaName((spec as any).resourceName)}.${
                 this.config?.toJS ? 'js' : 'ts'
               }`,
-              output,
+              output: tempOutput,
               spec,
             }).then(({ files, configuration }) => {
-              entryFile.files.push(...files.map((file) => file.name));
+              entryFile.files.push(
+                ...files.map((file) => {
+                  const target = path.join(output, file.name);
+                  const patho = path.parse(target);
+                  if (
+                    ['http-client'].includes(patho.name) &&
+                    fse.existsSync(target)
+                  ) {
+                    return file.name;
+                  }
+                  console.log(`✅   生成接口文件：${target}`);
+                  fse.mkdirpSync(patho.dir);
+                  fse.writeFileSync(target, file.content);
+                  return file.name;
+                }),
+              );
               resolve();
             });
           });

@@ -46,9 +46,8 @@ export default class EntryFile {
     this.imports.push(this.importAxiosConfig());
     this.files.forEach((file) => {
       const fileO = path.parse(file);
-      this.imports.push(
-        `import { Api as ${fileO.name} } from './${fileO.name}'\r\n`,
-      );
+      if (['http-client', 'data-contracts'].includes(fileO.name)) return;
+      this.imports.push(`import { ${fileO.name} } from './${fileO.name}'\r\n`);
       this.exports.push(
         `${fileO.name}: new ${fileO.name}(${
           this.hasConfig ? 'axiosConfig' : ''
@@ -59,13 +58,16 @@ export default class EntryFile {
     const code = `
     ${this.imports.join('')}
 
-    export default {
+    export const APIS = {
       ${this.exports.join('')}
     }
     `;
+    const outputPath = path.join(basePath, 'index.' + this.ext);
+    const prettierConfig = await prettier.resolveConfig(process.cwd());
+
     fs.writeFileSync(
-      path.join(basePath, 'index.' + this.ext),
-      prettier.format(code),
+      outputPath,
+      prettier.format(code, { ...prettierConfig, filepath: outputPath }),
     );
   }
 }
