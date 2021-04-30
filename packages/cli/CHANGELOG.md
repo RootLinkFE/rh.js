@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.8](http://gitlab.bighome360.com/frontend/rh/rh.js/compare/@rh/cli@0.0.7...@rh/cli@0.0.8) (2021-04-30)
+
+
+### Features
+
+* 接口生成拆分成单独 http-client ([e098898](http://gitlab.bighome360.com/frontend/rh/rh.js/commit/e0988988cf119976f781a71562f24cdf77cfb352))
+
+
+
+
+
 ## [0.0.7](http://gitlab.bighome360.com/frontend/rh/rh.js/compare/@rh/cli@0.0.6...@rh/cli@0.0.7) (2021-04-26)
 
 
