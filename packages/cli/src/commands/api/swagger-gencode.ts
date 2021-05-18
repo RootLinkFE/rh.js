@@ -18,7 +18,15 @@ import { normalizeSchemaName } from './utils';
 function resolveRequestFunctionName(requestPath: string, moduleName: string) {
   const paths = requestPath.split('/');
   const moduleNamePaths = kebabCase(moduleName).split('-');
-  return camelCase(paths.filter((p) => !moduleNamePaths.includes(p)).join('-'));
+  // 在后端，project微服务名称，project-version 是controller类名，deleteById 方法名。
+  // 现在微服务是个spec，独立文件夹了。所以controller + method唯一性保证的。
+  // 后续有需要再改造
+  return camelCase(
+    paths
+      .filter((p) => !moduleNamePaths.includes(p))
+      .slice(-2)
+      .join('-'),
+  );
 }
 
 export default class SwaggerGen {
@@ -54,6 +62,7 @@ export default class SwaggerGen {
         routeNameInfo: RouteNameInfo,
         rawRouteInfo: RawRouteInfo,
       ) => {
+        // console.log('rawRouteInfo=', rawRouteInfo);
         routeNameInfo.original = routeNameInfo.usage = resolveRequestFunctionName(
           rawRouteInfo.route,
           rawRouteInfo.moduleName,
@@ -92,7 +101,7 @@ export default class SwaggerGen {
             const resourceName = normalizeSchemaName(
               (spec as any).resourceName,
             );
-            console.log(' resourceName=', resourceName);
+
             generateApi({
               ...this.config,
               name: `${resourceName}.${this.config?.toJS ? 'js' : 'ts'}`,

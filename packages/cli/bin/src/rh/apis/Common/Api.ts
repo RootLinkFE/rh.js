@@ -23,12 +23,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 职位表新增
    *
    * @tags 职位表 前端控制器
-   * @name DevopsProjectRpCommonBasePositionAdd
+   * @name BasePositionAdd
    * @summary 职位表新增
    * @request POST:/api/devops-project-rp/common/base-position/add
    * @response `200` `BaseResultOflong` OK
    */
-  devopsProjectRpCommonBasePositionAdd = (param: BasePositionParamObject, params: RequestParams = {}) =>
+  basePositionAdd = (param: BasePositionParamObject, params: RequestParams = {}) =>
     this.request<BaseResultOflong, any>({
       path: `/api/devops-project-rp/common/base-position/add`,
       method: "POST",
@@ -40,12 +40,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 查询职位表不分页列表
    *
    * @tags 职位表 前端控制器
-   * @name DevopsProjectRpCommonBasePositionGetList
+   * @name BasePositionGetList
    * @summary 查询职位表不分页列表
    * @request GET:/api/devops-project-rp/common/base-position/getList
    * @response `200` `BaseResultOfListOfBasePositionRespObject` OK
    */
-  devopsProjectRpCommonBasePositionGetList = (params: RequestParams = {}) =>
+  basePositionGetList = (params: RequestParams = {}) =>
     this.request<BaseResultOfListOfBasePositionRespObject, any>({
       path: `/api/devops-project-rp/common/base-position/getList`,
       method: "GET",
@@ -55,12 +55,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 项目与用户关系表删除
    *
    * @tags 项目与用户关系表 前端控制器
-   * @name DevopsProjectRpCommonBaseProjectUserDeleteById
+   * @name BaseProjectUserDeleteById
    * @summary 项目与用户关系表删除
    * @request POST:/api/devops-project-rp/common/base-project-user/deleteById
    * @response `200` `BaseResultOfboolean` OK
    */
-  devopsProjectRpCommonBaseProjectUserDeleteById = (commonIdParam: CommonIdParamObject, params: RequestParams = {}) =>
+  baseProjectUserDeleteById = (commonIdParam: CommonIdParamObject, params: RequestParams = {}) =>
     this.request<BaseResultOfboolean, any>({
       path: `/api/devops-project-rp/common/base-project-user/deleteById`,
       method: "POST",
@@ -72,15 +72,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 项目与用户关系表分页查询
    *
    * @tags 项目与用户关系表 前端控制器
-   * @name DevopsProjectRpCommonBaseProjectUserPageByParam
+   * @name BaseProjectUserPageByParam
    * @summary 项目与用户关系表分页查询
    * @request POST:/api/devops-project-rp/common/base-project-user/pageByParam
    * @response `200` `BasePageResultOfBaseProjectUserRespObject` OK
    */
-  devopsProjectRpCommonBaseProjectUserPageByParam = (
-    param: BaseProjectUserPageParamObject,
-    params: RequestParams = {},
-  ) =>
+  baseProjectUserPageByParam = (param: BaseProjectUserPageParamObject, params: RequestParams = {}) =>
     this.request<BasePageResultOfBaseProjectUserRespObject, any>({
       path: `/api/devops-project-rp/common/base-project-user/pageByParam`,
       method: "POST",
@@ -92,12 +89,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 项目与用户关系表更新
    *
    * @tags 项目与用户关系表 前端控制器
-   * @name DevopsProjectRpCommonBaseProjectUserUpdateById
+   * @name BaseProjectUserUpdateById
    * @summary 项目与用户关系表更新
    * @request POST:/api/devops-project-rp/common/base-project-user/updateById
    * @response `200` `BaseResultOfboolean` OK
    */
-  devopsProjectRpCommonBaseProjectUserUpdateById = (param: BaseProjectUserParamObject, params: RequestParams = {}) =>
+  baseProjectUserUpdateById = (param: BaseProjectUserParamObject, params: RequestParams = {}) =>
     this.request<BaseResultOfboolean, any>({
       path: `/api/devops-project-rp/common/base-project-user/updateById`,
       method: "POST",
@@ -109,12 +106,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 用户信息表新增
    *
    * @tags 用户信息表 前端控制器
-   * @name DevopsProjectRpCommonBaseUserAdd
+   * @name BaseUserAdd
    * @summary 用户信息表新增
    * @request POST:/api/devops-project-rp/common/base-user/add
    * @response `200` `BaseResultOflong` OK
    */
-  devopsProjectRpCommonBaseUserAdd = (param: BaseUserParamObject, params: RequestParams = {}) =>
+  baseUserAdd = (param: BaseUserParamObject, params: RequestParams = {}) =>
     this.request<BaseResultOflong, any>({
       path: `/api/devops-project-rp/common/base-user/add`,
       method: "POST",
@@ -126,12 +123,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 用户信息表删除
    *
    * @tags 用户信息表 前端控制器
-   * @name DevopsProjectRpCommonBaseUserDeleteById
+   * @name BaseUserDeleteById
    * @summary 用户信息表删除
    * @request POST:/api/devops-project-rp/common/base-user/deleteById
    * @response `200` `BaseResultOfboolean` OK
    */
-  devopsProjectRpCommonBaseUserDeleteById = (commonIdParam: CommonIdParamObject, params: RequestParams = {}) =>
+  baseUserDeleteById = (commonIdParam: CommonIdParamObject, params: RequestParams = {}) =>
     this.request<BaseResultOfboolean, any>({
       path: `/api/devops-project-rp/common/base-user/deleteById`,
       method: "POST",
@@ -143,12 +140,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 根据ID查询用户信息表详情
    *
    * @tags 用户信息表 前端控制器
-   * @name DevopsProjectRpCommonBaseUserGetById
+   * @name BaseUserGetById
    * @summary 根据ID查询用户信息表详情
    * @request GET:/api/devops-project-rp/common/base-user/getById
    * @response `200` `BaseResultOfBaseUserRespObject` OK
    */
-  devopsProjectRpCommonBaseUserGetById = (query: { id: number }, params: RequestParams = {}) =>
+  baseUserGetById = (query: { id: number }, params: RequestParams = {}) =>
     this.request<BaseResultOfBaseUserRespObject, any>({
       path: `/api/devops-project-rp/common/base-user/getById`,
       method: "GET",
@@ -159,12 +156,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 用户信息表不分页查询
    *
    * @tags 用户信息表 前端控制器
-   * @name DevopsProjectRpCommonBaseUserList
+   * @name BaseUserList
    * @summary 用户信息表不分页查询
    * @request POST:/api/devops-project-rp/common/base-user/list
    * @response `200` `BaseResultOfListOfBaseUserSimplyRespObject` OK
    */
-  devopsProjectRpCommonBaseUserList = (param: BaseUsernameParamObject, params: RequestParams = {}) =>
+  baseUserList = (param: BaseUsernameParamObject, params: RequestParams = {}) =>
     this.request<BaseResultOfListOfBaseUserSimplyRespObject, any>({
       path: `/api/devops-project-rp/common/base-user/list`,
       method: "POST",
@@ -176,12 +173,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 用户信息表-登出
    *
    * @tags 用户信息表 前端控制器
-   * @name DevopsProjectRpCommonBaseUserLogOut
+   * @name BaseUserLogOut
    * @summary 用户信息表-登出
    * @request POST:/api/devops-project-rp/common/base-user/logOut
    * @response `200` `BaseResultOfboolean` OK
    */
-  devopsProjectRpCommonBaseUserLogOut = (params: RequestParams = {}) =>
+  baseUserLogOut = (params: RequestParams = {}) =>
     this.request<BaseResultOfboolean, any>({
       path: `/api/devops-project-rp/common/base-user/logOut`,
       method: "POST",
@@ -192,12 +189,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 用户信息表-登录
    *
    * @tags 用户信息表 前端控制器
-   * @name DevopsProjectRpCommonBaseUserLogin
+   * @name BaseUserLogin
    * @summary 用户信息表-登录
    * @request POST:/api/devops-project-rp/common/base-user/login
    * @response `200` `BaseResultOfLoginRespObject` OK
    */
-  devopsProjectRpCommonBaseUserLogin = (param: LoginParamObject, params: RequestParams = {}) =>
+  baseUserLogin = (param: LoginParamObject, params: RequestParams = {}) =>
     this.request<BaseResultOfLoginRespObject, any>({
       path: `/api/devops-project-rp/common/base-user/login`,
       method: "POST",
@@ -209,12 +206,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 用户信息表分页查询
    *
    * @tags 用户信息表 前端控制器
-   * @name DevopsProjectRpCommonBaseUserPageByParam
+   * @name BaseUserPageByParam
    * @summary 用户信息表分页查询
    * @request POST:/api/devops-project-rp/common/base-user/pageByParam
    * @response `200` `BasePageResultOfBaseUserRespObject` OK
    */
-  devopsProjectRpCommonBaseUserPageByParam = (param: BaseUserPageParamObject, params: RequestParams = {}) =>
+  baseUserPageByParam = (param: BaseUserPageParamObject, params: RequestParams = {}) =>
     this.request<BasePageResultOfBaseUserRespObject, any>({
       path: `/api/devops-project-rp/common/base-user/pageByParam`,
       method: "POST",
@@ -226,12 +223,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 用户信息表-刷新token
    *
    * @tags 用户信息表 前端控制器
-   * @name DevopsProjectRpCommonBaseUserRefreshToken
+   * @name BaseUserRefreshToken
    * @summary 用户信息表-刷新token
    * @request POST:/api/devops-project-rp/common/base-user/refreshToken
    * @response `200` `BaseResultOfLoginRespObject` OK
    */
-  devopsProjectRpCommonBaseUserRefreshToken = (params: RequestParams = {}) =>
+  baseUserRefreshToken = (params: RequestParams = {}) =>
     this.request<BaseResultOfLoginRespObject, any>({
       path: `/api/devops-project-rp/common/base-user/refreshToken`,
       method: "POST",
@@ -242,12 +239,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 用户信息表更新
    *
    * @tags 用户信息表 前端控制器
-   * @name DevopsProjectRpCommonBaseUserUpdateById
+   * @name BaseUserUpdateById
    * @summary 用户信息表更新
    * @request POST:/api/devops-project-rp/common/base-user/updateById
    * @response `200` `BaseResultOfboolean` OK
    */
-  devopsProjectRpCommonBaseUserUpdateById = (param: BaseUserParamObject, params: RequestParams = {}) =>
+  baseUserUpdateById = (param: BaseUserParamObject, params: RequestParams = {}) =>
     this.request<BaseResultOfboolean, any>({
       path: `/api/devops-project-rp/common/base-user/updateById`,
       method: "POST",

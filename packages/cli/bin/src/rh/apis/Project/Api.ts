@@ -20,12 +20,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 项目表新增
    *
    * @tags 项目表 前端控制器
-   * @name DevopsProjectRpProjectProjectMainAdd
+   * @name ProjectMainAdd
    * @summary 项目表新增
    * @request POST:/api/devops-project-rp/project/project-main/add
    * @response `200` `BaseResultOflong` OK
    */
-  devopsProjectRpProjectProjectMainAdd = (param: ProjectMainParamObject, params: RequestParams = {}) =>
+  projectMainAdd = (param: ProjectMainParamObject, params: RequestParams = {}) =>
     this.request<BaseResultOflong, any>({
       path: `/api/devops-project-rp/project/project-main/add`,
       method: "POST",
@@ -37,12 +37,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 项目表删除
    *
    * @tags 项目表 前端控制器
-   * @name DevopsProjectRpProjectProjectMainDeleteById
+   * @name ProjectMainDeleteById
    * @summary 项目表删除
    * @request POST:/api/devops-project-rp/project/project-main/deleteById
    * @response `200` `BaseResultOfboolean` OK
    */
-  devopsProjectRpProjectProjectMainDeleteById = (commonIdParam: CommonIdParamObject, params: RequestParams = {}) =>
+  projectMainDeleteById = (commonIdParam: CommonIdParamObject, params: RequestParams = {}) =>
     this.request<BaseResultOfboolean, any>({
       path: `/api/devops-project-rp/project/project-main/deleteById`,
       method: "POST",
@@ -54,12 +54,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 根据ID查询项目表详情
    *
    * @tags 项目表 前端控制器
-   * @name DevopsProjectRpProjectProjectMainGetById
+   * @name ProjectMainGetById
    * @summary 根据ID查询项目表详情
    * @request GET:/api/devops-project-rp/project/project-main/getById
    * @response `200` `BaseResultOfProjectMainDetailRespObject` OK
    */
-  devopsProjectRpProjectProjectMainGetById = (query: { id: number }, params: RequestParams = {}) =>
+  projectMainGetById = (query: { id: number }, params: RequestParams = {}) =>
     this.request<BaseResultOfProjectMainDetailRespObject, any>({
       path: `/api/devops-project-rp/project/project-main/getById`,
       method: "GET",
@@ -70,12 +70,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 根据ID查询子项目列表
    *
    * @tags 项目表 前端控制器
-   * @name DevopsProjectRpProjectProjectMainGetChildList
+   * @name ProjectMainGetChildList
    * @summary 根据ID查询子项目列表
    * @request GET:/api/devops-project-rp/project/project-main/getChildList
    * @response `200` `BaseResultOfListOfProjectMainDetailRespObject` OK
    */
-  devopsProjectRpProjectProjectMainGetChildList = (query: { id: number }, params: RequestParams = {}) =>
+  projectMainGetChildList = (query: { id: number }, params: RequestParams = {}) =>
     this.request<BaseResultOfListOfProjectMainDetailRespObject, any>({
       path: `/api/devops-project-rp/project/project-main/getChildList`,
       method: "GET",
@@ -86,15 +86,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 项目表分页查询-主页
    *
    * @tags 项目表 前端控制器
-   * @name DevopsProjectRpProjectProjectMainMainPageByParam
+   * @name ProjectMainMainPageByParam
    * @summary 项目表分页查询-主页
    * @request POST:/api/devops-project-rp/project/project-main/mainPageByParam
    * @response `200` `BasePageResultOfProjectMainRespObject` OK
    */
-  devopsProjectRpProjectProjectMainMainPageByParam = (
-    pageParam: ProjectMainPageParamObject,
-    params: RequestParams = {},
-  ) =>
+  projectMainMainPageByParam = (pageParam: ProjectMainPageParamObject, params: RequestParams = {}) =>
     this.request<BasePageResultOfProjectMainRespObject, any>({
       path: `/api/devops-project-rp/project/project-main/mainPageByParam`,
       method: "POST",
@@ -106,12 +103,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 项目表分页查询-列表
    *
    * @tags 项目表 前端控制器
-   * @name DevopsProjectRpProjectProjectMainPageByParam
+   * @name ProjectMainPageByParam
    * @summary 项目表分页查询-列表
    * @request POST:/api/devops-project-rp/project/project-main/pageByParam
    * @response `200` `BasePageResultOfProjectMainRespObject` OK
    */
-  devopsProjectRpProjectProjectMainPageByParam = (param: ProjectMainPageParamObject, params: RequestParams = {}) =>
+  projectMainPageByParam = (param: ProjectMainPageParamObject, params: RequestParams = {}) =>
     this.request<BasePageResultOfProjectMainRespObject, any>({
       path: `/api/devops-project-rp/project/project-main/pageByParam`,
       method: "POST",
@@ -123,12 +120,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 项目表更新
    *
    * @tags 项目表 前端控制器
-   * @name DevopsProjectRpProjectProjectMainUpdateById
+   * @name ProjectMainUpdateById
    * @summary 项目表更新
    * @request POST:/api/devops-project-rp/project/project-main/updateById
    * @response `200` `BaseResultOfboolean` OK
    */
-  devopsProjectRpProjectProjectMainUpdateById = (param: ProjectMainParamObject, params: RequestParams = {}) =>
+  projectMainUpdateById = (param: ProjectMainParamObject, params: RequestParams = {}) =>
     this.request<BaseResultOfboolean, any>({
       path: `/api/devops-project-rp/project/project-main/updateById`,
       method: "POST",
@@ -140,12 +137,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 项目菜单表查询-树状结构
    *
    * @tags 项目菜单表 前端控制器
-   * @name DevopsProjectRpProjectProjectMenuGetTree
+   * @name ProjectMenuGetTree
    * @summary 项目菜单表查询-树状结构
    * @request GET:/api/devops-project-rp/project/project-menu/getTree
    * @response `200` `BaseResultOfListOfProjectMenuRespObject` OK
    */
-  devopsProjectRpProjectProjectMenuGetTree = (query: { id: number }, params: RequestParams = {}) =>
+  projectMenuGetTree = (query: { id: number }, params: RequestParams = {}) =>
     this.request<BaseResultOfListOfProjectMenuRespObject, any>({
       path: `/api/devops-project-rp/project/project-menu/getTree`,
       method: "GET",
@@ -156,12 +153,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 项目版本表新增
    *
    * @tags 项目版本表 前端控制器
-   * @name DevopsProjectRpProjectProjectVersionAdd
+   * @name ProjectVersionAdd
    * @summary 项目版本表新增
    * @request POST:/api/devops-project-rp/project/project-version/add
    * @response `200` `BaseResultOflong` OK
    */
-  devopsProjectRpProjectProjectVersionAdd = (
+  projectVersionAdd = (
     query: {
       changeLogs: string[];
       endTime?: string;
@@ -185,12 +182,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 项目版本表删除
    *
    * @tags 项目版本表 前端控制器
-   * @name DevopsProjectRpProjectProjectVersionDeleteById
+   * @name ProjectVersionDeleteById
    * @summary 项目版本表删除
    * @request POST:/api/devops-project-rp/project/project-version/deleteById
    * @response `200` `BaseResultOfboolean` OK
    */
-  devopsProjectRpProjectProjectVersionDeleteById = (commonIdParam: CommonIdParamObject, params: RequestParams = {}) =>
+  projectVersionDeleteById = (commonIdParam: CommonIdParamObject, params: RequestParams = {}) =>
     this.request<BaseResultOfboolean, any>({
       path: `/api/devops-project-rp/project/project-version/deleteById`,
       method: "POST",
@@ -202,12 +199,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description UI下载
    *
    * @tags 项目版本表 前端控制器
-   * @name DevopsProjectRpProjectProjectVersionDownload
+   * @name ProjectVersionDownload
    * @summary UI下载
    * @request GET:/api/devops-project-rp/project/project-version/download
    * @response `200` `BaseResultOfstring` OK
    */
-  devopsProjectRpProjectProjectVersionDownload = (query: { id: number }, params: RequestParams = {}) =>
+  projectVersionDownload = (query: { id: number }, params: RequestParams = {}) =>
     this.request<BaseResultOfstring, any>({
       path: `/api/devops-project-rp/project/project-version/download`,
       method: "GET",
@@ -218,12 +215,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 项目版本表列表查询
    *
    * @tags 项目版本表 前端控制器
-   * @name DevopsProjectRpProjectProjectVersionGetList
+   * @name ProjectVersionGetList
    * @summary 项目版本表列表查询
    * @request GET:/api/devops-project-rp/project/project-version/getList
    * @response `200` `BaseResultOfListOfProjectVersionRespObject` OK
    */
-  devopsProjectRpProjectProjectVersionGetList = (query: { id: string; type: string }, params: RequestParams = {}) =>
+  projectVersionGetList = (query: { id: string; type: string }, params: RequestParams = {}) =>
     this.request<BaseResultOfListOfProjectVersionRespObject, any>({
       path: `/api/devops-project-rp/project/project-version/getList`,
       method: "GET",
@@ -234,12 +231,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @description 项目版本表更新
    *
    * @tags 项目版本表 前端控制器
-   * @name DevopsProjectRpProjectProjectVersionUpdateById
+   * @name ProjectVersionUpdateById
    * @summary 项目版本表更新
    * @request POST:/api/devops-project-rp/project/project-version/updateById
    * @response `200` `BaseResultOfboolean` OK
    */
-  devopsProjectRpProjectProjectVersionUpdateById = (param: ProjectVersionParamObject, params: RequestParams = {}) =>
+  projectVersionUpdateById = (param: ProjectVersionParamObject, params: RequestParams = {}) =>
     this.request<BaseResultOfboolean, any>({
       path: `/api/devops-project-rp/project/project-version/updateById`,
       method: "POST",
