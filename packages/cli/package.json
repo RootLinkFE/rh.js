@@ -41,5 +41,6 @@
     "@types/rimraf": "^3.0.0",
     "@types/semver": "^7.3.4",
     "git-user-name": "^2.0.0"
-  }
+  },
+  "gitHead": "4b14e6c505335a6e2892051ad2e104ab9c8cc327"
 }
