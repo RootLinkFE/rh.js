@@ -18,6 +18,7 @@ import { normalizeSchemaName } from './utils';
 function resolveRequestFunctionName(requestPath: string, moduleName: string) {
   const paths = requestPath.split('/');
   const moduleNamePaths = kebabCase(moduleName).split('-');
+  // /api/devops-project-rp/project/project-version/deleteById
   // 在后端，project微服务名称，project-version 是controller类名，deleteById 方法名。
   // 现在微服务是个spec，独立文件夹了。所以controller + method唯一性保证的。
   // 后续有需要再改造
