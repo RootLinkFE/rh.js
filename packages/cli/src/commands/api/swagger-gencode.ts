@@ -89,11 +89,13 @@ export default class SwaggerGen {
         delete spec.info.termsOfService;
         return _p.then(() => {
           return new Promise((resolve, reject) => {
+            const resourceName = normalizeSchemaName(
+              (spec as any).resourceName,
+            );
+            console.log(' resourceName=', resourceName);
             generateApi({
               ...this.config,
-              name: `${normalizeSchemaName((spec as any).resourceName)}.${
-                this.config?.toJS ? 'js' : 'ts'
-              }`,
+              name: `${resourceName}.${this.config?.toJS ? 'js' : 'ts'}`,
               output: tempOutput,
               spec,
             }).then(({ files, configuration }) => {
@@ -105,12 +107,29 @@ export default class SwaggerGen {
                     ['http-client'].includes(patho.name) &&
                     fse.existsSync(target)
                   ) {
-                    return file.name;
+                    return patho;
+                  } else {
                   }
-                  console.log(`✅   生成接口文件：${target}`);
-                  fse.mkdirpSync(patho.dir);
-                  fse.writeFileSync(target, file.content);
-                  return file.name;
+                  const targetPath = path.join(
+                    patho.dir,
+                    resourceName,
+                    patho.base,
+                  );
+                  const httpFilePath = path.join(patho.dir, patho.base);
+                  console.log(`✅   生成接口文件：${targetPath}`);
+
+                  fse.mkdirpSync(`${patho.dir}/${resourceName}`);
+                  fse.writeFileSync(
+                    ['http-client'].includes(patho.name)
+                      ? httpFilePath
+                      : targetPath,
+                    file.content.replace('./http-client', '../http-client'),
+                  );
+
+                  return {
+                    name: patho.name,
+                    resourceName: resourceName,
+                  };
                 }),
               );
               resolve();

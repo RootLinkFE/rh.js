@@ -3,7 +3,7 @@ import fs from 'fs';
 import prettier from 'prettier';
 import inquirer from 'inquirer';
 export default class EntryFile {
-  files: string[] = [];
+  files: any[] = [];
   imports: string[] = [];
   exports: string[] = [];
   ext: string = 'ts';
@@ -44,12 +44,17 @@ export default class EntryFile {
       if (!ok) return;
     }
     this.imports.push(this.importAxiosConfig());
+    console.log(this.files);
     this.files.forEach((file) => {
-      const fileO = path.parse(file);
-      if (['http-client', 'data-contracts'].includes(fileO.name)) return;
-      this.imports.push(`import { ${fileO.name} } from './${fileO.name}'\r\n`);
+      const fileName = file.name;
+      const resourceName = file.resourceName;
+      console.log(file);
+      if (['http-client', 'data-contracts'].includes(file.name)) return;
+      this.imports.push(
+        `import { ${fileName} as ${resourceName} } from './${file.resourceName}/${fileName}'\r\n`,
+      );
       this.exports.push(
-        `${fileO.name}: new ${fileO.name}(${
+        `${resourceName}: new ${resourceName}(${
           this.hasConfig ? 'axiosConfig' : ''
         }),`,
       );
@@ -58,9 +63,11 @@ export default class EntryFile {
     const code = `
     ${this.imports.join('')}
 
-    export const APIS = {
+    const RhApi = {
       ${this.exports.join('')}
-    }
+    };
+
+    export default RhApi
     `;
     const outputPath = path.join(basePath, 'index.' + this.ext);
     const prettierConfig = await prettier.resolveConfig(process.cwd());
