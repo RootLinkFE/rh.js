@@ -1,23 +1,26 @@
 {
-	"name": "@rh/material",
-	"version": "0.1.1",
-	"description": "",
-	"main": "lib/index.js",
-	"author": "",
-	"license": "ISC",
-	"dependencies": {
-		"@types/fs-extra": "^9.0.9",
-		"chalk": "^4.1.0",
-		"execa": "^5.0.0",
-		"fs-extra": "^9.1.0",
-		"glob": "^7.1.6",
-		"globby": "^11.0.3",
-		"inquirer": "^8.0.0",
-		"queue": "^6.0.2",
-		"yaml": "^1.10.2"
-	},
-	"devDependencies": {
-		"@types/inquirer": "^7.3.1"
-	},
-	"gitHead": "4b14e6c505335a6e2892051ad2e104ab9c8cc327"
+  "name": "@roothub/material",
+  "version": "0.1.1",
+  "description": "",
+  "main": "lib/index.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/fs-extra": "^9.0.9",
+    "chalk": "^4.1.0",
+    "execa": "^5.0.0",
+    "fs-extra": "^9.1.0",
+    "glob": "^7.1.6",
+    "globby": "^11.0.3",
+    "inquirer": "^8.0.0",
+    "queue": "^6.0.2",
+    "yaml": "^1.10.2"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^7.3.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "4b14e6c505335a6e2892051ad2e104ab9c8cc327"
 }

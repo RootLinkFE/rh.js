@@ -1,4 +1,4 @@
-import { loadContext, compareVersion } from '@rh/shared';
+import { loadContext, compareVersion } from '@roothub/shared';
 import commander from 'commander';
 import path from 'path';
 import updateNotifier from './utils/update-notifier';

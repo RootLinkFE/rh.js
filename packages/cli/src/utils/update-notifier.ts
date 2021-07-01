@@ -34,14 +34,16 @@ export default async function UpdateNotifier() {
     if (!updateTimeout(DAILY)) {
       return Promise.resolve();
     }
-    return lv('@rh/cli').then((latestVersion) => {
+    return lv('@roothub/cli').then((latestVersion) => {
       if (semver.lt(version, latestVersion)) {
         function exitHandler() {
           console.log();
           console.log(
-            chalk.bgBlack.white(`@rh/cli 有新版本 ${latestVersion} 更新了！
+            chalk.bgBlack.white(`@roothub/cli 有新版本 ${latestVersion} 更新了！
   ${version} -> ${latestVersion}
-  运行：${chalk.green(`npm install -g @rh/cli@${latestVersion}`)} 进行更新`),
+  运行：${chalk.green(
+    `npm install -g @roothub/cli@${latestVersion}`,
+  )} 进行更新`),
           );
         }
 

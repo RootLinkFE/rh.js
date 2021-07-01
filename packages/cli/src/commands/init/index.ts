@@ -95,7 +95,9 @@ export default function InitCommand(program: commander.Command) {
             ),
           );
         } else {
-          materialResult = await materialResourcesCollection.getFinalMaterial(projectName);
+          materialResult = await materialResourcesCollection.getFinalMaterial(
+            projectName,
+          );
         }
         // clearConsole();
         materialResourcesCollection.listAllScaffolds();
