@@ -11,8 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "@gitbeaker/node": "^28.0.4",
-    "@rh/material": "^0.1.1",
-    "@rh/shared": "^0.0.2",
+    "@roothub/material": "^0.1.2",
+    "@roothub/shared": "^0.0.3",
     "@types/lodash": "^4.14.168",
     "@types/prettier": "^2.2.3",
     "axios": "^0.21.1",

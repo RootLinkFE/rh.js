@@ -4,7 +4,7 @@ import execa from 'execa';
 import fse from 'fs-extra';
 import path from 'path';
 import chalk from 'chalk';
-import { MaterialResourcesCollection } from '@rh/material/lib/material-resources-collection';
+import { MaterialResourcesCollection } from '@roothub/material/lib/material-resources-collection';
 import { clearConsole } from '../../utils/logger';
 import { InquireMaterialCollection } from './prompt';
 
