@@ -7,6 +7,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/fs-extra": "^9.0.9",
+    "@types/inquirer": "^7.3.2",
     "chalk": "^4.1.0",
     "execa": "^5.0.0",
     "fs-extra": "^9.1.0",

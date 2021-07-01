@@ -51,7 +51,7 @@ async function getBlockKey(key: string) {
         type: 'input',
         name: 'name',
         message: 'Enter block key',
-        validate: (value) => (value ? true : 'Block key is required'),
+        validate: (value: string) => (value ? true : 'Block key is required'),
       },
     ]);
 
