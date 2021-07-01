@@ -24,12 +24,10 @@ const localStorageDir = path.join(homedir, `.roothub`); // 本地存储位置
 
 export default (program: commander.Command) => {
   program
-    .command('add-block [name]')
+    .command('add-block [name] [repository-name]')
     .usage('add block [name]')
     .description('Add a block to your project.')
-    .option('-r, --repository-name <string>', 'repository name')
-    .action(async (blockKey, options) => {
-      const { repositoryName } = options;
+    .action(async (blockKey, repositoryName, options) => {
       try {
         blockKey = await getBlockKey(blockKey);
         const blockPath = path.join(cwd, blockKey);
@@ -152,7 +150,7 @@ function getBlock(repository: Repository, blockKey: string) {
 
   const json = fse.readJSONSync(jsonFilePath);
 
-  const blockList: Block[] = json.list;
+  const blockList: Block[] = json.list || json.blocks || [];
   const block = blockList.find((item) => item.key === blockKey);
 
   if (!block) {
