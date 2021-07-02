@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.4](http://gitlab.bighome360.com/frontend/rh/rh.js/compare/@roothub/cli@0.1.3...@roothub/cli@0.1.4) (2021-07-02)
+
+
+### Bug Fixes
+
+* 兼容ant-design-blocks ([d22f5e2](http://gitlab.bighome360.com/frontend/rh/rh.js/commit/d22f5e20cb2058b68fe96013743be859d7b72229))
+
+
+
+
+
 ## 0.1.3 (2021-07-01)
 
 

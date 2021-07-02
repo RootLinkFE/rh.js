@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.4](http://gitlab.bighome360.com/frontend/rh/rh.js/compare/@roothub/shared@0.0.3...@roothub/shared@0.0.4) (2021-07-02)
+
+**Note:** Version bump only for package @roothub/shared
+
+
+
+
+
 ## 0.0.3 (2021-07-01)
 
 

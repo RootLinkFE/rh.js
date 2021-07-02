@@ -1,6 +1,6 @@
 {
   "name": "@roothub/cli",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,8 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "@gitbeaker/node": "^28.0.4",
-    "@roothub/material": "^0.1.2",
-    "@roothub/shared": "^0.0.3",
+    "@roothub/material": "^0.1.3",
+    "@roothub/shared": "^0.0.4",
     "@types/inquirer": "^7.3.2",
     "@types/lodash": "^4.14.168",
     "@types/prettier": "^2.2.3",
