@@ -45,7 +45,7 @@ export default class EntryFile {
     }
     this.imports.push(this.importAxiosConfig());
     this.files.forEach((file) => {
-      console.log(file);
+      // console.log(file);
       const fileName = file.name;
       const resourceName = file.resourceName;
       if (['http-client', 'data-contracts'].includes(file.name)) return;
