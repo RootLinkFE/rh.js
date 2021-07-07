@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.4](http://gitlab.bighome360.com/frontend/rh/rh.js/compare/@roothub/material@0.1.3...@roothub/material@0.1.4) (2021-07-07)
+
+
+### Bug Fixes
+
+* rh api ([9fb8627](http://gitlab.bighome360.com/frontend/rh/rh.js/commit/9fb862781250687afe71006d8a11df8cc3837c20))
+
+
+
+
+
 ## [0.1.3](http://gitlab.bighome360.com/frontend/rh/rh.js/compare/@roothub/material@0.1.2...@roothub/material@0.1.3) (2021-07-02)
 
 **Note:** Version bump only for package @roothub/material
