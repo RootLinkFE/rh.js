@@ -99,9 +99,8 @@ export default class SwaggerGen {
         delete spec.info.termsOfService;
         return _p.then(() => {
           return new Promise((resolve, reject) => {
-            const resourceName = normalizeSchemaName(
-              (spec as any).resourceName,
-            );
+            const resourceName =
+              normalizeSchemaName((spec as any).resourceName) || 'undefined';
 
             generateApi({
               ...this.config,

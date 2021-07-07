@@ -45,6 +45,7 @@ export default class EntryFile {
     }
     this.imports.push(this.importAxiosConfig());
     this.files.forEach((file) => {
+      console.log(file);
       const fileName = file.name;
       const resourceName = file.resourceName;
       if (['http-client', 'data-contracts'].includes(file.name)) return;
@@ -69,7 +70,7 @@ export default class EntryFile {
     `;
     const outputPath = path.join(basePath, 'index.' + this.ext);
     const prettierConfig = await prettier.resolveConfig(process.cwd());
-
+    console.log(code);
     fs.writeFileSync(
       outputPath,
       prettier.format(code, { ...prettierConfig, filepath: outputPath }),

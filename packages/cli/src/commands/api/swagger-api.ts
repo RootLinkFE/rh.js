@@ -2,6 +2,7 @@ import { Spec } from 'swagger-schema-official';
 import path from 'path';
 import chalk from 'chalk';
 import request from 'request';
+import { camelCase } from 'lodash';
 
 import { getAllResources, SwaggerResourcesType } from './swagger-resources';
 
@@ -28,10 +29,15 @@ export default async function SwaggerAPI(
   // 尝试获取当前地址，判断是否JSON的返回内容
   try {
     const spec = await getSwaggerSchemaJSON(swaggerUrl);
-
-    (spec as any).resourceName = new URL(swaggerUrl).hostname;
+    const group = new URL(swaggerUrl).searchParams.get('group');
+    try {
+      (spec as any).resourceName = camelCase(group?.split('--')[0]);
+    } catch (e) {
+      (spec as any).resourceName = new URL(swaggerUrl).hostname;
+    }
     specs.push(spec);
   } catch (err) {
+    console.log(err);
     isSingleSpecs = false;
     if (err.message !== NO_VALID_SWAGGER_JSON) {
       console.error(err);
@@ -85,7 +91,10 @@ function getSwaggerSchemaJSONByResources(
 function getSwaggerSchemaJSON(url: string): Promise<Spec> {
   return new Promise((resolve, reject) => {
     request(url, function (err, resp, body) {
-      if (err) return reject(err);
+      if (err) {
+        console.log(err);
+        return reject(err);
+      }
       if (body) {
         try {
           const data = fixDefinitionsChinese(JSON.parse(body));
@@ -94,7 +103,8 @@ function getSwaggerSchemaJSON(url: string): Promise<Spec> {
           }
           return resolve(data);
         } catch (err) {
-          reject(new Error(NO_VALID_SWAGGER_JSON));
+          // console.log(err);
+          reject(new Error(err));
         }
       } else {
         reject(new Error(NO_VALID_SWAGGER_JSON));
