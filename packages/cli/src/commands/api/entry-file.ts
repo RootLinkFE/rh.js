@@ -79,7 +79,6 @@ export default class EntryFile {
     `;
     const outputPath = path.join(basePath, 'index.' + this.ext);
     const prettierConfig = await prettier.resolveConfig(process.cwd());
-    console.log(code);
     fs.writeFileSync(
       outputPath,
       prettier.format(code, { ...prettierConfig, filepath: outputPath }),
