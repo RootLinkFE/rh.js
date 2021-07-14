@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.6](http://gitlab.bighome360.com/frontend/rh/rh.js/compare/@roothub/cli@0.1.5...@roothub/cli@0.1.6) (2021-07-14)
+
+
+### Bug Fixes
+
+* **@rh/cli:** replaceAll is not a function ([4b11045](http://gitlab.bighome360.com/frontend/rh/rh.js/commit/4b11045b9d6989e59537187d98d249dbe292d3e7))
+
+
+### Features
+
+* **api:** add yes or no ([6e86661](http://gitlab.bighome360.com/frontend/rh/rh.js/commit/6e86661dea1b4398fe873fe30a21e94e6336859b))
+* **api:** add yes or no ([2e9098f](http://gitlab.bighome360.com/frontend/rh/rh.js/commit/2e9098f4a74e7f2c355bd5138588cfb9eeed3327))
+
+
+
+
+
 ## [0.1.5](http://gitlab.bighome360.com/frontend/rh/rh.js/compare/@roothub/cli@0.1.4...@roothub/cli@0.1.5) (2021-07-07)
 
 
