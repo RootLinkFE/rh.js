@@ -2,6 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import prettier from 'prettier';
 import inquirer from 'inquirer';
+import chalk from 'chalk';
 import { isBoolean } from 'lodash';
 
 export default class EntryFile {
@@ -32,14 +33,17 @@ export default class EntryFile {
     }
     return `import axiosConfig from '${configPath}';`;
   }
-  async genFile(basePath: string) {
-    if (this.config.no) {
-      return;
-    }
 
-    if (!isBoolean(this.config.yes) || !this.config.yes) {
-      const indexFilePath = path.join(basePath, 'index.' + this.ext);
-      if (fs.existsSync(indexFilePath)) {
+  // 生成index
+  async genFile(basePath: string) {
+    const indexFilePath = path.join(basePath, 'index.' + this.ext);
+    if (fs.existsSync(indexFilePath)) {
+      if (this.config.no) {
+        // console.log(`${indexFilePath} `, chalk.green('已存在'));
+        return;
+      }
+
+      if (!isBoolean(this.config.yes) || !this.config.yes) {
         const { ok } = await inquirer.prompt([
           {
             name: 'ok',
@@ -49,6 +53,8 @@ export default class EntryFile {
           },
         ]);
         if (!ok) return;
+      } else {
+        console.log(`✅   文件：${indexFilePath} `, chalk.green('已覆盖'));
       }
     }
 

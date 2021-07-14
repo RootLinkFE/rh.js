@@ -27,8 +27,6 @@ export default async function SwaggerAPI(
     return;
   }
 
-  console.log(config);
-
   config.output = path.resolve(process.cwd(), config?.output);
 
   const specs: Spec[] = [];
