@@ -20,3 +20,4 @@ output.txt
 /examples/*/run
 /examples/*/.idea
 lerna-debug.log
+src/rh/*

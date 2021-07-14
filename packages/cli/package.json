@@ -31,6 +31,7 @@
     "request": "^2.88.2",
     "rimraf": "^3.0.2",
     "semver": "^7.3.5",
+    "string.prototype.replaceall": "^1.0.5",
     "swagger-typescript-api": "^8.0.3"
   },
   "bin": {

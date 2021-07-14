@@ -1,6 +1,7 @@
 import { startCase, camelCase } from 'lodash';
 
 const pinyin = require('chinese-to-pinyin');
+const replaceAll = require('string.prototype.replaceall');
 
 export function normalizeSchemaName(name: string) {
   return startCase(camelCase(name))
@@ -17,7 +18,8 @@ export function fixDefinitionsChinese(data: any) {
     if (!/^[\w-]*$/.test(key)) {
       const newKey = normalizeSchemaName(pinyin(key, { removeTone: true }));
       newDefinitions[newKey] = definitions[key];
-      swaggerDataText.replaceAll(
+      replaceAll(
+        swaggerDataText,
         `#/definitions/${key}`,
         `#/definitions/${newKey}`,
       );
