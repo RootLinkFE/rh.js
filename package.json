@@ -6,7 +6,8 @@
     "dev": "father build --watch",
     "dev:cli": "PACKAGE=cli father build --watch",
     "prepare": "husky install",
-    "bootstrap": "lerna bootstrap"
+    "bootstrap": "lerna bootstrap",
+    "publish": "lerna version patch"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.17.0",
