@@ -2,6 +2,8 @@ import path from 'path';
 import fs from 'fs';
 import prettier from 'prettier';
 import inquirer from 'inquirer';
+import { isBoolean } from 'lodash';
+
 export default class EntryFile {
   files: any[] = [];
   imports: string[] = [];
@@ -31,18 +33,25 @@ export default class EntryFile {
     return `import axiosConfig from '${configPath}';`;
   }
   async genFile(basePath: string) {
-    const indexFilePath = path.join(basePath, 'index.' + this.ext);
-    if (fs.existsSync(indexFilePath)) {
-      const { ok } = await inquirer.prompt([
-        {
-          name: 'ok',
-          type: 'confirm',
-          message: `目录下已存在 index.${this.ext} ，是否覆盖?`,
-          default: false,
-        },
-      ]);
-      if (!ok) return;
+    if (this.config.no) {
+      return;
     }
+
+    if (!isBoolean(this.config.yes) || !this.config.yes) {
+      const indexFilePath = path.join(basePath, 'index.' + this.ext);
+      if (fs.existsSync(indexFilePath)) {
+        const { ok } = await inquirer.prompt([
+          {
+            name: 'ok',
+            type: 'confirm',
+            message: `目录下已存在 index.${this.ext} ，是否覆盖?`,
+            default: false,
+          },
+        ]);
+        if (!ok) return;
+      }
+    }
+
     this.imports.push(this.importAxiosConfig());
     this.files.forEach((file) => {
       // console.log(file);

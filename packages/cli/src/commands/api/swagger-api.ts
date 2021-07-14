@@ -9,7 +9,12 @@ import { getAllResources, SwaggerResourcesType } from './swagger-resources';
 import SwaggerGen from './swagger-gencode';
 import { fixDefinitionsChinese } from './utils';
 
-export type SwaggerApiCLIConfigType = { js: boolean; output: string };
+export type SwaggerApiCLIConfigType = {
+  js: boolean;
+  output: string;
+  yes: boolean;
+  no: boolean;
+};
 
 const NO_VALID_SWAGGER_JSON = 'Not valid swagger schema json';
 
@@ -21,6 +26,8 @@ export default async function SwaggerAPI(
     console.log(chalk.red(` ${swaggerUrl} 不是有效的地址`));
     return;
   }
+
+  console.log(config);
 
   config.output = path.resolve(process.cwd(), config?.output);
 

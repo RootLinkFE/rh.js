@@ -15,8 +15,10 @@ export default function InitCommand(program: commander.Command) {
       'output path of typescript api file',
       './src/rh/apis',
     )
+    .option('-y, --yes', 'A positive answer')
+    .option('-n, --no', 'A negative answer')
     .option('--js', 'generate js api module with declaration file', false)
-    .option('--axiosConfig <path>','export default axios config file path')
+    .option('--axiosConfig <path>', 'export default axios config file path')
     .action(async function (swaggerPath, config) {
       await SwaggerAPI(swaggerPath, config);
     });
