@@ -3,18 +3,25 @@ import path from 'path';
 import yaml from 'yaml';
 import { RH_MATERIAL_CONFIG, RH_MATERIAL_DIR } from '../constant';
 
+export type ResourceConfigType<T> = {
+  templates: T[];
+  materials: T[];
+};
+
 export type MaterialResourcesConfigType = {
   name: string;
   git?: string;
   description: string;
   localPath?: string;
+  belong?: string;
+  materialsIncludes?: Array<string>;
 };
 
 export function isInit(): boolean {
   return fse.existsSync(RH_MATERIAL_DIR) && fse.existsSync(RH_MATERIAL_CONFIG);
 }
 
-export function loadManifestConfig(): MaterialResourcesConfigType[] {
+export function loadManifestConfig(): ResourceConfigType<MaterialResourcesConfigType> {
   if (!fse.existsSync(RH_MATERIAL_DIR)) {
     fse.mkdirSync(RH_MATERIAL_DIR);
   }

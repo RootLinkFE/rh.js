@@ -6,4 +6,4 @@ export function materialFactory(
   materialResources: MaterialResources,
 ): Material | undefined {
   return new Material(path, materialResources);
-} 
+}

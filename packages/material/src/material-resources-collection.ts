@@ -3,19 +3,23 @@ import { cloneMaterials } from './init/clone-materials';
 import { createProject } from './init/create-project';
 import { MaterialTypeKeys, Material } from './material';
 import { MaterialResources, MaterialConfigType } from './material-resources';
+import { InquireTemplateCollection } from './prompt';
 // import { InquirePrompt, MaterialPrompts } from './init/prompt';
 
 export class MaterialResourcesCollection {
-  manifestsConfig: MaterialResourcesConfigType[] = [];
+  manifestsTemplates: MaterialResourcesConfigType[] = [];
+  manifestsMaterials: MaterialResourcesConfigType[] = [];
+  templateResources: MaterialResources[] = [];
   materialResources: MaterialResources[] = [];
   // promots: InquirePrompt[] = MaterialPrompts;
 
   constructor(private options: any) {}
 
-  async init(): Promise<void> {
+  async init(): Promise<[void, void]> {
+    const { templates, materials } = loadManifestConfig();
     // 指定本地的
     if (this.options.local) {
-      this.manifestsConfig = [
+      this.manifestsMaterials = [
         {
           name: 'local',
           description: '',
@@ -23,49 +27,78 @@ export class MaterialResourcesCollection {
         },
       ];
     } else {
-      this.manifestsConfig = loadManifestConfig();
+      this.manifestsTemplates = templates;
+      this.manifestsMaterials = materials;
     }
-    this.manifestsConfig.forEach((config) => {
-      const materialResource = new MaterialResources(config);
-      this.materialResources.push(materialResource);
+    return await Promise.all([
+      this.copyResource('template'),
+      this.copyResource('material'),
+    ]);
+  }
+
+  async copyResource(type: string): Promise<void> {
+    return new Promise(async (resolve) => {
+      const UpType = type
+        .toLowerCase()
+        .replace(/( |^)[a-z]/g, (L) => L.toUpperCase());
+      this[`manifests${UpType}s`].forEach(
+        (config: MaterialResourcesConfigType) => {
+          // console.log(config, new MaterialResources(config),  '1sdfa')
+          this[`${type}Resources`].push(new MaterialResources(config));
+        },
+      );
+
+      const notInit = this[`${type}Resources`].filter(
+        (b: MaterialResources) => !b.inited,
+      );
+      if (notInit.length) {
+        return await cloneMaterials(notInit, type);
+      }
+      return resolve();
     });
-
-    const notInitMaterial = this.materialResources.filter(
-      (materialResource) => !materialResource.inited,
-    );
-
-    if (notInitMaterial.length) {
-      await cloneMaterials(notInitMaterial);
-    }
   }
 
   /**
    *
    * @param key string '[scope]@[materialName]'
    */
-  async getFinalMaterial(projectName: string, key?: string, type?: MaterialTypeKeys) {
+  async getFinalMaterial(
+    projectName: string,
+    key?: string,
+    packagePath?: string,
+  ) {
     let result: any;
-    const _key = key || 'rh-materials@vue',
-      _type = type || 'scaffold';
-    const [scope, materialKey] = _key.split('@');
-    if (!scope || !materialKey) {
-      throw new Error(`${_key} 不符合格式：[scope]@[materialName]`);
-    }
-    for (let i = 0; i < this.materialResources.length; ++i) {
-      const _materialResource = this.materialResources[i];
-      if (_materialResource.config.name === scope) {
-        result = await _materialResource.combineResource();
+    if (key) {
+      const [, template, scope] = key.split('-');
+      if (!template || !scope) {
+        throw new Error(`${key} 不符合格式：[scope]@[materialName]`);
       }
+      for (let i = 0; i < this.templateResources.length; ++i) {
+        const _materialResource = this.templateResources[i];
+        if (_materialResource.config.name === key) {
+          result = await _materialResource.combineResource();
+        }
+      }
+      return console.log(1);
+      createProject(projectName, result);
+      return result;
+    } else {
+      const names = this.templateResources.map((source) => source.config.name);
+      const { templateAns } = await InquireTemplateCollection(names);
+      const materialResource: MaterialResources = this.templateResources.filter(
+        (source) => source.config.name === templateAns,
+      )[0];
+      result = await materialResource.combineResource();
+      createProject(projectName, result);
+      return result;
     }
-    createProject(projectName, result);
-    return result;
   }
 
   listAllManifest(): Pick<
     MaterialResourcesConfigType,
     'name' | 'description'
   >[] {
-    return this.manifestsConfig.map(({ name, description }) => ({
+    return this.manifestsMaterials.map(({ name, description }) => ({
       name,
       description,
     }));

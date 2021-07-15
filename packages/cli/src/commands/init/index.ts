@@ -6,7 +6,6 @@ import path from 'path';
 import chalk from 'chalk';
 import { MaterialResourcesCollection } from '@roothub/material/lib/material-resources-collection';
 import { clearConsole } from '../../utils/logger';
-import { InquireMaterialCollection } from './prompt';
 
 const cwd = process.cwd();
 
@@ -19,7 +18,7 @@ const cwd = process.cwd();
 // 命令insert：1、插入物料选项
 export default function InitCommand(program: commander.Command) {
   program
-    .command('init <project-name>')
+    .command('create <project-name>')
     .description('generate a new project from a scaffold template')
     // .option('-l --list', '列出脚手架')
     // .option('-a --all', '列出包含私有的脚手架')
@@ -84,7 +83,7 @@ export default function InitCommand(program: commander.Command) {
         );
         await materialResourcesCollection.init();
         spinner.stop();
-        const { materialAns } = await InquireMaterialCollection();
+
         let materialResult;
         if (options.scaffold) {
           console.log(

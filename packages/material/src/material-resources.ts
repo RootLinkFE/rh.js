@@ -1,17 +1,23 @@
 import fse from 'fs-extra';
 import path from 'path';
 import glob from 'globby';
-import { RH_MATERIAL_DIR } from './constant';
+import {
+  RH_MATERIAL_DIR_MATERIALS,
+  RH_MATERIAL_DIR_TEMPLATES,
+} from './constant';
 import { MaterialResourcesConfigType } from './init';
 import { MaterialTypeKeys, Material } from './material';
 import { InquirePrompt, MaterialPrompt } from './init/prompt';
 import inquirer from 'inquirer';
+import { InquireMaterialsCollection } from './prompt';
+import { RH_MATERIAL_DIR } from './constant';
 
 export type MaterialConfigType = {
   path: string;
   title: string;
   type: string;
   belong?: string; // 归属那套框架下（区块、页面）
+  belongLib?: string; // 归属那套库
   namespace?: string;
   name?: string;
   key: string;
@@ -21,6 +27,7 @@ export type MaterialConfigType = {
   img: string;
   private?: boolean;
   dependencies?: string[];
+  materialDeps?: string[]; // 物料依赖
 };
 
 type MaterialType = {
@@ -38,12 +45,12 @@ type MaterialListType = {
 export class MaterialResources {
   inited = false;
   path: string;
-  static materialPrefix = 'material-';
+  static materialPrefix = 'material';
 
   resource = {
     scaffolds: [],
-    pages: {},
-    blocks: {},
+    pages: [],
+    blocks: [],
   };
   scaffolds: MaterialConfigType[] = [];
   pages: MaterialConfigType[] = [];
@@ -54,7 +61,11 @@ export class MaterialResources {
     if (config.localPath) {
       this.path = config.localPath;
     } else {
-      this.path = path.join(RH_MATERIAL_DIR, this.config.name);
+      const dirPath =
+        this.config.belong === 'scaffold'
+          ? RH_MATERIAL_DIR_TEMPLATES
+          : RH_MATERIAL_DIR_MATERIALS;
+      this.path = path.join(dirPath, this.config.name);
     }
     if (fse.existsSync(this.path)) {
       this.inited = true;
@@ -74,10 +85,15 @@ export class MaterialResources {
   resolveBlocks(): void {
     this.blocks = this.resolveDepResources('block');
   }
-
-  resolveDepResources(type: MaterialTypeKeys): MaterialConfigType[] {
+  // packagesPath: string = '/packages'
+  resolveDepResources(
+    type: MaterialTypeKeys,
+    pointPrefix: string = 'packages',
+  ): MaterialConfigType[] {
     const result: MaterialConfigType[] = [];
-    const materialFiles = glob.sync(`${type}s/*/material.json`, {
+    const materialPathReg =
+      type !== 'scaffold' ? `${pointPrefix}/*/material.json` : 'material.json';
+    const materialFiles = glob.sync(materialPathReg, {
       cwd: this.path,
     });
     materialFiles.forEach((file) => {
@@ -91,19 +107,35 @@ export class MaterialResources {
   }
 
   async resolveScaffoldsPrompts() {
-    const path = `scaffolds/${MaterialResources.materialPrefix}scaffolds.json`;
+    const path = `scaffolds/${MaterialResources.materialPrefix}.json`;
     await this.readFile(path).then((res: any) => {
       const scaffolds = res.map((b: MaterialListType) => b.name);
       this.resource['scaffolds'] = scaffolds;
     });
   }
 
-  async resolveCommonPrompts() {
-    await this.resolveScaffoldsPrompts();
+  async resolveCommonPrompts(materialName: string) {
+    // await this.resolveScaffoldsPrompts();
     const types = ['blocks', 'pages'];
+    const basePath = path.join(RH_MATERIAL_DIR_MATERIALS, materialName);
+    const baseMaterialPath = path.join(basePath, 'material.json');
     this.resource = types.reduce((prev: any, curr) => {
-      const path = `${curr}/${MaterialResources.materialPrefix}${curr}.json`;
-      this.resource[curr] = this.readFilesync(path);
+      const result: MaterialConfigType[] = [];
+      const materialPackagePathReg = `packages/**/${curr}/**/material.json`;
+      if (fse.existsSync(baseMaterialPath)) {
+      } else {
+        const materialFiles = glob.sync(materialPackagePathReg, {
+          cwd: basePath,
+        });
+        materialFiles.forEach((file) => {
+          const materialConfigFilePath = path.join(basePath, file);
+          // eslint-disable-next-line @typescript-eslint/no-var-requires
+          const materialConfig: MaterialConfigType = require(materialConfigFilePath);
+          // materialConfig.path = path.dirname(materialConfigFilePath);
+          result.push(materialConfig);
+        });
+      }
+      this.resource[curr] = result;
       return this.resource;
     }, this.resource);
     const prompts = new MaterialPrompt(this.resource);
@@ -131,7 +163,10 @@ export class MaterialResources {
   async combineResource() {
     let result;
     const materialsConfig = this.resolveDepResources('scaffold');
-    const materialPrompt = await this.resolveCommonPrompts();
+    const { materialAns } = await InquireMaterialsCollection(
+      this.config.materialsIncludes || [],
+    );
+    const materialPrompt = await this.resolveCommonPrompts(materialAns);
     let materialsCollection: Material[] = [];
     const combineMaterialFn = (materials: Material) => {
       materials.dependencies.map((b: Material) => {
@@ -140,16 +175,27 @@ export class MaterialResources {
       });
       return materials;
     };
+    const materialPackagePathReg = path.join(
+      RH_MATERIAL_DIR_TEMPLATES,
+      this.config.name,
+    );
     materialsConfig.map((materialConfig) => {
-      const scaffolds = materialPrompt['scaffolds'];
+      const scaffolds = this.config.name;
       // 获取模板本身依赖
       if (materialConfig.key === scaffolds) {
-        const externalDependencies = this.removeExtraDependencie(
-          materialPrompt,
+        materialConfig.materialDeps =
+          this.resolveDepPath(materialConfig.materialDeps || []);
+        const externalDependencies = this.resolveDepPath(
+          this.removeExtraDependencie(materialPrompt),
         );
         // result = new Material(materialConfig.path, this, externalDependencies)
         result = combineMaterialFn(
-          new Material(materialConfig.path, this, externalDependencies),
+          new Material(
+            materialPackagePathReg,
+            this,
+            externalDependencies,
+            materialAns,
+          ),
         );
         result.dependencies = this.removeRepeatDependencie(materialsCollection);
       }
@@ -159,15 +205,23 @@ export class MaterialResources {
 
   // 去除交互选择的重复依赖
   removeExtraDependencie(prompts: any): string[] {
-    const { scaffolds } = prompts;
     const dependencies: string[] = [];
     ['pages', 'blocks'].map((who) => {
-      const deps = prompts[who];
+      const deps = prompts[who] || [];
       deps.map((dep: string) => {
-        dependencies.push(`${who}/${scaffolds}/${dep}`);
+        dependencies.push(dep);
       });
     });
-    return dependencies;
+    return [...new Set(dependencies)];
+  }
+
+  // 重组依赖中指定路径
+  resolveDepPath(dependencies: string[]) {
+    const result = dependencies.map((dep) => {
+      const [belongLib, type, name] = dep.split(':');
+      return `packages/${belongLib}/src/${type}/${name}`;
+    });
+    return result;
   }
 
   // 去除嵌套中的重复依赖

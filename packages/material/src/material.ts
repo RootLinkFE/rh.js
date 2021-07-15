@@ -1,7 +1,7 @@
 import fse from 'fs-extra';
 import path from 'path';
 import glob from 'globby';
-import { MATERIAL_INFO_FILE_NAME } from './constant';
+import { MATERIAL_INFO_FILE_NAME, RH_MATERIAL_DIR_MATERIALS } from './constant';
 import { MaterialResources, MaterialConfigType } from './material-resources';
 import { materialFactory } from './init/material-factory';
 
@@ -12,14 +12,17 @@ export class Material {
   dependencies: Material[] = [];
   materialResources: MaterialResources;
   materialItemPath: string;
+  materialName: string | any;
 
   constructor(
     materialItemPath: string,
     materialResources: MaterialResources,
     private externalDependencies?: string[],
+    materialName?: string,
   ) {
-    this.materialResources = materialResources
-    this.materialItemPath = materialItemPath
+    this.materialResources = materialResources;
+    this.materialItemPath = materialItemPath;
+    this.materialName = materialName;
     this.check();
     this.loadDependencies();
   }
@@ -30,11 +33,11 @@ export class Material {
   }
 
   private loadDependencies() {
-    if (this.info?.dependencies?.length) {
-      this.info?.dependencies.forEach((dependency: any) => {
+    if (this.externalDependencies?.length) {
+      this.externalDependencies.forEach((dependency: any) => {
         const dependencyMaterial = materialFactory(
-          path.join(this.materialResources.path, dependency),
-          this.materialResources,
+          path.join(RH_MATERIAL_DIR_MATERIALS, this.materialName, dependency),
+          this.materialResources
         );
         if (!dependencyMaterial) {
           throw new Error(
@@ -54,15 +57,15 @@ export class Material {
       this.materialItemPath,
       MATERIAL_INFO_FILE_NAME,
     ));
-    this.info.dependencies = this.externalDependencies
+    this.info.materialDeps = this.externalDependencies
       ? Array.from(
-          new Set([...this.info.dependencies, ...this.externalDependencies]),
+          new Set([...this.info.materialDeps, ...this.externalDependencies]),
         )
-      : this.info.dependencies;
-    // console.log(this.info, path.join(
-    //   this.materialItemPath,
-    //   MATERIAL_INFO_FILE_NAME,
-    // ))
+      : this.info.materialDeps;
+    // console.log(
+    //   this.info,
+    //   path.join(this.materialItemPath, MATERIAL_INFO_FILE_NAME),
+    // );
   }
 }
 

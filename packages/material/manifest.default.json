@@ -1,7 +1,36 @@
-[
-  {
-    "name": "rh-materials",
-    "description": "RootHome 私有物料库。",
-    "git": "https://gitlab.bighome360.com/frontend/rh/materials.git"
-  }
-]
+{
+  "templates": [
+    {
+      "name": "rh-template-vue",
+      "type": "admin",
+      "belong": "scaffold",
+      "materialsIncludes": ["materials-vue"],
+      "description": "vue 后台模板",
+      "git": "https://gitlab.bighome360.com/frontend/rh/templates/rh-template-vue.git"
+    },
+    {
+      "name": "rh-template-vue-admin",
+      "type": "admin",
+      "belong": "scaffold",
+      "materialsIncludes": ["materials-vue"],
+      "description": "vue-admin 后台模板",
+      "git": "http://gitlab.bighome360.com/frontend/rh/templates/rh-template-vue-admin.git"
+    },
+    {
+      "name": "rh-template-react",
+      "description": "react 后台模板",
+      "type": "admin",
+      "belong": "scaffold",
+      "materialsIncludes": [],
+      "git": "https://gitlab.bighome360.com/frontend/rh/templates/rh-template-react.git"
+    }
+  ],
+  "materials": [
+    {
+      "name": "materials-vue",
+      "description": "vue 物料库",
+      "belong": "material",
+      "git": "https://gitlab.bighome360.com/frontend/rh/materials-vue.git"
+    }
+  ]
+}
