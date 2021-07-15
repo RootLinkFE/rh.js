@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](http://gitlab.bighome360.com/frontend/rh/rh.js/compare/@roothub/cli@0.1.6...@roothub/cli@0.2.0) (2021-07-15)
+
+
+### Features
+
+* create命令，支持模板静态生成项目 ([183ba8f](http://gitlab.bighome360.com/frontend/rh/rh.js/commit/183ba8f3ca1b5e0d5aeeeb346057d03ff95a6971))
+
+
+
+
+
+
 ## [0.1.6](http://gitlab.bighome360.com/frontend/rh/rh.js/compare/@roothub/cli@0.1.5...@roothub/cli@0.1.6) (2021-07-14)
 
 
