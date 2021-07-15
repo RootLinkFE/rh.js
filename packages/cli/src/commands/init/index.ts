@@ -6,6 +6,7 @@ import path from 'path';
 import chalk from 'chalk';
 import { MaterialResourcesCollection } from '@roothub/material/lib/material-resources-collection';
 import { clearConsole } from '../../utils/logger';
+import Config from '../../utils/config';
 
 const cwd = process.cwd();
 
@@ -81,7 +82,19 @@ export default function InitCommand(program: commander.Command) {
         const materialResourcesCollection = new MaterialResourcesCollection(
           options,
         );
+
         await materialResourcesCollection.init();
+        // await execa('cls').then((result) => {
+        //   console.log(1, result.stdout);
+        // });
+        // await (Config.isIOS
+        //   ? execa('clear').then((result) => {
+        //       console.log(result.stdout);
+        //     })
+        //   : execa('cls').then((result) => {
+        //       console.log(result.stdout);
+        //     }));
+        // Config.isIOS ? execa('clear') : execa('cls')
         spinner.stop();
 
         let materialResult;

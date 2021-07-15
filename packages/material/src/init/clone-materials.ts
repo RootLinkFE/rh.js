@@ -8,7 +8,10 @@ import { RH_MATERIAL_DIR } from '../constant';
 import { getLogger } from '../index';
 import { MaterialResources } from '../material-resources';
 
-export function cloneMaterials(materials: MaterialResources[], type: string): Promise<void> {
+export function cloneMaterials(
+  materials: MaterialResources[],
+  type: string,
+): Promise<void> {
   return new Promise(async (resolve, reject) => {
     // const q = new queue();
     /* material.manifests.forEach((item) => {
@@ -20,10 +23,16 @@ export function cloneMaterials(materials: MaterialResources[], type: string): Pr
         });
       }
     }); */
-    materials.reduce(async (prev, curr) => {
-      return await downloadManifest(curr, type);
-    }, Promise.resolve())
+
+    for (let item of materials) {
+      await downloadManifest(item, type);
+    }
     return resolve();
+
+    // materials.reduce(async (prev, curr) => {
+    //   return await downloadManifest(curr, type);
+    // }, Promise.resolve());
+    // return resolve();
 
     // for (let i = 0; i < materials.length; ++i) {
     //   console.log(i)
@@ -55,26 +64,38 @@ export async function downloadManifest(
   type: string,
   logger: (msg: string) => void = console.log,
 ): Promise<void> {
-  try {
-    if (!fse.existsSync(`${RH_MATERIAL_DIR}/${type}s`)) {
-      fse.mkdirSync(`${RH_MATERIAL_DIR}/${type}s`);
+  return new Promise((resolve, reject) => {
+    try {
+      if (!fse.existsSync(`${RH_MATERIAL_DIR}/${type}s`)) {
+        fse.mkdirSync(`${RH_MATERIAL_DIR}/${type}s`);
+      }
+      if (
+        fse.existsSync(`${RH_MATERIAL_DIR}/${type}s/${material.config.name}`)
+      ) {
+        return resolve();
+      }
+      logger(
+        chalk.bgYellow.bold(`开始初始化 ${material.config.name} ${type}库`),
+      );
+
+      async function promiseFn() {
+        return await execa(
+          'git',
+          ['clone', '--depth=1', material.config.git!, material.config.name],
+          {
+            cwd: `${RH_MATERIAL_DIR}/${type}s`,
+            stdio: 'inherit',
+          },
+        );
+      }
+
+      promiseFn().then(() => {
+        logger(chalk.green.bold(`${material.config.name} ${type}库初始化成功`));
+        return resolve();
+      });
+    } catch (err) {
+      console.error(err);
+      reject();
     }
-    if(fse.existsSync(`${RH_MATERIAL_DIR}/${type}s/${material.config.name}`)) {
-      return Promise.resolve()
-    }
-    logger(chalk.red.bold(`开始初始化 ${material.config.name} ${type}库`));
-    await execa(
-      'git',
-      ['clone', '--depth=1', material.config.git!, material.config.name],
-      {
-        cwd: `${RH_MATERIAL_DIR}/${type}s`,
-        stdio: 'inherit',
-      },
-    );
-    logger(chalk.green.bold(`${material.config.name} ${type}库初始化成功`));
-    return Promise.resolve()
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
+  });
 }

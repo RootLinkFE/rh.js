@@ -33,11 +33,11 @@ export class Material {
   }
 
   private loadDependencies() {
-    if (this.externalDependencies?.length) {
-      this.externalDependencies.forEach((dependency: any) => {
+    if (this.info?.materialDeps?.length) {
+      this.info?.materialDeps.forEach((dependency: any) => {
         const dependencyMaterial = materialFactory(
           path.join(RH_MATERIAL_DIR_MATERIALS, this.materialName, dependency),
-          this.materialResources
+          this.materialResources,
         );
         if (!dependencyMaterial) {
           throw new Error(

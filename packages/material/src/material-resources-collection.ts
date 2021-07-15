@@ -4,6 +4,7 @@ import { createProject } from './init/create-project';
 import { MaterialTypeKeys, Material } from './material';
 import { MaterialResources, MaterialConfigType } from './material-resources';
 import { InquireTemplateCollection } from './prompt';
+import execa from 'execa';
 // import { InquirePrompt, MaterialPrompts } from './init/prompt';
 
 export class MaterialResourcesCollection {
@@ -15,7 +16,7 @@ export class MaterialResourcesCollection {
 
   constructor(private options: any) {}
 
-  async init(): Promise<[void, void]> {
+  async init() {
     const { templates, materials } = loadManifestConfig();
     // 指定本地的
     if (this.options.local) {
@@ -30,10 +31,8 @@ export class MaterialResourcesCollection {
       this.manifestsTemplates = templates;
       this.manifestsMaterials = materials;
     }
-    return await Promise.all([
-      this.copyResource('template'),
-      this.copyResource('material'),
-    ]);
+    await this.copyResource('template');
+    await this.copyResource('material');
   }
 
   async copyResource(type: string): Promise<void> {
@@ -52,7 +51,7 @@ export class MaterialResourcesCollection {
         (b: MaterialResources) => !b.inited,
       );
       if (notInit.length) {
-        return await cloneMaterials(notInit, type);
+        await cloneMaterials(notInit, type);
       }
       return resolve();
     });
@@ -68,6 +67,7 @@ export class MaterialResourcesCollection {
     packagePath?: string,
   ) {
     let result: any;
+
     if (key) {
       const [, template, scope] = key.split('-');
       if (!template || !scope) {
