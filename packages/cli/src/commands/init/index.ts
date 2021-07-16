@@ -1,6 +1,7 @@
 import commander from 'commander';
 import ora from 'ora';
-import execa from 'execa';
+import os from 'os';
+import childProcess from 'child_process';
 import fse from 'fs-extra';
 import path from 'path';
 import chalk from 'chalk';
@@ -78,24 +79,19 @@ export default function InitCommand(program: commander.Command) {
         //   });
         // }); */
       } else if (projectName) {
-        const spinner = ora('初始化脚手架…').start();
+        // const spinner = ora('初始化脚手架…').start();
+        console.log('初始化物料库…');
         const materialResourcesCollection = new MaterialResourcesCollection(
           options,
         );
 
         await materialResourcesCollection.init();
-        // await execa('cls').then((result) => {
-        //   console.log(1, result.stdout);
-        // });
-        // await (Config.isIOS
-        //   ? execa('clear').then((result) => {
-        //       console.log(result.stdout);
-        //     })
-        //   : execa('cls').then((result) => {
-        //       console.log(result.stdout);
-        //     }));
-        // Config.isIOS ? execa('clear') : execa('cls')
-        spinner.stop();
+        // spinner.stop();
+        await childProcess.exec('clear', async (err, stdout) => {
+          if (!err) {
+            console.log(stdout);
+          }
+        });
 
         let materialResult;
         if (options.scaffold) {
@@ -113,6 +109,17 @@ export default function InitCommand(program: commander.Command) {
         }
         // clearConsole();
         materialResourcesCollection.listAllScaffolds();
+        // await execa('cls').then((result) => {
+        //   console.log(1, result.stdout);
+        // });
+        // await (Config.isIOS
+        //   ? execa('clear').then((result) => {
+        //       console.log(result.stdout);
+        //     })
+        //   : execa('cls').then((result) => {
+        //       console.log(result.stdout);
+        //     }));
+        // Config.isIOS ? execa('clear') : execa('cls')
         // console.log(materialResourcesCollection);
         // console.log(projectName, chalk.green('获取模板…'));
         // execa(

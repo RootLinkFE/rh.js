@@ -1,9 +1,16 @@
-import { loadManifestConfig, MaterialResourcesConfigType } from './init';
+import {
+  compareLocalMaterials,
+  loadCliManifestConfig,
+  readLocalManifestConfig,
+  LocalMaterialsType,
+  MaterialResourcesConfigType,
+  isInit,
+} from './init';
 import { cloneMaterials } from './init/clone-materials';
 import { createProject } from './init/create-project';
 import { MaterialTypeKeys, Material } from './material';
 import { MaterialResources, MaterialConfigType } from './material-resources';
-import { InquireTemplateCollection } from './prompt';
+import { InquireInitRemoteLib, InquireTemplateCollection } from './prompt';
 import execa from 'execa';
 // import { InquirePrompt, MaterialPrompts } from './init/prompt';
 
@@ -17,7 +24,11 @@ export class MaterialResourcesCollection {
   constructor(private options: any) {}
 
   async init() {
-    const { templates, materials } = loadManifestConfig();
+    const localMaterialsType: LocalMaterialsType =
+      await compareLocalMaterials();
+    const { templates, materials } = !isInit
+      ? loadCliManifestConfig()
+      : readLocalManifestConfig();
     // 指定本地的
     if (this.options.local) {
       this.manifestsMaterials = [
@@ -31,30 +42,40 @@ export class MaterialResourcesCollection {
       this.manifestsTemplates = templates;
       this.manifestsMaterials = materials;
     }
-    await this.copyResource('template');
-    await this.copyResource('material');
+    const templateInits = this.copyResource('template');
+    const materialInits = this.copyResource('material');
+    if (localMaterialsType !== 'init') {
+      if (localMaterialsType === 'update') {
+        const { isInitLib } = await InquireInitRemoteLib();
+        if (isInitLib) {
+          await cloneMaterials(templateInits, 'template');
+          await cloneMaterials(materialInits, 'material');
+        }
+      }
+    } else {
+      await cloneMaterials(templateInits, 'template');
+      await cloneMaterials(materialInits, 'material');
+    }
   }
 
-  async copyResource(type: string): Promise<void> {
-    return new Promise(async (resolve) => {
-      const UpType = type
-        .toLowerCase()
-        .replace(/( |^)[a-z]/g, (L) => L.toUpperCase());
-      this[`manifests${UpType}s`].forEach(
-        (config: MaterialResourcesConfigType) => {
-          // console.log(config, new MaterialResources(config),  '1sdfa')
-          this[`${type}Resources`].push(new MaterialResources(config));
-        },
-      );
+  copyResource(type: string): MaterialResources[] {
+    const UpType = type
+      .toLowerCase()
+      .replace(/( |^)[a-z]/g, (L) => L.toUpperCase());
+    this[`manifests${UpType}s`].forEach(
+      (config: MaterialResourcesConfigType) => {
+        // console.log(config, new MaterialResources(config),  '1sdfa')
+        this[`${type}Resources`].push(new MaterialResources(config));
+      },
+    );
 
-      const notInit = this[`${type}Resources`].filter(
-        (b: MaterialResources) => !b.inited,
-      );
-      if (notInit.length) {
-        await cloneMaterials(notInit, type);
-      }
-      return resolve();
-    });
+    const notInit = this[`${type}Resources`].filter(
+      (b: MaterialResources) => !b.inited,
+    );
+    if (notInit.length) {
+      return notInit;
+    }
+    return [];
   }
 
   /**

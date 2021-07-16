@@ -74,9 +74,7 @@ export async function downloadManifest(
       ) {
         return resolve();
       }
-      logger(
-        chalk.bgYellow.bold(`开始初始化 ${material.config.name} ${type}库`),
-      );
+      logger(`开始初始化 ${material.config.name} ${type}库`);
 
       async function promiseFn() {
         return await execa(
@@ -90,7 +88,8 @@ export async function downloadManifest(
       }
 
       promiseFn().then(() => {
-        logger(chalk.green.bold(`${material.config.name} ${type}库初始化成功`));
+        logger(`${material.config.name} ${type}库初始化成功`);
+        logger('\n');
         return resolve();
       });
     } catch (err) {

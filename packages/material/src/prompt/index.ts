@@ -1,5 +1,17 @@
 import inquirer from 'inquirer';
 
+export function InquireInitRemoteLib() {
+  const initLibQues = [
+    {
+      name: 'isInitLib',
+      type: 'confirm',
+      message: '远程物料库有更新是否增量下载:',
+      default: true
+    },
+  ];
+  return inquirer.prompt(initLibQues);
+}
+
 export function InquireTemplateCollection(sources: Array<string>) {
   const materialQues = [
     {
