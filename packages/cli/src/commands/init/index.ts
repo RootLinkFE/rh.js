@@ -1,13 +1,11 @@
 import commander from 'commander';
 import ora from 'ora';
 import os from 'os';
-import childProcess from 'child_process';
 import fse from 'fs-extra';
 import path from 'path';
 import chalk from 'chalk';
 import { MaterialResourcesCollection } from '@roothub/material/lib/material-resources-collection';
 import { clearConsole } from '../../utils/logger';
-import Config from '../../utils/config';
 
 const cwd = process.cwd();
 
@@ -41,7 +39,7 @@ export default function InitCommand(program: commander.Command) {
       // )
       const dirPath = path.join(cwd, projectName);
       if (fse.existsSync(dirPath)) {
-        console.log(chalk.red(`项目名称${projectName}已存在，请勿重复创建`));
+        console.log(chalk.bgRed(`项目名称${projectName}已存在，请勿重复创建`));
         return;
       }
       if (options.list || options.all) {
@@ -79,19 +77,22 @@ export default function InitCommand(program: commander.Command) {
         //   });
         // }); */
       } else if (projectName) {
-        // const spinner = ora('初始化脚手架…').start();
-        console.log('初始化物料库…');
+        // const spinner = ora('检查物料库…').start();
+        console.log('检查物料库…');
         const materialResourcesCollection = new MaterialResourcesCollection(
           options,
         );
 
-        await materialResourcesCollection.init();
+        const isInit = await materialResourcesCollection.init();
         // spinner.stop();
-        await childProcess.exec('clear', async (err, stdout) => {
-          if (!err) {
-            console.log(stdout);
+        if (isInit) {
+          console.log(chalk.bgYellow('初始化/更新本地物料库完成，请重新执行create命令'));
+          try {
+            process.exit(0);
+          } finally {
+            return;
           }
-        });
+        }
 
         let materialResult;
         if (options.scaffold) {

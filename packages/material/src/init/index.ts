@@ -48,7 +48,10 @@ export function readLocalManifestConfig(): ResourceConfigType<MaterialResourcesC
   return config;
 }
 
-// 判断脚手架manifest和本地物料库是否一致，判断是否更新物料库
+/**
+ * 判断脚手架manifest和本地物料库是否一致，判断是否更新物料库
+ * @returns init:物料库初始化/update:物料库有更新/updated:物料库已最新
+ */
 export function compareLocalMaterials(): Promise<LocalMaterialsType> {
   return new Promise(async (resolve, reject) => {
     if (!fse.existsSync(RH_MATERIAL_DIR)) {

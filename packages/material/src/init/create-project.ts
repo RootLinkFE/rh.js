@@ -25,16 +25,16 @@ export async function createProject(projectName: string, config: Material) {
     // copyFile(scaffoldsBasePath, targetPath);
     // 添加对应物料
     await createMaterial(targetPath, dependencies);
-    console.log(chalk.green(`${projectName}项目创建成功`));
+    console.log(chalk.bgGreen(`${projectName}项目创建成功`));
   } catch (error) {
     const dirPath = path.join(cwd, projectName);
     if (fse.existsSync(dirPath)) {
       delDir(dirPath);
     }
     if(!config) {
-      return console.log(chalk.red(`${projectName}项目创建失败，原因：缺少material.json文件`));
+      return console.log(chalk.bgRed(`${projectName}项目创建失败，原因：缺少material.json文件`));
     }
-    return console.log(chalk.red(`${projectName}项目创建失败， 原因：${error}`));
+    return console.log(chalk.bgRed(`${projectName}项目创建失败， 原因：${error}`));
   }
 }
 

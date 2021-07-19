@@ -23,45 +23,50 @@ export class MaterialResourcesCollection {
 
   constructor(private options: any) {}
 
-  async init() {
-    const localMaterialsType: LocalMaterialsType =
-      await compareLocalMaterials();
-    const { templates, materials } = !isInit
-      ? loadCliManifestConfig()
-      : readLocalManifestConfig();
-    // 指定本地的
-    if (this.options.local) {
-      this.manifestsMaterials = [
-        {
-          name: 'local',
-          description: '',
-          localPath: this.options.local,
-        },
-      ];
-    } else {
+  async init(): Promise<boolean> {
+    return new Promise(async (resolve) => {
+      const localMaterialsType: LocalMaterialsType =
+        await compareLocalMaterials();
+      const { templates, materials } = loadCliManifestConfig();
+      // 指定本地的
+      if (this.options.local) {
+        this.manifestsMaterials = [
+          {
+            name: 'local',
+            description: '',
+            localPath: this.options.local,
+          },
+        ];
+      }
+
       this.manifestsTemplates = templates;
       this.manifestsMaterials = materials;
-    }
-    const templateInits = this.copyResource('template');
-    const materialInits = this.copyResource('material');
-    if (localMaterialsType !== 'init') {
-      if (localMaterialsType === 'update') {
-        const { isInitLib } = await InquireInitRemoteLib();
-        if (isInitLib) {
-          await cloneMaterials(templateInits, 'template');
-          await cloneMaterials(materialInits, 'material');
+
+      const templateInits = this.copyResource('template');
+      const materialInits = this.copyResource('material');
+      if (localMaterialsType !== 'init') {
+        if (localMaterialsType === 'update') {
+          const { isInitLib } = await InquireInitRemoteLib();
+          if (isInitLib) {
+            await cloneMaterials(templateInits, 'template');
+            await cloneMaterials(materialInits, 'material');
+            return resolve(true);
+          }
         }
+      } else {
+        await cloneMaterials(templateInits, 'template');
+        await cloneMaterials(materialInits, 'material');
+        return resolve(true);
       }
-    } else {
-      await cloneMaterials(templateInits, 'template');
-      await cloneMaterials(materialInits, 'material');
-    }
+      return resolve(false);
+    });
   }
 
   copyResource(type: string): MaterialResources[] {
     const UpType = type
       .toLowerCase()
       .replace(/( |^)[a-z]/g, (L) => L.toUpperCase());
+
     this[`manifests${UpType}s`].forEach(
       (config: MaterialResourcesConfigType) => {
         // console.log(config, new MaterialResources(config),  '1sdfa')
@@ -104,7 +109,10 @@ export class MaterialResourcesCollection {
       createProject(projectName, result);
       return result;
     } else {
-      const names = this.templateResources.map((source) => source.config.name);
+      let names: string[] = [];
+      this.templateResources.map((source) => {
+        if (source.inited) names.push(source.config.name);
+      });
       const { templateAns } = await InquireTemplateCollection(names);
       const materialResource: MaterialResources = this.templateResources.filter(
         (source) => source.config.name === templateAns,
