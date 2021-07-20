@@ -215,7 +215,6 @@ export class MaterialResources {
       _libName = materialAns;
       materialPrompt = await this.resolveCommonPrompts(materialAns);
     }
-    console.log(materialPrompt, 'ppp');
     let materialsCollection: Material[] = [];
     const combineMaterialFn = (materials: Material) => {
       materials.dependencies.map((b: Material) => {

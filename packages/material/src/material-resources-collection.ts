@@ -112,7 +112,7 @@ export class MaterialResourcesCollection {
             result = await _materialResource.combineResource();
           } else {
             // 模板、物料库、物料组合生成
-            const _materialsName = materialsName.split(/[,，\/]/) || [];
+            const _materialsName = materialsName && materialsName.split(/[,，\/]/) || [];
             result = await _materialResource.combineAllResource(
               libName,
               _materialsName,
