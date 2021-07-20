@@ -187,7 +187,7 @@ export class MaterialResources {
    * @param materialsName
    * @returns
    */
-  async combineAllResource(libName?: string, materialsName?: string[]) {
+  async combineAllResource(libName?: string, materialsName?: string[] | undefined) {
     let result;
     const materialPackagePathReg = path.join(
       RH_MATERIAL_DIR_TEMPLATES,

@@ -9,7 +9,11 @@ import { Material } from '../material';
 
 const cwd = process.cwd();
 
-export async function createProject(projectName: string, config: Material) {
+export async function createProject(
+  projectName: string,
+  config: Material,
+  projectPath: string,
+) {
   const spinner = ora('正在创建...').start();
   try {
     const { info, materialResources, dependencies } = config || {};
@@ -20,7 +24,7 @@ export async function createProject(projectName: string, config: Material) {
     //   materialName,
     //   info?.bus[0],
     // );
-    const targetPath = path.join(cwd, projectName);
+    const targetPath = path.join(projectPath || cwd, projectName);
     // 模板文件
     copyFile(originPath, targetPath);
     // 公共文件
@@ -30,7 +34,13 @@ export async function createProject(projectName: string, config: Material) {
       await createMaterial(targetPath, dependencies);
     }
     console.log('\n');
-    console.log(chalk.bgGreen(`${projectName}项目创建成功`));
+    console.log(
+      chalk.bgGreen(
+        `${projectName}项目创建成功${
+          projectPath ? `, 路径为${projectPath}/${projectName}` : ''
+        }`,
+      ),
+    );
   } catch (error) {
     const dirPath = path.join(cwd, projectName);
     if (fse.existsSync(dirPath)) {

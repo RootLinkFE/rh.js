@@ -85,6 +85,7 @@ export class MaterialResourcesCollection {
   /**
    * 根据依赖生成项目
    * @param projectName 项目名
+   * @param projectName? 项目路径
    * @param templateName? 模板名 配合命令 -t
    * @param libName? 物料库名 配合命令 -l
    * @param materialsName? 物料名 配合命令 -m
@@ -92,6 +93,7 @@ export class MaterialResourcesCollection {
    */
   async getFinalMaterial(
     projectName: string,
+    projectPath: string,
     templateName?: string,
     libName?: string,
     materialsName?: string,
@@ -110,7 +112,7 @@ export class MaterialResourcesCollection {
             result = await _materialResource.combineResource();
           } else {
             // 模板、物料库、物料组合生成
-            const _materialsName = materialsName.split(/[,，\/]/);
+            const _materialsName = materialsName.split(/[,，\/]/) || [];
             result = await _materialResource.combineAllResource(
               libName,
               _materialsName,
@@ -118,7 +120,7 @@ export class MaterialResourcesCollection {
           }
         }
       }
-      createProject(projectName, result);
+      createProject(projectName, result, projectPath);
       return result;
     } else {
       let names: string[] = [];
@@ -130,7 +132,7 @@ export class MaterialResourcesCollection {
         (source) => source.config.name === templateAns,
       )[0];
       result = await materialResource.combineAllResource();
-      createProject(projectName, result);
+      createProject(projectName, result, projectPath);
       return result;
     }
   }

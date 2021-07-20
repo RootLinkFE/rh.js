@@ -6,6 +6,7 @@ import path from 'path';
 import chalk from 'chalk';
 import { MaterialResourcesCollection } from '@roothub/material/lib/material-resources-collection';
 import { clearConsole } from '../../utils/logger';
+import { fileReg } from '../../utils/const';
 
 const cwd = process.cwd();
 
@@ -27,16 +28,26 @@ export default function InitCommand(program: commander.Command) {
     // .option('--local [dir]', '指定特定的本地物料库')
     .action(async (projectName, options) => {
       const dirPath = path.join(cwd, projectName);
-
-      if (fse.existsSync(dirPath)) {
-        console.log(chalk.bgRed(`项目名称${projectName}已存在，请勿重复创建`));
-        return;
+      if (fse.existsSync(dirPath))
+        return console.log(
+          chalk.bgRed(`项目名称${projectName}已存在，请勿重复创建`),
+        );
+      if (options.path) {
+        if (!fileReg.test(options.path)) {
+          return console.log(
+            chalk.bgRed(`请输入正确的文件路径格式，${options.path}`),
+          );
+        }
+        if (!fse.existsSync(options.path)) {
+          return console.log(chalk.bgRed(`指定路径不存在，${options.path}`));
+        }
       }
       // const spinner = ora('检查物料库…').start();
       console.log('检查物料库…');
       const materialResourcesCollection = new MaterialResourcesCollection(
         options,
       );
+      const projectPath = options.path || '';
 
       const isInit = await materialResourcesCollection.init();
       // spinner.stop();
@@ -59,16 +70,22 @@ export default function InitCommand(program: commander.Command) {
         if (lib && material) {
           materialResourcesCollection.getFinalMaterial(
             projectName,
+            projectPath,
             template,
             lib,
             material,
           );
         } else {
-          materialResourcesCollection.getFinalMaterial(projectName, template);
+          materialResourcesCollection.getFinalMaterial(
+            projectName,
+            projectPath,
+            template,
+          );
         }
       } else {
         materialResult = await materialResourcesCollection.getFinalMaterial(
           projectName,
+          projectPath,
         );
       }
       materialResourcesCollection.listAllScaffolds();
