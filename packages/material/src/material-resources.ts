@@ -30,6 +30,12 @@ export type MaterialConfigType = {
   materialDeps?: string[]; // 物料依赖
 };
 
+export type MaterialResource = {
+  scaffolds: string[];
+  pages: string[];
+  blocks: string[];
+};
+
 type MaterialType = {
   name: string;
   description: string;
@@ -62,7 +68,7 @@ export class MaterialResources {
       this.path = config.localPath;
     } else {
       const dirPath =
-        this.config.belong === 'scaffold'
+        this.config.belong === 'template'
           ? RH_MATERIAL_DIR_TEMPLATES
           : RH_MATERIAL_DIR_MATERIALS;
       this.path = path.join(dirPath, this.config.name);
@@ -114,7 +120,7 @@ export class MaterialResources {
     });
   }
 
-  async resolveCommonPrompts(materialName: string) {
+  async resolveCommonPrompts(materialName: string): Promise<MaterialResource> {
     // await this.resolveScaffoldsPrompts();
     const types = ['blocks', 'pages'];
     const basePath = path.join(RH_MATERIAL_DIR_MATERIALS, materialName);
@@ -159,14 +165,57 @@ export class MaterialResources {
     return JSON.parse(content);
   }
 
-  // 整合资源
+  // 生成模板 纯命令rh create <name> -t xxx
   async combineResource() {
-    let result;
-    const materialsConfig = this.resolveDepResources('scaffold');
-    const { materialAns } = await InquireMaterialsCollection(
-      this.config.materialsIncludes || [],
+    const materialPackagePathReg = path.join(
+      RH_MATERIAL_DIR_TEMPLATES,
+      this.config.name,
     );
-    const materialPrompt = await this.resolveCommonPrompts(materialAns);
+    let materialsConfig = this.resolveDepResources('scaffold');
+    materialsConfig[0].materialDeps = this.resolveDepPath(
+      materialsConfig[0].materialDeps || [],
+    );
+    // TODO: 暂时默认第一个物料库名字
+    const defaultMaterialLib: string =
+      (this.config.materialsIncludes && this.config.materialsIncludes[0]) || '';
+    return new Material(materialPackagePathReg, this, [], defaultMaterialLib);
+  }
+
+  /**
+   * 整合资源，1、通过命令式用户交互（询问）；2、传递参数使用直接式命令交互（create <name> -t xxx -l xxx -m xxx）
+   * @param libName
+   * @param materialsName
+   * @returns
+   */
+  async combineAllResource(libName?: string, materialsName?: string[]) {
+    let result;
+    const materialPackagePathReg = path.join(
+      RH_MATERIAL_DIR_TEMPLATES,
+      this.config.name,
+    );
+    let materialsConfig = this.resolveDepResources('scaffold');
+
+    let _libName: string,
+      materialPrompt: MaterialResource = {
+        scaffolds: [],
+        pages: [],
+        blocks: [],
+      };
+    // 命令包含物料库及物料执行自动创建
+    if (libName && materialsName) {
+      _libName = libName;
+      materialsName.map((m: string) => {
+        const [lib, type, material] = m.split(':');
+        materialPrompt[type].push(m);
+      });
+    } else {
+      const { materialAns } = await InquireMaterialsCollection(
+        this.config.materialsIncludes || [],
+      );
+      _libName = materialAns;
+      materialPrompt = await this.resolveCommonPrompts(materialAns);
+    }
+    console.log(materialPrompt, 'ppp');
     let materialsCollection: Material[] = [];
     const combineMaterialFn = (materials: Material) => {
       materials.dependencies.map((b: Material) => {
@@ -175,16 +224,13 @@ export class MaterialResources {
       });
       return materials;
     };
-    const materialPackagePathReg = path.join(
-      RH_MATERIAL_DIR_TEMPLATES,
-      this.config.name,
-    );
     materialsConfig.map((materialConfig) => {
       const scaffolds = this.config.name;
       // 获取模板本身依赖
       if (materialConfig.key === scaffolds) {
-        materialConfig.materialDeps =
-          this.resolveDepPath(materialConfig.materialDeps || []);
+        materialConfig.materialDeps = this.resolveDepPath(
+          materialConfig.materialDeps || [],
+        );
         const externalDependencies = this.resolveDepPath(
           this.removeExtraDependencie(materialPrompt),
         );
@@ -194,7 +240,7 @@ export class MaterialResources {
             materialPackagePathReg,
             this,
             externalDependencies,
-            materialAns,
+            _libName,
           ),
         );
         result.dependencies = this.removeRepeatDependencie(materialsCollection);

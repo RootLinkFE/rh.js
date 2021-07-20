@@ -3,7 +3,7 @@
     {
       "name": "rh-template-vue",
       "type": "admin",
-      "belong": "scaffold",
+      "belong": "template",
       "materialsIncludes": ["materials-vue"],
       "description": "vue 后台模板",
       "git": "https://gitlab.bighome360.com/frontend/rh/templates/rh-template-vue.git"
@@ -11,7 +11,7 @@
     {
       "name": "rh-template-vue-admin",
       "type": "admin",
-      "belong": "scaffold",
+      "belong": "template",
       "materialsIncludes": ["materials-vue"],
       "description": "vue-admin 后台模板",
       "git": "http://gitlab.bighome360.com/frontend/rh/templates/rh-template-vue-admin.git"
@@ -20,7 +20,7 @@
       "name": "rh-template-react",
       "description": "react 后台模板",
       "type": "admin",
-      "belong": "scaffold",
+      "belong": "template",
       "materialsIncludes": [],
       "git": "https://gitlab.bighome360.com/frontend/rh/templates/rh-template-react.git"
     }

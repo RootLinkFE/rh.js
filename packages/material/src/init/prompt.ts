@@ -1,4 +1,4 @@
-import { MaterialResources } from '../material-resources';
+import { MaterialResource } from '../material-resources';
 import inquirer from 'inquirer';
 
 export type InquirePrompt = {
@@ -30,8 +30,8 @@ export class MaterialPrompt {
     return [...this.scaffoldsTypeList, ...this.pagesList, ...this.blocksList];
   }
 
-  async inquireCombineMaterial() {
-    let promptsCollection = {};
+  async inquireCombineMaterial(): Promise<MaterialResource> {
+    let promptsCollection: MaterialResource;
     const { scaffolds } = await inquirer.prompt(this.scaffoldsTypeList);
     this.resource.pages.length && this.getPagesList();
     this.resource.blocks.length && this.getBlocksList();
@@ -79,7 +79,7 @@ export class MaterialPrompt {
   resolveUIName(who: string): Array<string | object> {
     let result: Array<string | object> = [];
     this.resource[who].map((item: any, index: number) => {
-      const uiName = item.baseOn || 'lib'
+      const uiName = item.baseOn || 'lib';
       if (!index) {
         result.push(new inquirer.Separator(`UI库: ${uiName}`));
       } else {
@@ -88,7 +88,7 @@ export class MaterialPrompt {
       }
       result.push({
         name: `${item.key}[${item.title}]`,
-        value: `${item.belongLib || 'ant-design-vue'}:blocks:${item.key}`   //${item.type}
+        value: `${item.belongLib || 'ant-design-vue'}:blocks:${item.key}`, //${item.type}
       });
     });
     return result;

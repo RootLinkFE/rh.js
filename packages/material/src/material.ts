@@ -35,6 +35,7 @@ export class Material {
   private loadDependencies() {
     if (this.info?.materialDeps?.length) {
       this.info?.materialDeps.forEach((dependency: any) => {
+        // console.log(RH_MATERIAL_DIR_MATERIALS, this.materialName, dependency, 4)
         const dependencyMaterial = materialFactory(
           path.join(RH_MATERIAL_DIR_MATERIALS, this.materialName, dependency),
           this.materialResources,

@@ -69,7 +69,6 @@ export class MaterialResourcesCollection {
 
     this[`manifests${UpType}s`].forEach(
       (config: MaterialResourcesConfigType) => {
-        // console.log(config, new MaterialResources(config),  '1sdfa')
         this[`${type}Resources`].push(new MaterialResources(config));
       },
     );
@@ -84,28 +83,41 @@ export class MaterialResourcesCollection {
   }
 
   /**
-   *
-   * @param key string '[scope]@[materialName]'
+   * 根据依赖生成项目
+   * @param projectName 项目名
+   * @param templateName? 模板名 配合命令 -t
+   * @param libName? 物料库名 配合命令 -l
+   * @param materialsName? 物料名 配合命令 -m
+   * @returns
    */
   async getFinalMaterial(
     projectName: string,
-    key?: string,
-    packagePath?: string,
+    templateName?: string,
+    libName?: string,
+    materialsName?: string,
   ) {
     let result: any;
 
-    if (key) {
-      const [, template, scope] = key.split('-');
-      if (!template || !scope) {
-        throw new Error(`${key} 不符合格式：[scope]@[materialName]`);
-      }
+    if (templateName) {
+      // if (!template) {
+      //   throw new Error(`${key} 不符合格式：[scope]@[materialName]`);
+      // }
       for (let i = 0; i < this.templateResources.length; ++i) {
         const _materialResource = this.templateResources[i];
-        if (_materialResource.config.name === key) {
-          result = await _materialResource.combineResource();
+        if (_materialResource.config.name === templateName) {
+          if (!libName && !materialsName) {
+            // 单纯模板生成
+            result = await _materialResource.combineResource();
+          } else {
+            // 模板、物料库、物料组合生成
+            const _materialsName = materialsName.split(/[,，\/]/);
+            result = await _materialResource.combineAllResource(
+              libName,
+              _materialsName,
+            );
+          }
         }
       }
-      return console.log(1);
       createProject(projectName, result);
       return result;
     } else {
@@ -117,7 +129,7 @@ export class MaterialResourcesCollection {
       const materialResource: MaterialResources = this.templateResources.filter(
         (source) => source.config.name === templateAns,
       )[0];
-      result = await materialResource.combineResource();
+      result = await materialResource.combineAllResource();
       createProject(projectName, result);
       return result;
     }
@@ -125,10 +137,12 @@ export class MaterialResourcesCollection {
 
   listAllManifest(): Pick<
     MaterialResourcesConfigType,
-    'name' | 'description'
+    'name' | 'belong' | 'description'
   >[] {
-    return this.manifestsMaterials.map(({ name, description }) => ({
+    const materials = [...this.manifestsTemplates, ...this.manifestsMaterials];
+    return materials.map(({ name, belong, description }) => ({
       name,
+      belong,
       description,
     }));
   }

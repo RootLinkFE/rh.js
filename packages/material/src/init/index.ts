@@ -18,7 +18,7 @@ export type MaterialResourcesConfigType = {
   git?: string;
   description: string;
   localPath?: string;
-  belong?: string;
+  belong?: 'template' | 'material';
   materialsIncludes?: Array<string>;
 };
 
