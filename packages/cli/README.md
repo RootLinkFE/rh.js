@@ -2,7 +2,12 @@
 
 ## Commands
 
-  **create** [options] [template-name] [project-name]    generate a new project from a template
+  **init**   
+  - rh init 初始化远程物料库到本地目录
+
+  **create** 
+  - rh create [project-name] 创建模板项目
+  - rh create [project-name] -t <template> -l <UIlib> -m <material> -p <path> 基于已知物料直接生成项目，t=模板，l=ui库，m=物料库，path=生成项目的路径。
 
 ## Todo
 
