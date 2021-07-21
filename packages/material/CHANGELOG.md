@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](http://gitlab.bighome360.com/frontend/rh/rh.js/compare/@roothub/material@0.2.0...@roothub/material@0.2.1) (2021-07-21)
+
+
+### Bug Fixes
+
+* 异步改为同步下载远程仓库 ([3b9ee0b](http://gitlab.bighome360.com/frontend/rh/rh.js/commit/3b9ee0b4d12b04ccc31ee81a8e4cc0752f94e4d6))
+* bug ([e95b6b8](http://gitlab.bighome360.com/frontend/rh/rh.js/commit/e95b6b8fd13cccf9010f60adb3836d567e3d6e92))
+
+
+### Features
+
+* 项目创建支持自定义路径 ([e39f1a1](http://gitlab.bighome360.com/frontend/rh/rh.js/commit/e39f1a10de7d149577229b85aea00c28a89fe1af))
+* 支持增量添加远程物料库至本地 ([b947e31](http://gitlab.bighome360.com/frontend/rh/rh.js/commit/b947e31c7d177e03bb18548625a34e83ed8ab572))
+* 支持直接式命令交互 ([e5effd8](http://gitlab.bighome360.com/frontend/rh/rh.js/commit/e5effd830b179bea7429b08315011b405abba159))
+
+
+
+
+
 # [0.2.0](http://gitlab.bighome360.com/frontend/rh/rh.js/compare/@roothub/material@0.1.4...@roothub/material@0.2.0) (2021-07-15)
 
 
