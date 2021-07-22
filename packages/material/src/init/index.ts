@@ -19,7 +19,9 @@ export type MaterialResourcesConfigType = {
   description: string;
   localPath?: string;
   belong?: 'template' | 'material';
-  materialsIncludes?: Array<string>;
+  materialsIncludes?: string[];
+  jsonFile?: string;
+  isExternal?: boolean;
 };
 
 export type LocalMaterialsType = 'init' | 'update' | 'updated';

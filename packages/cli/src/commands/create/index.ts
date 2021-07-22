@@ -27,21 +27,22 @@ export default function InitCommand(program: commander.Command) {
     .option('-p --path [path]', '新项目文件位置')
     // .option('--local [dir]', '指定特定的本地物料库')
     .action(async (projectName, options) => {
-      const dirPath = path.join(cwd, projectName);
+      const pointPath = options.path;
+      if (pointPath) {
+        if (!fileReg.test(pointPath)) {
+          return console.log(
+            chalk.bgRed(`请输入正确的文件路径格式，${pointPath}`),
+          );
+        }
+        if (!fse.existsSync(pointPath)) {
+          return console.log(chalk.bgRed(`指定路径不存在，${pointPath}`));
+        }
+      }
+      const dirPath = path.join(pointPath || cwd, projectName);
       if (fse.existsSync(dirPath))
         return console.log(
           chalk.bgRed(`项目名称${projectName}已存在，请勿重复创建`),
         );
-      if (options.path) {
-        if (!fileReg.test(options.path)) {
-          return console.log(
-            chalk.bgRed(`请输入正确的文件路径格式，${options.path}`),
-          );
-        }
-        if (!fse.existsSync(options.path)) {
-          return console.log(chalk.bgRed(`指定路径不存在，${options.path}`));
-        }
-      }
       // const spinner = ora('检查物料库…').start();
       console.log('检查物料库…');
       const materialResourcesCollection = new MaterialResourcesCollection(

@@ -1,3 +1,4 @@
+import { RH_MATERIAL_DIR } from '../constant';
 const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('path');
@@ -100,5 +101,33 @@ export function delDir(target: string) {
     }
   } else {
     console.log('该目录不存在: ', target);
+  }
+}
+
+/**
+ * 递归向上查找指定文件
+ * @param fileName 文件名
+ * @param currPath 当前路径
+ * @returns
+ */
+export function lookUpFile(
+  fileName: string,
+  currPath: string,
+  rootPath = RH_MATERIAL_DIR,
+): object {
+  try {
+    const regex = /\\[.-\w\u4e00-\u9fa5]*$/; // TODO: 优化能匹配最后一个斜杆后所有内容
+    const filePath = path.join(currPath, fileName);
+    let file;
+    if (fse.existsSync(filePath)) {
+      file = require(filePath);
+    } else {
+      if (rootPath === currPath) return {};
+      const newFilePath = currPath.replace(regex, '');
+      file = lookUpFile(fileName, newFilePath);
+    }
+    return typeof file === 'object' ? file : JSON.parse(file);
+  } catch (error) {
+    throw new Error(`no file ${fileName}`);
   }
 }

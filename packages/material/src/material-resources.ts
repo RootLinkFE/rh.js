@@ -187,7 +187,10 @@ export class MaterialResources {
    * @param materialsName
    * @returns
    */
-  async combineAllResource(libName?: string, materialsName?: string[] | undefined) {
+  async combineAllResource(
+    libName?: string,
+    materialsName?: string[] | undefined,
+  ) {
     let result;
     const materialPackagePathReg = path.join(
       RH_MATERIAL_DIR_TEMPLATES,
@@ -205,8 +208,11 @@ export class MaterialResources {
     if (libName && materialsName) {
       _libName = libName;
       materialsName.map((m: string) => {
-        const [lib, type, material] = m.split(':');
-        materialPrompt[type].push(m);
+        if (m.indexOf(':') !== -1) {
+          const [lib, type, material] = m.split(':');
+          return materialPrompt[type].push(m);
+        }
+        materialPrompt['blocks'].push(m); // 外部资源默认全部block类型
       });
     } else {
       const { materialAns } = await InquireMaterialsCollection(
@@ -217,6 +223,7 @@ export class MaterialResources {
     }
     let materialsCollection: Material[] = [];
     const combineMaterialFn = (materials: Material) => {
+      console.log(materials.dependencies, 'materials.dependencies')
       materials.dependencies.map((b: Material) => {
         materialsCollection.push(b);
         combineMaterialFn(b);
@@ -263,8 +270,12 @@ export class MaterialResources {
   // 重组依赖中指定路径
   resolveDepPath(dependencies: string[]) {
     const result = dependencies.map((dep) => {
-      const [belongLib, type, name] = dep.split(':');
-      return `packages/${belongLib}/src/${type}/${name}`;
+      // 标准依赖格式按照 belongLib:type:name
+      if (dep.indexOf(':') !== -1) {
+        const [belongLib, type, name] = dep.split(':');
+        return `packages/${belongLib}/src/${type}/${name}`;
+      }
+      return dep;
     });
     return result;
   }
@@ -276,9 +287,9 @@ export class MaterialResources {
       item: Material[],
       next: Material,
     ) {
-      const { type, belong, name } = next.info;
-      const key = `${type}/${belong}/${name}`;
-      obj[key] ? '' : (obj[key] = true && item.push(next));
+      const { type, belong, name } = next.info; // key 为所有框架必有的字段，
+      const objKey = `${type}/${belong}/${name}`;
+      obj[objKey] ? '' : (obj[objKey] = true && item.push(next));
       return item;
     },
     []);

@@ -4,6 +4,7 @@ import glob from 'globby';
 import { MATERIAL_INFO_FILE_NAME, RH_MATERIAL_DIR_MATERIALS } from './constant';
 import { MaterialResources, MaterialConfigType } from './material-resources';
 import { materialFactory } from './init/material-factory';
+import { lookUpFile } from './utils/common';
 
 export type MaterialTypeKeys = 'page' | 'block' | 'scaffold';
 
@@ -35,10 +36,11 @@ export class Material {
   private loadDependencies() {
     if (this.info?.materialDeps?.length) {
       this.info?.materialDeps.forEach((dependency: any) => {
-        // console.log(RH_MATERIAL_DIR_MATERIALS, this.materialName, dependency, 4)
         const dependencyMaterial = materialFactory(
           path.join(RH_MATERIAL_DIR_MATERIALS, this.materialName, dependency),
           this.materialResources,
+          [],
+          dependency,
         );
         if (!dependencyMaterial) {
           throw new Error(
@@ -51,18 +53,29 @@ export class Material {
   }
 
   private check(): void {
+    this.info = {};
     if (!fse.existsSync(this.materialItemPath)) {
       throw new Error('物料资源未能找到:' + this.materialItemPath);
     }
-    this.info = require(path.join(
-      this.materialItemPath,
-      MATERIAL_INFO_FILE_NAME,
-    ));
-    this.info.materialDeps = this.externalDependencies
-      ? Array.from(
-          new Set([...this.info.materialDeps, ...this.externalDependencies]),
-        )
-      : this.info.materialDeps;
+    // this.info = require(path.join(
+    //   this.materialItemPath,
+    //   MATERIAL_INFO_FILE_NAME,
+    // ));
+    this.info = lookUpFile(MATERIAL_INFO_FILE_NAME, this.materialItemPath);
+    const isThirdLibBlocks = this.info.list && this.info.list['blocks'];
+    if (isThirdLibBlocks) {
+      isThirdLibBlocks.map((b: any) => {
+        if (b.key === this.materialName) {
+          this.info = b;
+        }
+      });
+    }
+    this.info.materialDeps =
+      this.externalDependencies && this.externalDependencies.length
+        ? Array.from(
+            new Set([...this.info.materialDeps, ...this.externalDependencies]),
+          )
+        : this.info.materialDeps || [];
     // console.log(
     //   this.info,
     //   path.join(this.materialItemPath, MATERIAL_INFO_FILE_NAME),

@@ -85,7 +85,7 @@ export class MaterialResourcesCollection {
   /**
    * 根据依赖生成项目
    * @param projectName 项目名
-   * @param projectName? 项目路径
+   * @param projectName 项目路径
    * @param templateName? 模板名 配合命令 -t
    * @param libName? 物料库名 配合命令 -l
    * @param materialsName? 物料名 配合命令 -m

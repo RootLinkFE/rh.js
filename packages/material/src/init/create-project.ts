@@ -15,6 +15,7 @@ export async function createProject(
   projectPath: string,
 ) {
   const spinner = ora('正在创建...').start();
+  const _projectPath = projectPath || cwd
   try {
     const { info, materialResources, dependencies } = config || {};
     const originPath = info?.path || '';
@@ -24,7 +25,7 @@ export async function createProject(
     //   materialName,
     //   info?.bus[0],
     // );
-    const targetPath = path.join(projectPath || cwd, projectName);
+    const targetPath = path.join(_projectPath || cwd, projectName);
     // 模板文件
     copyFile(originPath, targetPath);
     // 公共文件
@@ -37,12 +38,12 @@ export async function createProject(
     console.log(
       chalk.bgGreen(
         `${projectName}项目创建成功${
-          projectPath ? `, 路径为${projectPath}/${projectName}` : ''
+          _projectPath ? `, 路径为${_projectPath}/${projectName}` : ''
         }`,
       ),
     );
   } catch (error) {
-    const dirPath = path.join(cwd, projectName);
+    const dirPath = path.join(_projectPath, projectName);
     if (fse.existsSync(dirPath)) {
       delDir(dirPath);
     }
@@ -70,11 +71,14 @@ function createMaterial(
     return Promise.reject();
   }
   const materialsPath = path.join(srcPath, 'materials');
+  // console.log(materialsPath, 2);
+
   fse.mkdirSync(materialsPath);
   dependencies.map((dep) => {
-    const depType = dep.info?.type; // 根据类型生成对应路径 block/page/...
+    const depType = dep.info?.type; // 根据类型生成对应路径 block/page/... , 默认block，兼容外部三方库
     const depName = dep.info?.key || dep.info?.name; // 兼容key作标识
     const depPath = dep.materialItemPath;
+    // console.log(dep, depType, depName, depPath, 3);
     const targetPath = path.join(materialsPath, depType, depName);
     copyFile(depPath, targetPath);
   });

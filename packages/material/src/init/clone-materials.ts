@@ -7,6 +7,7 @@ import execa from 'execa';
 import { RH_MATERIAL_DIR } from '../constant';
 import { getLogger } from '../index';
 import { MaterialResources } from '../material-resources';
+import { genMaterialsJsonFile } from './gen-third-materialJson';
 
 export function cloneMaterials(
   materials: MaterialResources[],
@@ -77,7 +78,8 @@ export async function downloadManifest(
       logger(`开始初始化 ${material.config.name} ${type}库`);
 
       async function promiseFn() {
-        return await execa(
+        const isExternalLib = !!material.config.isExternal
+        await execa(
           'git',
           ['clone', '--depth=1', material.config.git!, material.config.name],
           {
@@ -85,6 +87,11 @@ export async function downloadManifest(
             stdio: 'inherit',
           },
         );
+        if(isExternalLib) {
+          const materialPath = path.join(`${RH_MATERIAL_DIR}/${type}s`, material.config.name)
+          await genMaterialsJsonFile(material.config, materialPath)
+        }
+        return Promise.resolve()
       }
 
       promiseFn().then(() => {

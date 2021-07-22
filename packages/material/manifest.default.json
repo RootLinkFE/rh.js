@@ -31,6 +31,22 @@
       "description": "vue 物料库",
       "belong": "material",
       "git": "https://gitlab.bighome360.com/frontend/rh/materials-vue.git"
+    },
+    {
+      "name": "pro-blocks",
+      "description": "pro-blocks物料",
+      "belong": "material",
+      "git": "https://github.com/ant-design/pro-blocks.git",
+      "jsonFile": "umi-block.json",
+      "isExternal": true
+    },
+    {
+      "name": "ant-design",
+      "description": "ant-design物料",
+      "belong": "material",
+      "git": "https://github.com/ant-design/ant-design-blocks.git",
+      "jsonFile": "umi-block.json",
+      "isExternal": true
     }
   ]
 }
