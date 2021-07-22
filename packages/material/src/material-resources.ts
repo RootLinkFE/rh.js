@@ -223,7 +223,6 @@ export class MaterialResources {
     }
     let materialsCollection: Material[] = [];
     const combineMaterialFn = (materials: Material) => {
-      console.log(materials.dependencies, 'materials.dependencies')
       materials.dependencies.map((b: Material) => {
         materialsCollection.push(b);
         combineMaterialFn(b);

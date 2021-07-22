@@ -41,7 +41,7 @@
       "isExternal": true
     },
     {
-      "name": "ant-design",
+      "name": "ant-design-blocks",
       "description": "ant-design物料",
       "belong": "material",
       "git": "https://github.com/ant-design/ant-design-blocks.git",

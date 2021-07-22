@@ -29,11 +29,11 @@ export default function InitCommand(program: commander.Command) {
     .action(async (projectName, options) => {
       const pointPath = options.path;
       if (pointPath) {
-        if (!fileReg.test(pointPath)) {
-          return console.log(
-            chalk.bgRed(`请输入正确的文件路径格式，${pointPath}`),
-          );
-        }
+        // if (!fileReg.test(pointPath)) {
+        //   return console.log(
+        //     chalk.bgRed(`请输入正确的文件路径格式，${pointPath}`),
+        //   );
+        // }
         if (!fse.existsSync(pointPath)) {
           return console.log(chalk.bgRed(`指定路径不存在，${pointPath}`));
         }
