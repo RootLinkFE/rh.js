@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build": "father build",
+    "test": "father test",
     "dev": "father build --watch",
     "dev:cli": "PACKAGE=cli father build --watch",
     "prepare": "husky install",
@@ -12,6 +13,7 @@
     "publish:patch": "lerna version patch"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.24",
     "@typescript-eslint/eslint-plugin": "^4.17.0",
     "@typescript-eslint/parser": "^4.17.0",
     "eslint": "^7.22.0",
