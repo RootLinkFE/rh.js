@@ -2,14 +2,14 @@
 
 ## Commands
 
-  **init**   
+**init**   
   - rh init 初始化远程物料库到本地目录
 
-  **create** 
+**create** 
   - rh create [project-name] 创建模板项目
   - rh create [project-name] -t <template> -l <UIlib> -m <material> -p <path> 基于已知物料直接生成项目，t=模板，l=ui库，m=物料库，path=生成项目的路径。
 
-  **add-block** 
+**add-block** 
   - rh add-block [block-name] [repository-name] 添加block到当前目录
 
 ## Todo
