@@ -8,9 +8,12 @@
     "dev:cli": "PACKAGE=cli father build --watch",
     "prepare": "husky install",
     "bootstrap": "lerna bootstrap",
-    "publish:major": "lerna version major",
-    "publish:minor": "lerna version minor",
-    "publish:patch": "lerna version patch"
+    "version:major": "lerna version major",
+    "version:minor": "lerna version minor",
+    "version:patch": "lerna version patch",
+    "publish:major": "lerna publish major",
+    "publish:minor": "lerna publish minor",
+    "publish:patch": "lerna publish patch"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",
