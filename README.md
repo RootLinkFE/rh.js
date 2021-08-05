@@ -2,13 +2,23 @@ Rh 工程化项目
 
 ## [Cli](./packages/cli/README.md)
 
-<!-- 设置完私有域 @rh 后。[设置教程](https://www.yuque.com/roothome/fe/mpd6n4) -->
+You can just run:
 
-直接安装 `npm i -g @roothub/cli`
+```shell
+npm i -g @roothub/cli
+```
 
-运行 `rh -v`
+to get a global install of the latest CLI release. Then running any `rh` command
+in the example project will automatically find and use the local build of the
+CLI.
 
-常用命令行工具，现只有 `create` 命令创建工程模板。  
+To get CLI version:
+
+```shell
+rh -v
+```
+
+**功能清单**
 
 - [x] 命令行处理  
 - [x] 模板依赖配置（package.json）    
