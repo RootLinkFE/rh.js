@@ -30,8 +30,8 @@ jobs:
           
       - name: Git config 🔧
         run: |
-          git config --global user.name "zomixi"
-          git config --global user.email "zomixi@qq.com"
+          git config --global user.name "roothub"
+          git config --global user.email "roothub@github.com"
         
       - name: Display runtime info ✨
         run: |
