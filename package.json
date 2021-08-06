@@ -13,7 +13,8 @@
     "version:patch": "lerna version patch",
     "publish:major": "lerna publish major",
     "publish:minor": "lerna publish minor",
-    "publish:patch": "lerna publish patch"
+    "publish:patch": "lerna publish patch",
+    "publish:patch::y": "lerna publish patch -y"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",
