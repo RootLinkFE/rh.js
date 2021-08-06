@@ -21,4 +21,3 @@ output.txt
 /examples/*/.idea
 lerna-debug.log
 /bin/src/rh/*
-package-lock.json
