@@ -2,15 +2,14 @@ Rh 工程化项目
 
 ## [Cli](./packages/cli/README.md)
 
-You can just run:
+To get a global install of the latest CLI release:
 
 ```shell
 npm i -g @roothub/cli
 ```
 
-to get a global install of the latest CLI release. Then running any `rh` command
-in the example project will automatically find and use the local build of the
-CLI.
+Then running any `rh` command to use CLI.
+
 
 To get CLI version:
 
