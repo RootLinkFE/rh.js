@@ -21,6 +21,13 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
         
+      # Setup .npmrc file to publish to npm
+      - name: Setup node 🔧
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+          registry-url: 'https://registry.npmjs.org'
+        
       - name: Display runtime info ✨
         run: |
           node -v
@@ -37,8 +44,10 @@ jobs:
         
       - name: Git config 🔧
         run: |
-          git config user.name "roothub"
-          git config user.email "roothub@github.com"
+          git config user.name "zomixi"
+          git config user.email "zomixi@qq.com"
 
       - name: publish 🚀
         run: npm run publish:patch::y
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
