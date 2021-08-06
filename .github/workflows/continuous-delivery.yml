@@ -42,12 +42,12 @@ jobs:
       - name: Build ⛏️
         run: npm run build
         
-      - name: Git config 🔧
-        run: |
-          git config user.name "zomixi"
-          git config user.email "zomixi@qq.com"
+      # - name: Git config 🔧
+      #   run: |
+      #     git config user.name "zomixi"
+      #     git config user.email "zomixi@qq.com"
 
       - name: publish 🚀
-        run: .\node_modules\.bin\lerna publish patch -y --access public
+        run: node .\node_modules\.bin\lerna publish patch -y --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
