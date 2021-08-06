@@ -42,10 +42,10 @@ jobs:
       - name: Build ⛏️
         run: npm run build
         
-      # - name: Git config 🔧
-      #   run: |
-      #     git config user.name "zomixi"
-      #     git config user.email "zomixi@qq.com"
+      - name: Git config 🔧
+        run: |
+          git config --global user.name "zomixi"
+          git config --global user.email "zomixi@qq.com"
 
       - name: publish 🚀
         run: ./node_modules/.bin/lerna publish patch -y
