@@ -8,10 +8,7 @@ To get a global install of the latest CLI release:
 npm i -g @roothub/cli
 ```
 
-Then running any `rh` command to use CLI.
-
-
-To get CLI version:
+Then running any `rh` command to use CLI. like:
 
 ```shell
 rh -v
