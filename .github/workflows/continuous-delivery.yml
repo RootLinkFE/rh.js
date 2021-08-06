@@ -47,6 +47,8 @@ jobs:
           git config --global user.name "zomixi"
           git config --global user.email "zomixi@qq.com"
 
+      - run: npm whoami
+
       - name: publish 🚀
         run: ./node_modules/.bin/lerna publish patch -y
         env:
