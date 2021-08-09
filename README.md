@@ -24,12 +24,14 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [Introduction](#introduction)
 - [Roothub CLI](#roothub-cli)
   - [CLI Args & Flags](#cli-args--flags)
     - [`rh init`](#rh-init)
     - [`rh add-block`](#rh-add-block)
     - [`rh create`](#rh-create)
+    - [`rh api`](#rh-api)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
