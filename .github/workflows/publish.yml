@@ -48,6 +48,7 @@ jobs:
         run: npm run build
 
       - name: publish 🚀
+        if: startsWith(env.commitmsg, 'chore(release):')
         run: ./node_modules/.bin/lerna publish patch -y
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
