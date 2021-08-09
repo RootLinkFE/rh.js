@@ -57,9 +57,18 @@ _TODO: 建议重命名，init-materials 或 init-blocks_
 
 #### `rh add-block`
 
-rh add-block [block-name] [repository-name] 添加 block 到当前目录。
+- rh add-block [block-name] [repository-name] 添加 block 到当前目录。
 
 #### `rh create`
 
-- rh create [project-name] 创建模板项目
-- rh create [project-name] -t <template> -l <UIlib> -m <material> -p <path> 基于已知物料直接生成项目，t=模板，l=ui 库，m=物料库，path=生成项目的路径。
+- `rh create [project-name]` 创建模板项目
+- `rh create [project-name] -t <template> -l <UIlib> -m <material> -p <path>` 基于已知物料直接生成项目，t=模板，l=ui 库，m=物料库，path=生成项目的路径
+
+####  `rh api`
+
+- `rh api [swagger-url]` 根据 swagger 的接口文档，生成包括请求的代码
+- `rh api [swagger-url] --output <output> --axiosConfig <path> --js --help` 根据 swagger 的接口文档，生成包括请求的代码，output=文件输出路径，path=axios配置输出路径，js=是否输出为js，help=输出帮助
+- [更多详情](./packages/cli/src/commands/api/README.md)
+
+
+
