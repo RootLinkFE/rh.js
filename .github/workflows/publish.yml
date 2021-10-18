@@ -47,14 +47,15 @@ jobs:
       - name: Build ⛏️
         run: npm run build
 
-      - name: publish 🚀
-        if: startsWith(env.commitmsg, 'chore(release):')
-        run: ./node_modules/.bin/lerna publish patch -y
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Build components docs ⛏️
         run: |
           cd packages/components
           npm run deploy
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: publish 🚀
+        if: startsWith(env.commitmsg, 'chore(release):')
+        run: ./node_modules/.bin/lerna publish patch -y
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

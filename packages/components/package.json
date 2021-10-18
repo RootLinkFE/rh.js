@@ -5,9 +5,9 @@
   "scripts": {
     "start": "dumi dev",
     "docs:build": "dumi build",
-    "docs:deploy": "gh-pages -d docs-dist -r https://github.com/RootLinkFE/roothub-site",
+    "docs:deploy": "node ./scripts/gh-pages-publish.js",
     "build": "father-build",
-    "deploy": "npm run docs:build && node ./scripts/spa-gh-pages.js &&  npm run docs:deploy",
+    "deploy": "npm run docs:build && npm run docs:deploy",
     "release": "npm run build && npm publish",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "test": "umi-test",
