@@ -1,13 +1,12 @@
 const { cd, exec, echo, touch } = require('shelljs');
-const { readFileSync } = require('fs');
 const url = require('url');
+
+/*
+const { readFileSync } = require('fs');
 const { execSync } = require('child_process');
 
-require('./spa-gh-pages');
-
-let repoUrl = 'https://github.com/RootLinkFE/roothub-site';
 let pkg = JSON.parse(readFileSync('package.json'));
-/* if (typeof pkg.repository === 'object') {
+if (typeof pkg.repository === 'object') {
   if (!pkg.repository.hasOwnProperty('url')) {
     throw new Error('URL does not exist in repository section');
   }
@@ -15,6 +14,10 @@ let pkg = JSON.parse(readFileSync('package.json'));
 } else {
   repoUrl = pkg.repository;
 } */
+
+require('./spa-gh-pages');
+
+let repoUrl = 'https://github.com/RootLinkFE/components-docs-site';
 
 let parsedUrl = url.parse(repoUrl);
 let repository = (parsedUrl.host || '') + (parsedUrl.path || '');

@@ -52,7 +52,9 @@ jobs:
           cd packages/components
           npm run deploy
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_USER: ${{ secrets.NPM_USER }}
+          NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
 
       - name: publish 🚀
         if: startsWith(env.commitmsg, 'chore(release):')
