@@ -23,8 +23,8 @@ let ghToken = process.env.GH_TOKEN;
 let npmUser = process.env.NPM_USER;
 let npmEmail = process.env.NPM_EMAIL;
 
-const npmUser = execSync('git config user.name').toString();
-const npmEmail = execSync('git config user.email').toString();
+// const npmUser = execSync('git config user.name').toString();
+// const npmEmail = execSync('git config user.email').toString();
 cd('docs-dist');
 touch('.nojekyll');
 exec('git init');
