@@ -17,6 +17,7 @@ group:
 | ---------------- | ------------------------------------ | --------------------------- | ---------- |
 | value            | 标签数组                             | `string[]`                  | `[]`       |
 | disabled         | 是否禁用                             | `boolean`                   | `false`    |
+| showButton       | disabled 为 true 时，是否显示按钮    | `boolean`                   | `false`    |
 | maxLength        | 最多标签数量                         | `number`                    | `Infinity` |
 | InputMaxLength   | 输入框最大长度                       | `number`                    | `Infinity` |
 | displayMaxLength | 单个标签展示最大长度，超出显示省略号 | `number`                    | `20`       |
@@ -24,11 +25,11 @@ group:
 
 ## Demo
 
-```tsx
-import React from 'react';
-import Demo from './Demo.tsx';
+#### 可编辑
 
-export default function () {
-  return <Demo />;
-}
-```
+<code src="./demos/demo1.tsx">
+
+#### 不可编辑
+
+<code src="./demos/demo2.tsx">
+<code src="./demos/demo3.tsx">

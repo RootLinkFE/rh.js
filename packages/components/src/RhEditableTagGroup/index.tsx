@@ -12,15 +12,17 @@ import React, { useCallback, useRef, useState } from 'react';
 type EditableTagGroupProps = {
   value?: string[]; // 标签数组
   disabled?: boolean; // 是否禁用
+  showButton?: boolean; // disabled 为 true时，是否显示按钮
   maxLength?: number; // 最多标签数量
   InputMaxLength?: number; // 输入框最大长度
   displayMaxLength?: number; // 单个标签展示最大长度，超出显示省略号
   onChange?: (value: string[]) => void; // 标签改变回调
 };
 
-const RhEditableTagGroup: React.FC<EditableTagGroupProps> = ({
+const EditableTagGroup: React.FC<EditableTagGroupProps> = ({
   value = [],
   disabled = false,
+  showButton = false,
   maxLength = Infinity,
   InputMaxLength = Infinity,
   displayMaxLength = 20,
@@ -108,8 +110,22 @@ const RhEditableTagGroup: React.FC<EditableTagGroupProps> = ({
           </Row>
         </Tag>
       )}
+      {disabled && showButton && value?.length === 0 && (
+        <Tag
+          style={{
+            background: '#f5f5f5',
+            borderStyle: 'dashed',
+            cursor: 'not-allowed',
+          }}
+        >
+          <Row align="middle">
+            <PlusOutlined style={{ marginRight: 2 }} />
+            <span>添加</span>
+          </Row>
+        </Tag>
+      )}
     </>
   );
 };
 
-export default RhEditableTagGroup;
+export default EditableTagGroup;
