@@ -13,6 +13,12 @@ group:
 
 ## Demo
 
-<code src="./demo.tsx">
+### 简单 table
 
-<API src="./api.d.ts"/>
+<code src="./demos/simple.tsx">
+
+### 复杂 table
+
+<code src="./demos/complex.tsx">
+
+<API src="./index.tsx" />

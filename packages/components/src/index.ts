@@ -1,6 +1,5 @@
 import './styles/index.less';
 export { default as IconFont } from './IconFont';
-export { default as RhPageHeader } from './RhPageHeader';
 export { default as RhEditableTagGroup } from './RhEditableTagGroup';
 export { default as RhFileImportModal } from './RhFileImportModal';
 export { default as RhSidebar } from './RhSidebar';

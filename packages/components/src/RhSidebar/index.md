@@ -15,4 +15,4 @@ group:
 
 <code src="./demo.tsx">
 
-<!-- <API src="./api.d.ts"/> -->
+<API></API>

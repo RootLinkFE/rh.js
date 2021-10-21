@@ -8,17 +8,48 @@ import { ModalForm, ProFormUploadButton } from '@ant-design/pro-form';
 import { Form } from 'antd';
 import React from 'react';
 
-const RhFileImportModal: React.FC<{
+export type ImportModalProps = {
+  /**
+   * 是否显示弹窗
+   * @type boolean
+   */
   visible?: boolean;
+  /**
+   * 弹窗title
+   * @type string
+   */
   title?: string;
+  /**
+   * 弹窗宽度
+   * @type number
+   * @default 600
+   */
   width?: number;
+  /**
+   * 模板下载地址
+   * @type string
+   */
   downloadUrl?: string;
+  /**
+   * 取消关闭弹窗回调
+   * @type  () => void;
+   */
   onCancel?: () => void;
+  /**
+   * 确认弹窗按钮回调
+   * @type  () => void;
+   */
   onOk?: () => void;
+  /**
+   * 完成表单校验，回调方法
+   * @type  (formData: any) => Promise<boolean | void>;
+   */
   onFinish?: (formData: any) => Promise<boolean | void>;
-}> = ({
+};
+
+const RhFileImportModal: React.FC<ImportModalProps> = ({
   visible = false,
-  title = '',
+  title = '弹窗',
   width = 600,
   downloadUrl = '',
   onCancel = () => {},

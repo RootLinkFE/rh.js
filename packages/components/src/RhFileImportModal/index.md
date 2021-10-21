@@ -10,3 +10,9 @@ group:
 ## RhFileImportModal
 
 统一封装 文件导入弹窗
+
+## Demo
+
+<code src="./Demo.tsx">
+
+ <API src="./index.tsx"/>

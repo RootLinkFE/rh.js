@@ -3,8 +3,8 @@ import type { ActionType } from '@ant-design/pro-table';
 import { TableDropdown } from '@ant-design/pro-table';
 import { Button, Dropdown, Menu, Space, Tag } from 'antd';
 import React from 'react';
-import type { RhColumns } from '.';
-import RhTable from '.';
+import type { RhColumns } from '..';
+import RhTable from '..';
 
 type GithubIssueItem = {
   url: string;
