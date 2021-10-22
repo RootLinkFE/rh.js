@@ -1,19 +1,11 @@
-/**
- * @author giscafer
- * @email giscafer@outlook.com
- * @create date 2021-10-18 18:45:18
- * @modify date 2021-10-18 18:45:18
- * @desc 改造原有组件升级，支持 antd 4.x
- */
-
 import { Menu } from 'antd';
 import React, { useCallback, useEffect, useMemo } from 'react';
+import { ReactNode } from 'react-dom/node_modules/@types/react';
+import { useHistory } from 'react-router-dom';
 import IconFont from '../IconFont';
 import RhMenuIcon from './Icon';
-import styles from './style.module.less';
 import type { RhMenuData, RhMenuItem, RhSidebarProps } from './type';
-
-import { useHistory } from 'react-router-dom';
+import styles from './style.less';
 
 const { SubMenu, Item } = Menu;
 
@@ -45,7 +37,9 @@ const RhSidebar = (props: RhSidebarProps) => {
   } = menuData as RhMenuData;
 
   useEffect(() => {
-    Icon = RhMenuIcon(iconScriptUrl);
+    if (iconScriptUrl) {
+      Icon = RhMenuIcon(iconScriptUrl);
+    }
   }, [iconScriptUrl]);
 
   const menuClickHandle = useCallback(
@@ -60,6 +54,20 @@ const RhSidebar = (props: RhSidebarProps) => {
     [onTitleClick],
   );
 
+  const iconRender = (icon: string | ReactNode) => {
+    if (!icon) {
+      return null;
+    }
+    if (typeof icon !== 'string') {
+      return (
+        <div className={styles.menuIcon} style={{ marginRight: 10 }}>
+          {icon}
+        </div>
+      );
+    }
+    return <Icon type={icon} className={styles.menuIcon} />;
+  };
+
   // 所有菜单元素上均有 name=menu 这是为了神策的自动埋点统计
   const renderMenuTree = useCallback(
     (items: RhMenuItem[], isSubmenu = 1) => {
@@ -72,9 +80,7 @@ const RhSidebar = (props: RhSidebarProps) => {
             <SubMenu
               title={
                 <div className={styles.submenuContentWrapper}>
-                  {obj.icon ? (
-                    <Icon type={obj.icon} className={styles.menuIcon} />
-                  ) : null}
+                  {iconRender(obj.icon)}
                   <span
                     className={`${styles.menuText} ${styles.subMenuText}`}
                     title={obj.name}
@@ -90,12 +96,12 @@ const RhSidebar = (props: RhSidebarProps) => {
                           position: 'relative',
                           top: '-2px',
                         }}
-                        type={subMenuCollapseIcon}
+                        type={subMenuCollapseIcon || 'rh-icon-arrow-right'}
                       />
                     ) : (
                       <Icon
                         className="ant-menu-submenu-custom-arrow"
-                        type={subMenuExpandIcon}
+                        type={subMenuExpandIcon || 'rh-icon-arrow-down'}
                       />
                     )}
                   </span>
@@ -122,7 +128,8 @@ const RhSidebar = (props: RhSidebarProps) => {
             <SubMenu
               title={
                 <span>
-                  {obj.icon ? <Icon type={obj.icon} /> : null}
+                  {/* {obj.icon ? <Icon type={obj.icon} /> : null} */}
+                  {iconRender(obj.icon)}
                   <span title={obj.name}>{obj.name}</span>
                 </span>
               }
@@ -133,7 +140,7 @@ const RhSidebar = (props: RhSidebarProps) => {
               }}
               className={
                 isMenuSelected(menuPathName, obj.url)
-                  ? `rc_consoleSidebar_selected ${styles.selected}`
+                  ? `rh_sidebar_selected ${styles.selected}`
                   : ''
               }
             >
@@ -153,8 +160,8 @@ const RhSidebar = (props: RhSidebarProps) => {
                     {obj.isExternal ? (
                       <span className={styles.externalIconWrapper}>
                         <Icon
-                          type={obj.externalIcon || 'iconShare'}
-                          className={`rc_consoleSidebar_externalIcon ${styles.externalIcon}`}
+                          type={obj.externalIcon || 'rh-icon-iconShare'}
+                          className={`rh_sidebar_externalIcon ${styles.externalIcon}`}
                         />
                       </span>
                     ) : null}
@@ -168,11 +175,9 @@ const RhSidebar = (props: RhSidebarProps) => {
           <Item
             key={obj.key}
             disabled={!!obj.disabled}
-            className={`rc_consoleSidebar_collaspsedMenu ${
-              styles.collaspsedMenu
-            } ${
+            className={`rh_sidebar_collaspsedMenu ${styles.collaspsedMenu} ${
               isMenuSelected(menuPathName, obj.url)
-                ? `rc_consoleSidebar_selected ${styles.selected}`
+                ? `rh_sidebar_selected ${styles.selected}`
                 : ''
             }`}
             onClick={() => {
@@ -180,9 +185,7 @@ const RhSidebar = (props: RhSidebarProps) => {
             }}
           >
             <div className={styles.submenuContentWrapper}>
-              {obj.icon ? (
-                <Icon type={obj.icon} className={styles.menuIcon} />
-              ) : null}
+              {iconRender(obj.icon)}
               <span
                 className={`${styles.menuText} ${styles.subMenuText}`}
                 title={obj.name}
@@ -192,8 +195,8 @@ const RhSidebar = (props: RhSidebarProps) => {
               {obj.isExternal ? (
                 <span className={styles.externalIconWrapper}>
                   <Icon
-                    type={obj.externalIcon || 'iconShare'}
-                    className={`rc_consoleSidebar_externalIcon ${styles.externalIcon}`}
+                    type={obj.externalIcon || 'rh-icon-iconShare'}
+                    className={`rh_sidebar_externalIcon ${styles.externalIcon}`}
                   />
                 </span>
               ) : null}
@@ -235,7 +238,7 @@ const RhSidebar = (props: RhSidebarProps) => {
   return (
     <>
       <Menu
-        className={`rc_consoleSidebar_consoleSideMenu ${styles.consoleSideMenu} ${className}`}
+        className={`rh_sidebar_rhSidebarMenu ${styles.rhSidebarMenu} ${className}`}
         inlineCollapsed={collapsible}
         {...menuOptions}
       >

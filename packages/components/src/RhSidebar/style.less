@@ -2,12 +2,12 @@
 @import '../styles/index.less';
 @menuPrimaryColor: @primary-color;
 
-.consoleSideMenu :global(.ant-menu-item) {
+.rhSidebarMenu :global(.ant-menu-item) {
   margin: 0;
   padding-left: 20px !important;
 }
 
-.consoleSideMenu .externalIcon:global(.anticon),
+.rhSidebarMenu .externalIcon:global(.anticon),
 .collaspsedPopup .externalIcon:global(.anticon) {
   margin-right: 0;
   margin-left: 8px;
@@ -19,23 +19,21 @@
   color: @primary-color;
 }
 
-.consoleSideMenu:global(.ant-menu .ant-menu-item),
-.consoleSideMenu:global(.ant-menu
-    > .ant-menu-submenu
-    > .ant-menu-submenu-title),
+.rhSidebarMenu:global(.ant-menu .ant-menu-item),
+.rhSidebarMenu:global(.ant-menu > .ant-menu-submenu > .ant-menu-submenu-title),
 .collaspsedPopup :global(.ant-menu .ant-menu-item),
 .collaspsedPopup :global(.ant-menu .ant-menu-submenu-title),
-.consoleSideMenu
+.rhSidebarMenu
   :global(.ant-menu-submenu-inline)
   .collaspsedMenu:global(.ant-menu-item) {
   height: 40px;
   line-height: 40px;
 }
 
-.consoleSideMenu:global(.ant-menu-inline .ant-menu-item:not(:last-child)),
-.consoleSideMenu:global(.ant-menu-vertical .ant-menu-item:not(:last-child)),
-.consoleSideMenu:global(.ant-menu-inline .ant-menu-item:last-child),
-.consoleSideMenu:global(.ant-menu-vertical .ant-menu-item:last-child),
+.rhSidebarMenu:global(.ant-menu-inline .ant-menu-item:not(:last-child)),
+.rhSidebarMenu:global(.ant-menu-vertical .ant-menu-item:not(:last-child)),
+.rhSidebarMenu:global(.ant-menu-inline .ant-menu-item:last-child),
+.rhSidebarMenu:global(.ant-menu-vertical .ant-menu-item:last-child),
 .collaspsedMenu:global(.ant-menu-item:last-child),
 .collaspsedMenu:global(.ant-menu-item:not(:last-child)),
 .collaspsedMenuTitle:global(.ant-menu-item:last-child),
@@ -43,7 +41,7 @@
   margin: 0;
 }
 
-.consoleSideMenu:global(.ant-menu-inline .ant-menu-item::after) {
+.rhSidebarMenu:global(.ant-menu-inline .ant-menu-item::after) {
   right: auto;
   left: 0;
   border: none;
@@ -54,45 +52,45 @@
   border: none;
 }
 
-.consoleSideMenu :global(.ant-menu-submenu-inline),
-.consoleSideMenu :global(.ant-menu-submenu-vertical) {
+.rhSidebarMenu :global(.ant-menu-submenu-inline),
+.rhSidebarMenu :global(.ant-menu-submenu-vertical) {
   position: relative;
 }
 
-.consoleSideMenu
+.rhSidebarMenu
   :global(.ant-menu-submenu-inline.ant-menu-submenu-open
     .ant-menu-submenu-title:hover),
-.consoleSideMenu :global(.ant-menu-item:hover),
-.consoleSideMenu :global(.ant-menu-submenu-selected),
+.rhSidebarMenu :global(.ant-menu-item:hover),
+.rhSidebarMenu :global(.ant-menu-submenu-selected),
 .collaspsedMenu:global(.ant-menu-item:hover) {
   color: @primary-color;
   background-color: #f9f9fb;
 }
 
-.consoleSideMenu
+.rhSidebarMenu
   :global(.ant-menu-submenu-vertical .ant-menu-submenu-title:hover),
-.consoleSideMenu :global(.ant-menu-submenu-vertical.ant-menu-submenu-open),
-.consoleSideMenu :global(.ant-menu-submenu-vertical.ant-menu-submenu-active),
-.consoleSideMenu :global(.ant-menu-submenu-vertical:hover) {
+.rhSidebarMenu :global(.ant-menu-submenu-vertical.ant-menu-submenu-open),
+.rhSidebarMenu :global(.ant-menu-submenu-vertical.ant-menu-submenu-active),
+.rhSidebarMenu :global(.ant-menu-submenu-vertical:hover) {
   color: #505363;
   background-color: #f2f2f5;
 }
 
-.consoleSideMenu
+.rhSidebarMenu
   :global(.ant-menu-submenu-open.ant-menu-submenu-inline
     .ant-menu-submenu-custom-arrow) {
   transform: rotateX(-180deg);
 }
 
-.consoleSideMenu :global(.ant-menu-submenu-inline .ant-menu-submenu-arrow) {
+.rhSidebarMenu :global(.ant-menu-submenu-inline .ant-menu-submenu-arrow) {
   display: none;
 }
 
-.consoleSideMenu :global(.ant-menu-submenu .ant-menu-submenu-title) {
+.rhSidebarMenu :global(.ant-menu-submenu .ant-menu-submenu-title) {
   padding-right: 0;
 }
 
-.consoleSideMenu
+.rhSidebarMenu
   :global(.ant-menu-submenu
     .ant-menu-submenu-title
     .ant-menu-submenu-custom-arrow) {
@@ -105,36 +103,35 @@
   transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
-.consoleSideMenu
-  :global(.ant-menu-submenu-inline .ant-menu-submenu-title:hover) {
+.rhSidebarMenu :global(.ant-menu-submenu-inline .ant-menu-submenu-title:hover) {
   color: #505363;
 }
 
-.consoleSideMenu
+.rhSidebarMenu
   :global(.ant-menu-submenu-inline.ant-menu-submenu-selected
     .ant-menu-item:not(.ant-menu-item-selected)),
-.consoleSideMenu
+.rhSidebarMenu
   :global(.ant-menu-submenu-inline.ant-menu-submenu-selected
     .ant-menu-submenu-title) {
   background-color: #f9f9fb;
 }
 
-.consoleSideMenu :global(.ant-menu-submenu-inline .ant-menu-submenu-title) {
+.rhSidebarMenu :global(.ant-menu-submenu-inline .ant-menu-submenu-title) {
   margin: 0;
   padding: 0px 0px 0px 20px !important;
 }
 
-.consoleSideMenu :global(.ant-menu-submenu-vertical .ant-menu-submenu-title),
-.consoleSideMenu:global(.ant-menu-vertical) .sideMenuHeader {
+.rhSidebarMenu :global(.ant-menu-submenu-vertical .ant-menu-submenu-title),
+.rhSidebarMenu:global(.ant-menu-vertical) .sideMenuHeader {
   left: 0;
   margin: 0;
   padding: 0 20px !important;
   text-overflow: clip;
 }
 
-.consoleSideMenu
+.rhSidebarMenu
   :global(.ant-menu-submenu-inline.ant-menu-submenu-selected:after),
-.consoleSideMenu
+.rhSidebarMenu
   :global(.ant-menu-submenu-vertical.ant-menu-submenu-selected:after) {
   position: absolute;
   top: 0;
@@ -164,19 +161,19 @@
   line-height: 0px !important;
 }
 
-.consoleSideMenu .sideMenuHeaderTitle {
+.rhSidebarMenu .sideMenuHeaderTitle {
   position: relative;
   border-bottom: 1px solid #ebecef;
   cursor: default;
 }
 
-.consoleSideMenu .sideMenuHeaderTitle:global(.ant-menu-item) {
+.rhSidebarMenu .sideMenuHeaderTitle:global(.ant-menu-item) {
   height: 48px;
   padding: 0 12px !important;
   line-height: 48px;
 }
 
-.consoleSideMenu .sideMenuHeaderTitle :global(.anticon) {
+.rhSidebarMenu .sideMenuHeaderTitle :global(.anticon) {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -190,14 +187,14 @@
   border-radius: 50%;
 }
 
-.consoleSideMenu .sideMenuHeaderTitle:global(.ant-menu-item-active),
-.consoleSideMenu .sideMenuHeaderTitle:global(.ant-menu-item):hover,
-.consoleSideMenu .sideMenuHeaderTitle:global(.ant-menu-item-selected) {
+.rhSidebarMenu .sideMenuHeaderTitle:global(.ant-menu-item-active),
+.rhSidebarMenu .sideMenuHeaderTitle:global(.ant-menu-item):hover,
+.rhSidebarMenu .sideMenuHeaderTitle:global(.ant-menu-item-selected) {
   color: #505363;
   background-color: #fff;
 }
 
-.consoleSideMenu .sideMenuHeaderTitle:global(.ant-menu-item-selected):after {
+.rhSidebarMenu .sideMenuHeaderTitle:global(.ant-menu-item-selected):after {
   border-left: none;
 }
 
@@ -265,39 +262,39 @@
   background-color: #f2f2f5;
 }
 
-.consoleSideMenu :global(.ant-menu-submenu-title:hover),
-.consoleSideMenu :global(.ant-menu-item:hover) {
+.rhSidebarMenu :global(.ant-menu-submenu-title:hover),
+.rhSidebarMenu :global(.ant-menu-item:hover) {
   background-color: #f9f9fb;
 }
 
-.consoleSideMenu .sideMenuHeader:global(.ant-menu-item) {
+.rhSidebarMenu .sideMenuHeader:global(.ant-menu-item) {
   height: 32px;
   line-height: 32px;
 }
 
-.consoleSideMenu .sideMenuHeader:global(.ant-menu-item:hover) {
+.rhSidebarMenu .sideMenuHeader:global(.ant-menu-item:hover) {
   color: #505363;
   background: #fff;
 }
 
-.consoleSideMenu:global(.ant-menu-inline-collapsed),
-.consoleSideMenu:global(.ant-menu-inline .ant-menu-item),
-.consoleSideMenu:global(.ant-menu-inline .ant-menu-submenu-title) {
+.rhSidebarMenu:global(.ant-menu-inline-collapsed),
+.rhSidebarMenu:global(.ant-menu-inline .ant-menu-item),
+.rhSidebarMenu:global(.ant-menu-inline .ant-menu-submenu-title) {
   width: 100%;
 }
 
-.consoleSideMenu:gloabl(.ant-menu-vertical .ant-menu-selected::after),
-.consoleSideMenu:gloabl(.ant-menu-vertical .ant-menu-item-selected::after) {
+.rhSidebarMenu:gloabl(.ant-menu-vertical .ant-menu-selected::after),
+.rhSidebarMenu:gloabl(.ant-menu-vertical .ant-menu-item-selected::after) {
   transform: scaleY(1);
   opacity: 1;
   transition: transform 0.15s cubic-bezier(0.645, 0.045, 0.355, 1),
     opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
-.consoleSideMenu:gloabl(.ant-menu-vertical .ant-menu-item::after),
-.consoleSideMenu:gloabl(.ant-menu-vertical-left .ant-menu-item::after),
-.consoleSideMenu:gloabl(.ant-menu-vertical-right .ant-menu-item::after),
-.consoleSideMenu:gloabl(.ant-menu-inline .ant-menu-item::after) {
+.rhSidebarMenu:gloabl(.ant-menu-vertical .ant-menu-item::after),
+.rhSidebarMenu:gloabl(.ant-menu-vertical-left .ant-menu-item::after),
+.rhSidebarMenu:gloabl(.ant-menu-vertical-right .ant-menu-item::after),
+.rhSidebarMenu:gloabl(.ant-menu-inline .ant-menu-item::after) {
   right: auto;
   left: 0;
   border-right-width: 4px;
@@ -326,7 +323,7 @@
   background-color: #f9f9fb !important;
 }
 
-.consoleSideMenu .selected:global(.ant-menu-submenu-active:before) {
+.rhSidebarMenu .selected:global(.ant-menu-submenu-active:before) {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -335,7 +332,7 @@
   content: '';
 }
 
-.consoleSideMenu .selected::before {
+.rhSidebarMenu .selected::before {
   position: absolute;
   top: 0;
   bottom: 0;
