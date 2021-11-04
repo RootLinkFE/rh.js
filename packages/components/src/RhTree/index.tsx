@@ -19,7 +19,7 @@ const RhTree = ({
   treeData,
   expandedKeys = [],
   selectedKeys = [],
-  disabled = false,
+  editable = true,
   autoExpandParent = true,
   search = true,
   showAddMenu = true,
@@ -291,7 +291,7 @@ const RhTree = ({
             )
           )}
           {highLightSearchTitle(leaf)}
-          {!disabled && !leaf.disabled && actionElement(leaf)}
+          {editable && !leaf.disabled && actionElement(leaf)}
         </div>
       ) : (
         <Input

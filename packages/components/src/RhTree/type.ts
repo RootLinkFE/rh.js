@@ -65,11 +65,11 @@ export interface IEditableTree {
    */
   list: ILeafNode[];
   /**
-   * 是否禁止编辑
+   * 是否可编辑
    * @type boolean
-   * @default false
+   * @default true
    */
-  disabled?: boolean;
+  editable?: boolean;
   /**
    * 主题色（`gray` 或 `light`）
    * @type string

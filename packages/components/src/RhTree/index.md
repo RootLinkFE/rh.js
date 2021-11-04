@@ -11,8 +11,16 @@ group:
 
 可编辑 Tree
 
+可编辑 Tree
+
 ## Demo
 
-<code src="./demo.tsx">
+#### 简单例子
+
+<code src="./simple.tsx">
+
+#### 复杂可编辑
+
+<code src="./complex.tsx">
 
 <API src="./type.ts">
