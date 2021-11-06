@@ -11,6 +11,17 @@ group:
 
 可编辑标签组
 
+## Demo
+
+#### 可编辑
+
+<code src="./demos/demo1.tsx">
+
+#### 不可编辑
+
+<code src="./demos/demo2.tsx">
+<code src="./demos/demo3.tsx">
+
 ### API
 
 | 参数             | 说明                                 | 类型                        | 默认值     |
@@ -22,14 +33,3 @@ group:
 | InputMaxLength   | 输入框最大长度                       | `number`                    | `Infinity` |
 | displayMaxLength | 单个标签展示最大长度，超出显示省略号 | `number`                    | `20`       |
 | onChange         | 内存记录改变回调                     | `(value: string[]) => void` | -          |
-
-## Demo
-
-#### 可编辑
-
-<code src="./demos/demo1.tsx">
-
-#### 不可编辑
-
-<code src="./demos/demo2.tsx">
-<code src="./demos/demo3.tsx">

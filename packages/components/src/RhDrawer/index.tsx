@@ -3,7 +3,13 @@ import { DrawerForm } from '@ant-design/pro-form';
 import type { FormInstance } from 'antd';
 import { Button } from 'antd';
 import type { ReactNode } from 'react';
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 
 type RhDrawRef = React.Ref<{
   formRef: React.MutableRefObject<FormInstance<any> | undefined>;
@@ -22,7 +28,7 @@ export type DrawerPropType = {
   /**
    * 提交数据时触发，内部校验了数据。
    */
-  onFinish?: (e: any) => any;
+  onFinish?: (e: any) => Promise<boolean>;
 };
 
 export type RhDrawerProps = Omit<DrawerFormProps, 'onFinish'> & DrawerPropType;
@@ -34,10 +40,8 @@ function RhDrawer(
     layout = 'vertical',
     width = 480,
     initialValues,
-    // 方法默认空函数，省去isFunction判断
-    onFinish = () => {},
+    onFinish = () => Promise.resolve(false),
     onCloseCallback = () => {},
-    onVisibleChange = () => {},
     ...restProps
   }: RhDrawerProps,
   ref: RhDrawRef,
@@ -58,6 +62,7 @@ function RhDrawer(
       formRef.current?.setFieldsValue(initialValues);
     }
   }, [initialValues]);
+
   const open = () => {
     formRef.current?.resetFields(); // 保证每次都能清空
     setVisible(true);
@@ -69,7 +74,10 @@ function RhDrawer(
         {text}
       </Button>
     ) : (
-      <div style={{ display: 'inline-block' }} onClick={open}>
+      <div
+        style={{ display: 'inline-block', cursor: 'pointer' }}
+        onClick={open}
+      >
         {text}
       </div>
     );
@@ -82,7 +90,6 @@ function RhDrawer(
       setVisible(false);
       formRef.current?.resetFields();
       onCloseCallback(e);
-      onVisibleChange(false);
     },
   };
   const drawerFormProps: DrawerFormProps = {
@@ -98,7 +105,7 @@ function RhDrawer(
           key="close"
           onClick={() => {
             setVisible(false);
-            onVisibleChange(false);
+            onCloseCallback(false);
             formRef.current?.resetFields();
           }}
         >
@@ -118,26 +125,36 @@ function RhDrawer(
     },
     onFinish: async () => {
       const values = await formRef.current?.validateFields();
-
-      if (onFinish) {
-        setLoading(true);
-        try {
-          await onFinish(values);
-          formRef.current?.resetFields();
-          setVisible(false);
-        } catch {
+      setLoading(true);
+      try {
+        const canClose = await onFinish(values);
+        // 操作成功才会清除
+        if (canClose) {
           formRef.current?.resetFields();
           setVisible(false);
         }
+        setLoading(false);
+      } catch {
+        // formRef.current?.resetFields();
+        setLoading(false);
       }
-      setLoading(false);
     },
     ...restProps,
   };
 
   return (
     <div>
-      <DrawerForm {...drawerFormProps}>{children}</DrawerForm>
+      <DrawerForm
+        {...drawerFormProps}
+        onVisibleChange={(v) => {
+          if (!v) {
+            formRef.current?.resetFields();
+            onCloseCallback(v);
+          }
+        }}
+      >
+        {children}
+      </DrawerForm>
     </div>
   );
 }
