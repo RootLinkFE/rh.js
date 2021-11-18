@@ -3,7 +3,13 @@ import { DrawerForm } from '@ant-design/pro-form';
 import type { FormInstance } from 'antd';
 import { Button } from 'antd';
 import type { ReactNode } from 'react';
-import React, { forwardRef, useImperativeHandle, useRef, useState, useEffect } from 'react';
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  useState,
+  useEffect,
+} from 'react';
 
 type RhDrawRef = React.Ref<{
   formRef: React.MutableRefObject<FormInstance<any> | undefined>;
@@ -90,7 +96,10 @@ function RhDrawer(
         {text}
       </Button>
     ) : (
-      <div style={{ display: 'inline-block', cursor: 'pointer' }} onClick={open}>
+      <div
+        style={{ display: 'inline-block', cursor: 'pointer' }}
+        onClick={open}
+      >
         {text}
       </div>
     );

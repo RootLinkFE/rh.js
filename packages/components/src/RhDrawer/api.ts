@@ -1,3 +1,3 @@
 // api
 import type { DrawerPropType } from '.';
-export const DrawerPropTypeApi: React.FC<DrawerPropType> = () => null;
+export const RhDrawerPropTypeApi: React.FC<DrawerPropType> = () => null;

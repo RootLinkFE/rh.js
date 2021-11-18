@@ -15,6 +15,6 @@ Modal 组件，简易封装
 
 <code src="./demo.tsx"/>
 
-<API src="./api.ts"/>
+<API />
 
 其他 Api 见 [ModalForm](https://procomponents.ant.design/components/modal-form)
