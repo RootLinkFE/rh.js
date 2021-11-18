@@ -1,18 +1,18 @@
-import type { DrawerFormProps } from '@ant-design/pro-form';
-import { DrawerForm } from '@ant-design/pro-form';
+import type { ModalFormProps } from '@ant-design/pro-form';
+import { ModalForm } from '@ant-design/pro-form';
 import type { FormInstance } from 'antd';
 import { Button } from 'antd';
 import type { ReactNode } from 'react';
-import React, { forwardRef, useImperativeHandle, useRef, useState, useEffect } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
-type RhDrawRef = React.Ref<{
+type RhModalRef = React.Ref<{
   formRef: React.MutableRefObject<FormInstance<any> | undefined>;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }>;
 
-export type DrawerPropType = {
+export type ModalPropType = {
   /**
-   * 抽屉的标题
+   * Modal的标题
    */
   text?: ReactNode;
   /**
@@ -25,27 +25,22 @@ export type DrawerPropType = {
    */
   confirmText?: string | boolean;
   /**
-   * 确认按钮是否禁用
-   * 如果 传 true，则禁用
-   */
-  disabled?: boolean;
-  /**
    * 根据最新的 asyncInitialValues 实时更新 form 的数据
    */
   asyncInitialValues?: Record<string, any>;
   /**
    * 关闭回调
    */
-  onClose?: (e: any) => any;
+  onClose?: () => any;
   /**
    * 提交数据时触发，内部校验了数据。
    */
   onFinish?: (e: any) => Promise<boolean>;
 };
 
-export type RhDrawerProps = Omit<DrawerFormProps, 'onFinish'> & DrawerPropType;
+export type RhModalProps = Omit<ModalFormProps, 'onFinish'> & ModalPropType;
 
-function RhDrawer(
+function RhModal(
   {
     text,
     children = '',
@@ -55,12 +50,11 @@ function RhDrawer(
     asyncInitialValues,
     cancelText = '取消',
     confirmText = '确认',
-    disabled = false,
     onFinish = () => Promise.resolve(false),
     onClose = () => {},
     ...restProps
-  }: RhDrawerProps,
-  ref: RhDrawRef,
+  }: RhModalProps,
+  ref: RhModalRef,
 ) {
   const [visible, setVisible] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -96,17 +90,22 @@ function RhDrawer(
     );
 
   // eslint-disable-next-line no-param-reassign
-  restProps.drawerProps = {
+  restProps.modalProps = {
+    ...restProps.modalProps,
     destroyOnClose: !asyncInitialValues,
-    ...restProps.drawerProps,
     maskClosable: false,
-    onClose: (e) => {
+    onCancel: () => {
       setVisible(false);
       formRef.current?.resetFields();
-      onClose(e);
+      onClose();
+    },
+    afterClose: () => {
+      setVisible(false);
+      formRef.current?.resetFields();
+      onClose();
     },
   };
-  const drawerFormProps: DrawerFormProps = {
+  const modalFormProps: ModalFormProps = {
     formRef,
     visible,
     layout,
@@ -119,7 +118,7 @@ function RhDrawer(
           key="close"
           onClick={() => {
             setVisible(false);
-            onClose(false);
+            onClose();
             formRef.current?.resetFields();
           }}
         >
@@ -133,7 +132,6 @@ function RhDrawer(
               formRef.current?.submit();
             }}
             loading={loading}
-            disabled={disabled}
           >
             {confirmText}
           </Button>
@@ -163,24 +161,21 @@ function RhDrawer(
 
   return (
     <div>
-      <DrawerForm
-        {...drawerFormProps}
+      <ModalForm
+        {...modalFormProps}
         initialValues={!asyncInitialValues ? initialValues : {}}
         preserve={!!asyncInitialValues}
         onVisibleChange={(v) => {
           if (!v) {
             formRef.current?.resetFields();
-            onClose(v);
-          }
-          if (restProps.onVisibleChange) {
-            restProps.onVisibleChange(v);
+            onClose();
           }
         }}
       >
         {children}
-      </DrawerForm>
+      </ModalForm>
     </div>
   );
 }
 
-export default forwardRef(RhDrawer);
+export default forwardRef(RhModal);

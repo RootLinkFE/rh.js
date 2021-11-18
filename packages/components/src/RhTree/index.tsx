@@ -1,45 +1,61 @@
-import { PlusCircleOutlined } from '@ant-design/icons';
-import { Input, Popconfirm, Tooltip, Tree } from 'antd';
+import {
+  CaretDownOutlined,
+  EllipsisOutlined,
+  PlusCircleOutlined,
+} from '@ant-design/icons';
+import { Dropdown, Input, Menu, Popconfirm, Tooltip, Tree } from 'antd';
 import type { EventDataNode, TreeProps } from 'antd/lib/tree';
 import { compact, debounce, flattenDepth } from 'lodash';
 import type { Key } from 'react';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from 'react';
 import IconFont from '../IconFont';
-import './style.less';
-import type { IEditableTree, ILeafNode } from './type';
+import RhSearchInput from '../RhSearchInput';
+import './index.less';
+import './styles.less';
+import type { ILeafNode, IRhTree, RhEditableTreeRef } from './type';
 import { isNotEmptyArray, translateDataToTree } from './utils';
-
-const { Search } = Input;
 
 const INPUT_ID = 'inputId';
 
-const RhTree = ({
-  debug = false,
-  list,
-  treeData,
-  expandedKeys = [],
-  selectedKeys = [],
-  editable = true,
-  autoExpandParent = true,
-  search = true,
-  showAddMenu = true,
-  showAddBtn = false,
-  showDeleteMenu = true,
-  theme = 'gray',
-  deleteTooltipText = '子节点将一起删除，是否继续？',
-  rootParentId = 0,
-  onEdit,
-  onCreate,
-  onDelete,
-  onSelect,
-  iconRender,
-  addMenuRender,
-  customEditCallback,
-  onClick,
-  addBtnCallback = () => {},
-  height = 600,
-  ...props
-}: IEditableTree & TreeProps) => {
+const RhTree = (
+  {
+    debug = false,
+    list,
+    treeData,
+    expandedKeys = [],
+    selectedKeys = [],
+    editable = true,
+    autoExpandParent = true,
+    search = false,
+    showAddMenu = true,
+    showAddBtn = false,
+    showDeleteMenu = true,
+    theme = 'gray',
+    deleteTooltipText = '子节点将一起删除，是否继续？',
+    rootParentId = 0,
+    singleSelect = false,
+    highlightText = '',
+    onEdit,
+    onCreate,
+    onDelete,
+    onSelect,
+    iconRender,
+    addMenuRender,
+    customEditCallback,
+    onClick,
+    addBtnCallback = () => {},
+    height = 600,
+    menuProps,
+    ...props
+  }: IRhTree & TreeProps,
+  ref: React.Ref<RhEditableTreeRef>,
+) => {
   const [isInputShow, toggleInputShow] = useState(true);
   const [nodeType, setNodeType] = useState('');
   const [isUpdated, toggleUpdated] = useState(false);
@@ -74,6 +90,13 @@ const RhTree = ({
       setExpandKeys([treeNodeList[0]?.key]);
     }
   }, [autoExpand, lineList]);
+
+  useImperativeHandle(ref, () => {
+    return {
+      selectKeys,
+      setSelectKeys,
+    };
+  });
 
   const inputNode = useCallback(
     (input) => {
@@ -161,7 +184,14 @@ const RhTree = ({
     const inputId: any = (info?.nativeEvent?.target as HTMLInputElement)?.id;
     // 防止选中input所在的节点
     if (inputId !== INPUT_ID) {
-      setSelectKeys(keys);
+      if (singleSelect) {
+        if (keys[0]) {
+          // 只有点击另外的菜单才重新设置
+          setSelectKeys(keys);
+        }
+      } else {
+        setSelectKeys(keys);
+      }
     }
     if (onSelect && keys.length) {
       onSelect(keys);
@@ -190,8 +220,7 @@ const RhTree = ({
   );
 
   // 防抖
-  const delaySearch = debounce((e) => {
-    const { value } = e.target;
+  const delaySearch = debounce((value) => {
     if (!value) return;
     const keys = lineList.map((item: any) => {
       if (item.title?.indexOf(value) > -1) {
@@ -214,15 +243,19 @@ const RhTree = ({
   );
 
   function highLightSearchTitle(item: ILeafNode) {
-    if (!searchValue) return <span>{item.name}</span>;
-    const index = item.name.indexOf(searchValue);
+    let searchText = searchValue;
+    if (!search) {
+      searchText = highlightText?.trim?.();
+    }
+    if (!searchText) return <span>{item.name}</span>;
+    const index = item.name.indexOf(searchText);
     const beforeStr = item.name.substr(0, index);
-    const afterStr = item.name.substr(index + searchValue.length);
+    const afterStr = item.name.substr(index + searchText.length);
     const title =
       index > -1 ? (
         <span>
           {beforeStr}
-          <span className="site-tree-search-value">{searchValue}</span>
+          <span className="site-tree-search-value">{searchText}</span>
           {afterStr}
         </span>
       ) : (
@@ -268,6 +301,7 @@ const RhTree = ({
       </span>
     );
   };
+
   const renderTree: any = (
     leafList: ILeafNode[],
     idx: number,
@@ -278,20 +312,49 @@ const RhTree = ({
       // eslint-disable-next-line no-console
       console.log('treeList=', treeList);
     }
+
     const tree = leafList.map((leaf) => ({
       key: leaf.key,
-      icon: leaf.icon || '',
+      // icon: leaf.icon || '',
+      className:
+        !leaf.parentId && !(leaf.children && leaf.children.length)
+          ? 'rh-editable-tree-parent-no-children'
+          : '',
       title: !leaf.isEdit ? (
         <div className="tree-leaf">
           {iconRender ? (
-            <img src={iconRender(leaf.type)} />
+            typeof iconRender(leaf.type) === 'string' ? (
+              <img src={iconRender(leaf.type)} />
+            ) : (
+              iconRender(leaf.type)
+            )
           ) : (
             leaf.icon && (
               <IconFont type={leaf.icon as string} className="leaf-icon" />
             )
           )}
           {highLightSearchTitle(leaf)}
-          {editable && !leaf.disabled && actionElement(leaf)}
+          {!menuProps && editable && !leaf.disabled && actionElement(leaf)}
+          {menuProps && editable && (
+            <Dropdown
+              className="rh-editable-tree-menu"
+              overlay={
+                <Menu
+                  onClick={(e: any) => {
+                    e.domEvent.stopPropagation();
+                    menuProps.onClick(leaf, e);
+                  }}
+                >
+                  {menuProps.types[leaf.type || 'default']}
+                </Menu>
+              }
+              trigger={['click']}
+            >
+              <a onClick={(e) => e.stopPropagation()}>
+                {menuProps.trigger || <EllipsisOutlined rotate={90} />}
+              </a>
+            </Dropdown>
+          )}
         </div>
       ) : (
         <Input
@@ -321,7 +384,8 @@ const RhTree = ({
     return isCreate
       ? tree.concat({
           key: idx - 1000000,
-          icon: '',
+          // icon: '',
+          className: '',
           title: (
             <Input
               maxLength={10}
@@ -351,36 +415,38 @@ const RhTree = ({
 
   return (
     <div
-      className="container-editable-tree"
+      className="rh-editable-tree"
       style={{
         backgroundColor: theme === 'light' ? '#fff' : '',
         height: height ? `${height}px` : '',
       }}
     >
-      <div className="flex items-center justify-between w-11/12">
-        {search && (
-          <Search
-            // size="small"
-            allowClear
-            className="search-tree"
-            placeholder="输入筛选"
-            onChange={onSearchChange}
-          />
-        )}
-        {showAddBtn && (
-          <Tooltip placement="top" title="新增">
-            <PlusCircleOutlined
-              className="pointer"
-              onClick={(e: any) => {
-                e.stopPropagation();
-                // toggleLeafCreate();
-                addBtnCallback();
-              }}
+      {(search || showAddBtn) && (
+        <div className="searchInput">
+          {search && (
+            <RhSearchInput
+              bordered={false}
+              placeholder="请输入关键字"
+              size="large"
+              onChange={onSearchChange}
             />
-          </Tooltip>
-        )}
-      </div>
+          )}
+          {showAddBtn && (
+            <Tooltip placement="top" title="新增">
+              <PlusCircleOutlined
+                className="pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // toggleLeafCreate();
+                  addBtnCallback();
+                }}
+              />
+            </Tooltip>
+          )}
+        </div>
+      )}
       <Tree
+        switcherIcon={<CaretDownOutlined />} // 默认
         {...props}
         blockNode
         selectedKeys={selectKeys}
@@ -390,9 +456,10 @@ const RhTree = ({
         onSelect={handleTreeNodeSelect}
         onClick={handleTreeNodeClick}
         autoExpandParent={autoExpand}
+        showLine={{ showLeafIcon: false }}
       />
     </div>
   );
 };
 
-export default RhTree;
+export default forwardRef(RhTree);

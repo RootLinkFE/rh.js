@@ -11,9 +11,6 @@ function Demo() {
   const [layout, setLayout] = useState('column');
   // 这里兼容详情和弹窗两种情况样式布局
   const titleProps = useMemo(() => {
-    console.log('====================================');
-    console.log(layout);
-    console.log('====================================');
     return {
       layout,
       showCollapse: true,
@@ -39,7 +36,9 @@ function Demo() {
       <ProForm
         layout="vertical"
         submitter={false}
-        style={{ width: layout === 'default' ? 450 : '' }}
+        style={{
+          width: layout === 'default' ? 450 : '',
+        }}
       >
         <RhTitle title="基础信息" {...titleProps}>
           <>

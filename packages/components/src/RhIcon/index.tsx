@@ -17,6 +17,12 @@ export type RhIconType = {
    */
   fontSize?: number;
   /**
+   * img 图片大小（src为图片的时候生效）
+   * @type number
+   * @default 20
+   */
+  imageSize?: number;
+  /**
    * children
    * @type ReactNode;
    */
@@ -36,6 +42,7 @@ const isImage = (src: string) => {
 function RhIcon({
   src,
   fontSize = 14,
+  imageSize = 16,
   className,
   children,
   ...restProps
@@ -43,7 +50,7 @@ function RhIcon({
   const iconNode = useMemo(() => {
     if (typeof src === 'string') {
       if (isImage(src)) {
-        return <img src={src} />;
+        return <img src={src} width={imageSize} />;
       }
       return <IconFont type={src} />;
     }

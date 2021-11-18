@@ -1,4 +1,4 @@
-import RhTree from '.';
+import RhTree from '..';
 import { CaretDownOutlined } from '@ant-design/icons';
 import React from 'react';
 
@@ -46,15 +46,7 @@ const Demo = () => {
 
   return (
     <div className="flex">
-      <RhTree
-        showIcon
-        search={false}
-        editable={false}
-        showLine={{ showLeafIcon: false }}
-        switcherIcon={<CaretDownOutlined />}
-        height={300}
-        list={dataList as any}
-      />
+      <RhTree showIcon editable={false} height={300} list={dataList as any} />
     </div>
   );
 };

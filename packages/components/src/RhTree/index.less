@@ -1,0 +1,57 @@
+@border-color-split: '#EBECEF';
+.rh-editable-tree {
+  .ant-tree-node-content-wrapper {
+    flex-grow: 1;
+    min-width: 0;
+    padding: 0;
+  }
+  .ant-tree-treenode {
+    width: 100%;
+  }
+  .ant-tree .ant-tree-node-content-wrapper {
+    .ant-tree-title {
+      line-height: 36px;
+    }
+  }
+  .ant-tree-switcher-leaf-line {
+    &::after {
+      width: 26px;
+      margin-left: -18px;
+      border-color: @border-color-split;
+    }
+    &::before {
+      left: 14px;
+      margin-left: -20px;
+      border-color: @border-color-split;
+    }
+  }
+  .ant-tree-show-line .ant-tree-indent-unit::before {
+    border: none;
+  }
+
+  .ant-tree-switcher .ant-tree-switcher-icon {
+    font-size: 14px;
+  }
+
+  .ant-tree-title {
+    display: inline-block;
+    width: 90%;
+  }
+
+  .rh-editable-tree-menu {
+    position: absolute;
+    right: 14px;
+    display: inline-block;
+    color: #9ea5b2;
+  }
+  .rh-editable-tree-parent-no-children {
+    .ant-tree-switcher-leaf-line {
+      &::before {
+        border: none;
+      }
+      &::after {
+        border: none;
+      }
+    }
+  }
+} ;

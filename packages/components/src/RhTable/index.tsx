@@ -2,7 +2,7 @@
  * @author giscafer
  * @email giscafer@outlook.com
  * @create date 2021-09-23 19:18:36
- * @modify date 2021-09-24 16:40:02
+ * @modify date 2021-11-18 16:02:48
  * @desc 简单包装，方便日后改动定制，使用方式和 ProTable 一致
  */
 
@@ -18,13 +18,9 @@ import {
   ProFormText,
 } from '@ant-design/pro-form';
 import type { ParamsType } from '@ant-design/pro-provider';
-import type {
-  ActionType,
-  ProColumns,
-  ProTableProps,
-} from '@ant-design/pro-table';
+import type { ActionType, ProTableProps } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { PageInfo } from '@ant-design/pro-table/lib/typing';
+import type { PageInfo, ProColumns } from '@ant-design/pro-table/lib/typing';
 import { useDebounceFn } from 'ahooks';
 import React, { useCallback, useMemo, useRef } from 'react';
 import './index.less';
@@ -45,6 +41,12 @@ export type RhColumns<T = any, ValueType = 'text'> = ProColumns<
    * @default 'query'
    */
   filterType?: 'query' | 'light';
+  /**
+   * 只用于查询字段
+   * @string true | false
+   * @default false
+   */
+  isQueryField?: true | false;
 };
 
 export type RhActionType = ActionType & {
@@ -63,6 +65,7 @@ const RhTable = <
     search,
     request = () => Promise.resolve({}),
     debounceTime = 500,
+    toolBarRender, // 特殊用途，用于查询条件比较小的情况下
     ...restProps
   } = props;
   const queryFilterFormRef = useRef<ProFormInstance>();
@@ -228,9 +231,9 @@ const RhTable = <
           fieldProps={{
             ...fieldProps,
           }}
-          footerRender={(onConfirm: any) => {
+          footerRender={(onConfirm) => {
             onConfirmRef.current = onConfirm;
-            return <></>;
+            return false;
           }}
         />
       );
@@ -248,23 +251,34 @@ const RhTable = <
         actionRef.current.pageInfo.params = filter;
       }
 
-      return await request({ ...params, ...filter }, sort, filter);
+      const res: any = await request({ ...params, ...filter }, sort, filter);
+      return {
+        ...res,
+        total: Number(res.total),
+      };
     },
     [actionRef, request],
   );
 
   return (
     <div className="rh-table">
+      {/* TODO: 支持自定义宽度，而不是colSize控制太宽 */}
       {queryFilterColumns.length > 0 && (
         <BetaSchemaForm
           className="rh-table-query-filter-form"
           layoutType="QueryFilter"
-          span={4}
+          span={5}
           submitter={false}
           formRef={queryFilterFormRef}
           columns={queryFilterColumns}
           onValuesChange={run}
         />
+      )}
+
+      {toolBarRender && (
+        <div className="rh-table-toolbar">
+          {(toolBarRender as any)().map((item: any) => item)}
+        </div>
       )}
 
       {lightFilterColumns.length > 0 && (
@@ -282,7 +296,7 @@ const RhTable = <
       <ProTable
         {...restProps}
         actionRef={actionRef}
-        columns={columns}
+        columns={columns.filter((item: any) => !item.isQueryField)}
         search={false}
         toolBarRender={false}
         request={onRequest}

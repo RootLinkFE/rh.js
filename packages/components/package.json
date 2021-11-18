@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@ant-design/pro-form": "^1.43.4",
+    "@ant-design/pro-form": "1.46.0",
     "@ant-design/pro-table": "^2.56.2",
     "ahooks": "^2.10.11",
     "antd": "^4.16.13",

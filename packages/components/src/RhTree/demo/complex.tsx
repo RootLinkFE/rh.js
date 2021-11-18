@@ -1,9 +1,8 @@
 /* eslint-disable  */
 import React, { useState, Key } from 'react';
-import RhTree from './index';
+import { RhTree, IconFont } from '@roothub/components';
 import { message, Input } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-
 /* import IconNode from '../../assets/images/tree/node.svg';
 import IconModel from '../../assets/images/tree/model.svg';
 import IconLeaf from '../../assets/images/tree/property.svg'; */
@@ -118,32 +117,31 @@ const Demo = () => {
       <RhTree
         blockNode
         height={400}
+        search={true}
         list={dataList as any}
-        switcherIcon={<DownOutlined />}
-        /*  iconRender={(nodeType?: string) => {
+        iconRender={(nodeType?: string) => {
           if (nodeType === 'model') {
-            return IconModel;
+            return <IconFont type="rh-icon-node-channel" />;
           } else if (nodeType === 'node') {
-            return IconNode;
-          } else {
-            return IconLeaf;
+            return <IconFont type="rh-icon-node-channel" />;
           }
-        }} */
-        onEdit={(value, id) => {
+          return <IconFont type="rh-icon-gongnengdingyi" />;
+        }}
+        onEdit={(value: string, id: React.Key) => {
           console.log('value, id: ', value, id);
           value && handleEdit(value, id);
           value
             ? message.success(`value:${value}, id:${id}`)
             : message.warn(`value为空`);
         }}
-        onCreate={(value, parentId) => {
+        onCreate={(value: string, parentId: React.Key) => {
           console.log('value,parentId: ', value, parentId);
           value
             ? message.success(`value:${value}, parentId:${parentId}`)
             : message.warn(`value为空`);
           value && handleCreate(value, parentId);
         }}
-        onDelete={(id) => {
+        onDelete={(id: React.Key) => {
           message.success(`成功删除节点${id}`);
           handleDelete(id);
         }}

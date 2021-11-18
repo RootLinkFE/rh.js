@@ -1,15 +1,15 @@
-import RhDrawer from '.';
-import React, { useRef } from 'react';
-import type { RhDrawerProps } from '.';
-import { message } from 'antd';
 import { ProFormText } from '@ant-design/pro-form';
+import { message } from 'antd';
+import React, { useRef } from 'react';
+import type { ModalPropType } from '.';
+import RhModal from '.';
 
 function Demo() {
-  const rhDrawerRef = useRef<any>();
+  const rhModalRef = useRef<any>();
 
-  const DrawerProps: RhDrawerProps = {
-    text: '新建自定义参数',
-    title: '创建自定义参数',
+  const ModalProps: ModalPropType = {
+    text: '新建',
+    // asyncInitialValues: currentRow,
     onFinish: async (values) => {
       console.log(values);
       return await new Promise((resolve) => {
@@ -22,10 +22,10 @@ function Demo() {
   };
   return (
     <div>
-      <RhDrawer ref={rhDrawerRef} {...DrawerProps}>
+      <RhModal ref={rhModalRef} {...ModalProps} title="新建">
         <ProFormText name="name" label="名称" />
         <ProFormText name="age" label="年龄" />
-      </RhDrawer>
+      </RhModal>
     </div>
   );
 }

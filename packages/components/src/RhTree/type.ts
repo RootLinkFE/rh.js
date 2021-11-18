@@ -1,5 +1,6 @@
 import type { DataNode, EventDataNode } from 'rc-tree/lib/interface';
-import type { Key, ReactNode } from 'react';
+import type { Key, ReactNode, ReactElement } from 'react';
+import React from 'react';
 
 export type IBaseNode = {
   /**
@@ -51,7 +52,22 @@ export interface ILeafNode extends DataNode, IBaseNode {
   type?: undefined | string;
 }
 
-export interface IEditableTree {
+export type RhTreeMenuProps = {
+  /**
+   * 菜单类型对象，default 则为默认菜单
+   */
+  types: Record<string, ReactElement>;
+  /**
+   * 自定义触发菜单dom
+   */
+  trigger?: ReactElement | boolean;
+  /**
+   * 菜单点击事件委托
+   */
+  onClick: (node: ILeafNode, event: any) => void;
+};
+
+export interface IRhTree {
   /**
    * 日记打印
    * @type boolean
@@ -101,6 +117,10 @@ export interface IEditableTree {
    */
   search?: boolean;
   /**
+   * 自定义菜单
+   */
+  menuProps?: RhTreeMenuProps;
+  /**
    * 搜索框右侧，是否显示新增按钮（search 为true的时候生效）
    * @type boolean
    * @default true
@@ -118,6 +138,17 @@ export interface IEditableTree {
    * @default true
    */
   showDeleteMenu?: boolean;
+  /**
+   * 高亮文字，一般用于搜索过滤时的关键词高亮
+   * @type string
+   */
+  highlightText?: string;
+  /**
+   * 是否单选，用于点击设备数字模型菜单等单选联动显示效果
+   * @type boolean
+   * @default false
+   */
+  singleSelect?: boolean;
   /**
    * 点击树节点触发
    * @type Function
@@ -174,6 +205,12 @@ export interface IEditableTree {
   onSelect?: (id: Key | Key[]) => void;
 }
 
+export interface RhEditableTreeRef {
+  selectKeys: React.Key[];
+  setSelectKeys: React.Dispatch<React.SetStateAction<React.Key[]>>;
+}
+
 // 导出用于 Api 文档自动生成
-export const IEditableTreeApi: React.FC<IEditableTree> = () => null;
+export const RhTreeMenuPropsApi: React.FC<RhTreeMenuProps> = () => null;
+export const IEditableTreeApi: React.FC<IRhTree> = () => null;
 export const ILeafNodeApi: React.FC<ILeafNode> = () => null;
