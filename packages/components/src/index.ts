@@ -6,4 +6,7 @@ export { default as RhIcon } from './RhIcon';
 export { default as RhSearchInput } from './RhSearchInput';
 export { default as RhSidebar } from './RhSidebar';
 export { default as RhTable } from './RhTable';
+export { default as RhModal } from './RhModal';
+export { useModal } from './RhModal';
+export { default as RhDrawer } from './RhDrawer';
 export { default as RhTree } from './RhTree';

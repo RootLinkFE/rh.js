@@ -1,16 +1,16 @@
-import { ProFormText } from '@ant-design/pro-form';
+import { RhModal } from '@roothub/components';
+import { useRef } from 'react';
 import { message } from 'antd';
-import React, { useRef } from 'react';
-import type { ModalPropType } from '.';
-import RhModal from '.';
+import { ProFormText } from '@ant-design/pro-form';
+import React from 'react';
 
 function Demo() {
   const rhModalRef = useRef<any>();
 
-  const ModalProps: ModalPropType = {
+  const ModalProps: any = {
     text: '新建',
     // asyncInitialValues: currentRow,
-    onFinish: async (values) => {
+    onFinish: async (values: any) => {
       console.log(values);
       return await new Promise((resolve) => {
         setTimeout(() => {
