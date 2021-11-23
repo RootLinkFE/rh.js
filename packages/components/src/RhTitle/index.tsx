@@ -1,7 +1,6 @@
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import type { ReactElement } from 'react';
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styles from './index.module.less';
 
 export type RhTitleProps = {
@@ -104,7 +103,11 @@ function RhTitle(props: RhTitleProps) {
           </div>
         )}
       </div>
-      {!collapseStatus && children && <div>{children}</div>}
+      {children && (
+        <div style={{ display: collapseStatus ? 'none' : 'block' }}>
+          {children}
+        </div>
+      )}
     </div>
   );
 }
