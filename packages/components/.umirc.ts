@@ -14,6 +14,17 @@ export default defineConfig({
   navs: [
     null,
     {
+      title: '脚手架',
+      // 可通过如下形式嵌套二级导航菜单，目前暂不支持更多层级嵌套：
+      children: [
+        { title: 'rh.js', path: 'https://github.com/RootLinkFE/rh.js' },
+        {
+          title: 'rh-template-react-umi',
+          path: 'https://github.com/RootLinkFE/rh-template-react-umi',
+        },
+      ],
+    },
+    {
       title: 'GitHub',
       path: 'https://github.com/RootLinkFE/rh.js',
     },

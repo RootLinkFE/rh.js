@@ -1,7 +1,7 @@
 ---
 title: Icon
 nav:
-  title: Components
+  title: 组件
   path: /components
 group:
   order: 1
