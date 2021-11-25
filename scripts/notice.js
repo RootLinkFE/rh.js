@@ -44,7 +44,7 @@ function getChangeLog(changeLogPath = '') {
 function notice(changeLogPath) {
   console.log('changeLogPath=', changeLogPath);
 
-  getChangeLog(changeLogPath)?.then((changelog) => {
+  getChangeLog(changeLogPath).then((changelog) => {
     const data = {
       msgtype: 'markdown',
       markdown: {
