@@ -1,6 +1,6 @@
-import { loadContext, compareVersion } from '@roothub/shared';
 import commander from 'commander';
 import path from 'path';
+import { loadContext } from './utils/module-utils';
 import updateNotifier from './utils/update-notifier';
 
 const { version } = require('../package.json');
@@ -14,7 +14,7 @@ program
   .usage('<command> [options]');
 
 loadContext(path.resolve(path.join(__dirname, './commands'))).forEach(
-  (command) => {
+  (command: any) => {
     command.default(program);
   },
 );

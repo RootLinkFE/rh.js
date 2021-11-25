@@ -41,10 +41,10 @@ export default async function SwaggerAPI(
       (spec as any).resourceName = new URL(swaggerUrl).hostname;
     }
     specs.push(spec);
-  } catch (err) {
+  } catch (err: any) {
     console.log(err);
     isSingleSpecs = false;
-    if (err.message !== NO_VALID_SWAGGER_JSON) {
+    if (err?.message !== NO_VALID_SWAGGER_JSON) {
       console.error(err);
       throw err;
     }
@@ -107,7 +107,7 @@ function getSwaggerSchemaJSON(url: string): Promise<Spec> {
             reject(new Error(NO_VALID_SWAGGER_JSON));
           }
           return resolve(data);
-        } catch (err) {
+        } catch (err: any) {
           // console.log(err);
           reject(new Error(err));
         }

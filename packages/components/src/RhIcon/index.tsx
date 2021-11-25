@@ -52,7 +52,7 @@ function RhIcon({
       if (isImage(src)) {
         return <img src={src} width={imageSize} />;
       }
-      return <IconFont type={src} />;
+      return <IconFont type={src} style={{ fontSize: imageSize }} />;
     }
 
     return src;
