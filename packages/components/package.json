@@ -1,6 +1,7 @@
 {
   "name": "@roothub/components",
   "version": "0.2.10",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
@@ -13,11 +14,12 @@
     "release": "npm run build && npm publish",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "test": "umi-test",
-    "test:coverage": "umi-test --coverage"
+    "test:coverage": "umi-test --coverage",
+    "postpublish": "node ./scripts/notice.js"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "typings": "dist/index.d.ts",
+  "main": "dist/lib/index.js",
+  "module": "dist/lib/index.esm.js",
+  "typings": "dist/lib/index.d.ts",
   "gitHooks": {
     "pre-commit": "lint-staged"
   },

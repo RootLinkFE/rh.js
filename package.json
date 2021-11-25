@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build": "father build",
+    "build:components": "cd packages/components && yarn build",
     "test": "father test",
     "dev": "father build --watch",
     "dev:cli": "PACKAGE=cli father build --watch",
