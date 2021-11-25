@@ -1,5 +1,5 @@
 ---
-title: RhModal
+title: Modal
 nav:
   title: Components
   path: /components
@@ -9,7 +9,7 @@ group:
 
 # RhModal
 
-Modal 组件，简易封装
+Modal 组件，简易封装，仅为了写少一点代码
 
 ## Demo
 

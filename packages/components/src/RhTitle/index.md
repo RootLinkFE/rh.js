@@ -1,5 +1,5 @@
 ---
-title: RhTitle
+title: Title
 nav:
   title: Components
   path: /components
@@ -9,7 +9,10 @@ group:
 
 # RhTitle
 
-title 组件，简易封装
+标题组件，一般用于表单的分类标题或可折叠的区块
+
+- 标题样式控制
+- 布局、折叠
 
 ## Demo
 

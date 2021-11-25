@@ -12,36 +12,36 @@ import type { RhMenuData } from './type';
 const { Content, Header, Sider } = Layout;
 
 const MENUS = {
-  menuHeaderTitle: 'RhSidebar',
+  menuHeaderTitle: 'Sidebar菜单组件',
   menuHeaderTitleIcon: 'rh-icon-icon_yingyongguanli',
   menuItems: [
     {
       key: 'chart',
-      name: 'Option1',
+      name: 'RhSidebar',
       icon: <PieChartOutlined />,
       url: '/components/rh-sidebar',
     },
     {
       key: 'desktop',
-      name: 'Option2',
+      name: 'SearchInput',
       icon: <DesktopOutlined />,
-      url: '/components/rh-sidebar',
+      url: '/components/rh-search-input',
     },
     {
       key: 'user',
-      name: 'User',
+      name: 'Tree',
       icon: <UserOutlined />,
-      url: '/components/rh-sidebar',
+      url: '/components/rh-tree',
       children: [
         {
           key: 'tom',
-          name: 'Tom',
-          url: '/components/rh-sidebar',
+          name: 'RhModal',
+          url: '/components/rh-modal',
         },
         {
           key: 'Alex',
-          name: 'Alex',
-          url: '/components/rh-sidebar',
+          name: 'RhDrawer',
+          url: '/components/rh-drawer',
           isExternal: true,
         },
       ],
@@ -49,8 +49,8 @@ const MENUS = {
     {
       key: 'changjingguanli',
       icon: 'rh-icon-changjingguanli',
-      name: '场景管理',
-      url: '/components/rh-sidebar',
+      name: 'Icon',
+      url: '/components/rh-icon',
       isExternal: true,
       externalIcon: 'rh-icon-iconShare',
     },
@@ -86,7 +86,7 @@ function RhSidebarDemo() {
             }}
             menuData={MENUS as RhMenuData}
             collapsible={collapsed}
-            pathName={'/'}
+            pathName={'/components/rh-sidebar'}
           />
         </Sider>
         <Content />

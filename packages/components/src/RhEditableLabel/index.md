@@ -1,5 +1,5 @@
 ---
-title: RhEditableLabel
+title: EditableLabel
 nav:
   title: Components
   path: /components

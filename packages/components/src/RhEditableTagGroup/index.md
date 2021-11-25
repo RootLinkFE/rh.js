@@ -1,5 +1,5 @@
 ---
-title: RhEditableTagGroup
+title: EditableTagGroup
 nav:
   title: 'Components'
   path: /components

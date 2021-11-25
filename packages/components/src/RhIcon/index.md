@@ -1,5 +1,5 @@
 ---
-title: RhIcon
+title: Icon
 nav:
   title: Components
   path: /components

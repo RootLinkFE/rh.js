@@ -1,5 +1,5 @@
 ---
-title: RhDrawer
+title: Drawer
 nav:
   title: Components
   path: /components
@@ -9,7 +9,7 @@ group:
 
 # RhDrawer
 
-Drawer 组件，简易封装
+Drawer 组件，简易封装，仅为了写少一点代码
 
 ## Demo
 

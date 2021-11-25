@@ -1,5 +1,5 @@
 ---
-title: RhFileImportModal
+title: FileImportModal
 nav:
   title: Components
   path: /components

@@ -1,5 +1,5 @@
 ---
-title: RhTree
+title: Tree
 nav:
   title: Components
   path: /components
@@ -8,6 +8,8 @@ group:
 ---
 
 # RhTree
+
+树形组件，满足以下情况
 
 - 可编辑
 - 可搜索

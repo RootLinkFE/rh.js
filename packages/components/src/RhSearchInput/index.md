@@ -1,5 +1,5 @@
 ---
-title: RhSearchInput
+title: SearchInput
 nav:
   title: 'Components'
   path: /components

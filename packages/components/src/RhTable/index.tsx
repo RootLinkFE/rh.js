@@ -2,7 +2,7 @@
  * @author giscafer
  * @email giscafer@outlook.com
  * @create date 2021-09-23 19:18:36
- * @modify date 2021-11-18 16:02:48
+ * @modify date 2021-11-25 16:49:06
  * @desc 简单包装，方便日后改动定制，使用方式和 ProTable 一致
  */
 
@@ -75,9 +75,14 @@ const RhTable = <
   const actionRef = (props.actionRef ||
     defaultActionRef) as React.MutableRefObject<RhActionType>;
   const onConfirmRef = useRef<() => void>();
-  const { run } = useDebounceFn(() => actionRef.current?.reload(true), {
-    wait: debounceTime,
-  });
+  const { run } = useDebounceFn(
+    () => {
+      // 搜索时重置到第一页
+      actionRef.current.pageInfo.current = 1;
+      return actionRef.current?.reload(true);
+    },
+    { wait: debounceTime },
+  );
 
   // 查询列定义
   const filterColumns: RhColumns[] = useMemo(() => {
@@ -110,6 +115,7 @@ const RhTable = <
           valueType: valueEnum ? 'select' : valueType,
           fieldProps: {
             ...fieldProps,
+            allowClear: true,
             size: fieldProps.size || 'large',
             suffix: (
               <SearchOutlined
