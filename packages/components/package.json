@@ -1,5 +1,4 @@
 {
-  "private": true,
   "name": "@roothub/components",
   "version": "0.2.8",
   "scripts": {
