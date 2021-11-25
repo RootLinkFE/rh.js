@@ -15,6 +15,9 @@ features:
   - icon: https://gw.alipayobjects.com/zos/bmw-prod/d1ee0c6f-5aed-4a45-a507-339a4bfe076c/k7bjsocq_w144_h144.png
     title: 内容丰富
     desc: 丰富组件覆盖项目各业务场景
+  - icon: https://gw.alipayobjects.com/zos/antfincdn/Eb8IHpb9jE/Typescript_logo_2020.svg
+    title: TypeScript
+    desc: 使用 TypeScript 开发，提供完整的类型定义文件
 footer: Open-source MIT Licensed | Copyright © 2021<br />Powered by [RootHub](https://github.com/RootLinkFE)
 ---
 
