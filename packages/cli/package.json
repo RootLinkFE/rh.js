@@ -41,8 +41,7 @@
     "@types/prettier": "^2.2.3",
     "@types/request": "^2.48.5",
     "@types/rimraf": "^3.0.0",
-    "@types/semver": "^7.3.4",
-    "git-user-name": "^2.0.0"
+    "@types/semver": "^7.3.4"
   },
   "publishConfig": {
     "access": "public"
