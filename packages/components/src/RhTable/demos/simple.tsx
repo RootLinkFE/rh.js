@@ -55,12 +55,8 @@ export default () => {
   const actionRef = React.useRef<ActionType>();
   return (
     <RhTable<any>
-      rowKey="id"
       columns={columns}
       actionRef={actionRef}
-      pagination={{
-        pageSize: 5,
-      }}
       request={async (params = {}) => {
         // 这里只是举例
         const list: any = await fetch(

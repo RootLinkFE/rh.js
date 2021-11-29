@@ -1,5 +1,6 @@
 ---
 title: Modal
+order: 1
 nav:
   title: 组件
   path: /components

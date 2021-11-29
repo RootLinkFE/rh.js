@@ -2,8 +2,8 @@
  * @author giscafer
  * @email giscafer@outlook.com
  * @create date 2021-09-23 19:18:36
- * @modify date 2021-11-25 16:49:06
- * @desc 简单包装，方便日后改动定制，使用方式和 ProTable 一致
+ * @modify date 2021-11-29 10:38:05
+ * @desc 通用封装，目的是为了精简写法和改造UI规范，唯一不变原则： ProTable 原 Api 一致性不变
  */
 
 import { SearchOutlined } from '@ant-design/icons';
@@ -22,14 +22,23 @@ import type { ActionType, ProTableProps } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import type { PageInfo, ProColumns } from '@ant-design/pro-table/lib/typing';
 import { useDebounceFn } from 'ahooks';
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import './index.less';
 
 export type RhTableProps<DataType, Params, ValueType> = ProTableProps<
   DataType,
   Params,
   ValueType
->;
+> & {
+  /**
+   * 是否重置查询分页
+   */
+  resetPageIndex?: boolean;
+  /**
+   * request 请求额外传入参数，试用在查询表单以外的查询条件
+   */
+  extraParams?: Record<string, any>;
+};
 
 export type RhColumns<T = any, ValueType = 'text'> = ProColumns<
   T,
@@ -41,12 +50,6 @@ export type RhColumns<T = any, ValueType = 'text'> = ProColumns<
    * @default 'query'
    */
   filterType?: 'query' | 'light';
-  /**
-   * 只用于查询字段
-   * @string true | false
-   * @default false
-   */
-  isQueryField?: true | false;
 };
 
 export type RhActionType = ActionType & {
@@ -63,14 +66,17 @@ const RhTable = <
   const {
     columns = [],
     search,
-    request = () => Promise.resolve({}),
     debounceTime = 500,
     toolBarRender, // 特殊用途，用于查询条件比较小的情况下
+    resetPageIndex = true,
+    extraParams = {},
+    request,
     ...restProps
   } = props;
   const queryFilterFormRef = useRef<ProFormInstance>();
   const lightFilterFormRef = useRef<ProFormInstance>();
   const defaultActionRef = useRef<RhActionType>();
+  const [loading, setLoading] = useState(false);
 
   const actionRef = (props.actionRef ||
     defaultActionRef) as React.MutableRefObject<RhActionType>;
@@ -79,7 +85,7 @@ const RhTable = <
     () => {
       // 搜索时重置到第一页
       actionRef.current.pageInfo.current = 1;
-      return actionRef.current?.reload(true);
+      return actionRef.current?.reload(resetPageIndex);
     },
     { wait: debounceTime },
   );
@@ -248,22 +254,35 @@ const RhTable = <
   }, []);
 
   const onRequest = useCallback(
-    async (params, sort) => {
+    async (pageInfo, sort) => {
+      setLoading(true);
       const queryFormData = queryFilterFormRef.current?.getFieldsValue() || {};
       const lightFormData = lightFilterFormRef.current?.getFieldsValue() || {};
-      const filter = { ...queryFormData, ...lightFormData };
+      const queryParams = { ...queryFormData, ...lightFormData };
 
       if (actionRef?.current) {
-        actionRef.current.pageInfo.params = filter;
+        actionRef.current.pageInfo.params = queryParams;
       }
+      const { current, pageSize } = pageInfo;
 
-      const res: any = await request({ ...params, ...filter }, sort, filter);
+      // current 是兼容老写法
+      const params = {
+        page: current,
+        current,
+        pageSize,
+        ...queryParams,
+        ...extraParams,
+      };
+      const res: any = await request?.(params, sort, queryParams);
+      setLoading(false);
       return {
         ...res,
-        total: Number(res.total),
+        success: true,
+        total: Number(res.totalSize) || 0,
+        totalPages: Number(res.totalPages) || 0,
       };
     },
-    [actionRef, request],
+    [actionRef, extraParams, request],
   );
 
   return (
@@ -300,12 +319,23 @@ const RhTable = <
       )}
 
       <ProTable
+        rowKey="id"
+        options={false}
+        loading={request ? loading : restProps.loading}
+        scroll={{ x: 1300 }}
+        form={{
+          ignoreRules: false,
+        }}
+        pagination={{
+          pageSize: 10,
+        }}
+        dateFormatter="string"
         {...restProps}
         actionRef={actionRef}
-        columns={columns.filter((item: any) => !item.isQueryField)}
+        columns={columns}
         search={false}
         toolBarRender={false}
-        request={onRequest}
+        request={request && onRequest}
       />
     </div>
   );
