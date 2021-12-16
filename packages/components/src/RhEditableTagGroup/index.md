@@ -11,6 +11,8 @@ group:
 
 可编辑标签组
 
+同时推荐：[react-tag-input](https://github.com/pathofdev/react-tag-input)
+
 ## Demo
 
 #### 可编辑

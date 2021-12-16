@@ -26,18 +26,18 @@ footer: Open-source MIT Licensed | Copyright © 2021<br />Powered by [RootHub](h
 ### 安装
 
 ```shell
-npm i @rootcloud/components -S
+npm i @roothub/components -S
 
 or
 
-yarn add @rootcloud/components
+yarn add @roothub/components
 
 ```
 
 ### 使用
 
 ```ts
-import { RhSidebar } from '@rootcloud/components';
+import { RhSidebar } from '@roothub/components';
 
 // 详细见 RhSidebar 文档使用方式
 ```

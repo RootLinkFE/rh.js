@@ -18,9 +18,9 @@ group:
 
 精简写法：
 
-```html
+```js
 // 正常只需要配置这几个属性即可满足要求
-<RhTable columns="{columns}" actionRef="{actionRef}" request="{getList}" />
+<RhTable columns={columns} actionRef={actionRef} request={getList} />
 ```
 
 ## Demo
