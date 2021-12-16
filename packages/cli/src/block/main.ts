@@ -101,7 +101,7 @@ function getLocalRepositoryPath(repository: Repository) {
   const name = getRepositoryName(gitPath);
   const localRepositoryPath = path.join(localStorageDir, name);
   // 兼容mac和windows
-  return localRepositoryPath.replace(/\\/, '/');
+  return localRepositoryPath.replace(/\\/g, '/');
 }
 
 async function downloadRepository(repository: Repository) {
@@ -150,7 +150,6 @@ function getBlock(repository: Repository, blockKey: string) {
 
 function copyBlock(repository: Repository, block: Block, destination: string) {
   const localRepositoryPath = getLocalRepositoryPath(repository);
-
   const origin = path.join(localRepositoryPath, block.path);
 
   fse.copySync(origin, destination);
@@ -167,12 +166,12 @@ export default async function rhBlockInsert(packageName: string) {
     const repositoryName = arr[0];
     const blockName = arr[1];
     const blockKey = await getBlockKey(blockName);
-    const blockPath = path.join(cwd, blockKey);
-    ensurePath(blockPath);
+    const downloadBlockPath = path.join(cwd, blockKey);
+    ensurePath(downloadBlockPath);
     const repository = await getRepository(repositoryName);
     await downloadRepository(repository);
     const block = getBlock(repository, blockKey);
-    copyBlock(repository, block, blockPath);
+    copyBlock(repository, block, downloadBlockPath);
   } catch (error) {
     console.log(chalk.red(error));
   }
