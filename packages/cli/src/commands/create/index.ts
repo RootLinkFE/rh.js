@@ -1,12 +1,8 @@
+import { MaterialResourcesCollection } from '@roothub/material/lib/material-resources-collection';
+import chalk from 'chalk';
 import commander from 'commander';
-import ora from 'ora';
-import os from 'os';
 import fse from 'fs-extra';
 import path from 'path';
-import chalk from 'chalk';
-import { MaterialResourcesCollection } from '@roothub/material/lib/material-resources-collection';
-import { clearConsole } from '../../utils/logger';
-import { fileReg } from '../../utils/const';
 
 const cwd = process.cwd();
 

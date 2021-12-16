@@ -2,15 +2,34 @@ import commander from 'commander';
 import path from 'path';
 import { loadContext } from './utils/module-utils';
 import updateNotifier from './utils/update-notifier';
+import registerBlockCommand from './block';
 
 const { version } = require('../package.json');
 
-const program = new commander.Command('rh');
+const VALID_SUBCOMMANDS = [
+  'api',
+  'create',
+  'init',
+  'create',
+  'whoami',
+  'block',
+];
+const program = new commander.Command();
+const rh = new commander.Command('rh');
 
 program
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  .version(version, '-v, --version')
-  .description('Todo')
+  .name('rh')
+  .usage('[commands] [options]')
+  // .arguments('<cmd>')
+  .action((cmd) => {
+    if (VALID_SUBCOMMANDS.indexOf(cmd) === -1) {
+      console.error('rh', 'Invalid command...');
+      rh.help();
+    }
+  });
+
+rh.version(version, '-v, --version')
+  .description('@roothub/cli')
   .usage('<command> [options]');
 
 loadContext(path.resolve(path.join(__dirname, './commands'))).forEach(
@@ -18,6 +37,9 @@ loadContext(path.resolve(path.join(__dirname, './commands'))).forEach(
     command.default(program);
   },
 );
+
+// SubCommands
+program.addCommand(registerBlockCommand());
 
 updateNotifier().then(() => {
   program.parse(process.argv);

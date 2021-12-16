@@ -1,0 +1,35 @@
+export const RECOMMEND_MATERIALS = [
+  {
+    type: 'React',
+    alias: 'ant-design物料',
+    name: 'ant-design-blocks',
+    gitPath: 'https://github.com/ant-design/ant-design-blocks.git',
+    jsonFile: 'umi-block.json',
+    active: true,
+  },
+  {
+    type: 'React',
+    alias: 'ant-design pro物料',
+    name: 'pro-blocks',
+    gitPath: 'https://github.com/ant-design/pro-blocks.git',
+    jsonFile: 'umi-block.json',
+    active: true,
+  },
+  {
+    type: 'React',
+    alias: '团队 React 物料',
+    name: 'materials-react',
+    gitPath: 'https://github.com/RootLinkFE/materials-react.git',
+    jsonFile: 'rh-block.json',
+    active: true,
+  },
+  {
+    type: 'Vue',
+    repoType: 'lerna',
+    alias: '团队 Vue 物料',
+    name: 'materials-vue',
+    gitPath: 'https://github.com/RootLinkFE/materials-vue.git',
+    jsonFile: 'rh-block.json',
+    active: true,
+  },
+];

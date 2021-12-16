@@ -42,7 +42,7 @@ export default async function SwaggerAPI(
     }
     specs.push(spec);
   } catch (err: any) {
-    console.log(err);
+    console.log('[rh api]', err);
     isSingleSpecs = false;
     if (err?.message !== NO_VALID_SWAGGER_JSON) {
       console.error(err);
@@ -97,7 +97,7 @@ function getSwaggerSchemaJSON(url: string): Promise<Spec> {
   return new Promise((resolve, reject) => {
     request(url, function (err, resp, body) {
       if (err) {
-        console.log(err);
+        console.log('[rh api]', err);
         return reject(err);
       }
       if (body) {
@@ -108,7 +108,7 @@ function getSwaggerSchemaJSON(url: string): Promise<Spec> {
           }
           return resolve(data);
         } catch (err: any) {
-          // console.log(err);
+          // console.log('[rh api]',err);
           reject(new Error(err));
         }
       } else {
