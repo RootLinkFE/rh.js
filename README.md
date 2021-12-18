@@ -28,7 +28,7 @@
 - [Roothub CLI](#roothub-cli)
   - [CLI Args & Flags](#cli-args--flags)
     - [`rh init`](#rh-init)
-    - [`rh add-block`](#rh-add-block)
+    - [`rh block`](#rh-block)
     - [`rh create`](#rh-create)
     - [`rh api`](#rh-api)
 
@@ -56,9 +56,9 @@ _TODO: 建议重命名，init-materials 或 init-blocks_
 
 - rh init 初始化远程物料库到本地目录
 
-#### `rh add-block`
+#### `rh block`
 
-- rh add-block [block-name] [repository-name] 添加 block 到当前目录。
+- rh block use [repository-name]:[block-name] 下载物料到当前目录。
 
 #### `rh create`
 

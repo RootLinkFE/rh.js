@@ -41,14 +41,14 @@ function getChangeLog(changeLogPath = '') {
   });
 }
 
-function notice(changeLogPath) {
+function notice(packageName, changeLogPath) {
   console.log('changeLogPath=', changeLogPath);
 
   getChangeLog(changeLogPath).then((changelog) => {
     const data = {
       msgtype: 'markdown',
       markdown: {
-        content: `@roothub/cli 发布成功，最新版本号为<font color="warning">${version}</font>
+        content: `${packageName} 发布成功，最新版本号为<font color="warning">${version}</font>
         发布人：${userName()}
         发布时间：${new Date()}
         Changelog：
