@@ -6,7 +6,7 @@
       "belong": "template",
       "materialsIncludes": ["materials-vue"],
       "description": "vue 后台模板",
-      "git": "https://gitlab.bighome360.com/frontend/rh/templates/rh-template-vue.git"
+      "git": "https://github.com/RootLinkFE/rh-template-vue.git"
     },
     {
       "name": "rh-template-vue-admin",
@@ -14,7 +14,7 @@
       "belong": "template",
       "materialsIncludes": ["materials-vue"],
       "description": "vue-admin 后台模板",
-      "git": "http://gitlab.bighome360.com/frontend/rh/templates/rh-template-vue-admin.git"
+      "git": "https://github.com/RootLinkFE/rh-template-vue-admin.git"
     },
     {
       "name": "rh-template-react",
@@ -22,7 +22,15 @@
       "type": "admin",
       "belong": "template",
       "materialsIncludes": [],
-      "git": "https://gitlab.bighome360.com/frontend/rh/templates/rh-template-react.git"
+      "git": "https://github.com/RootLinkFE/rh-template-react-umi.git"
+    },
+    {
+      "name": "rh-template-miniprogram-taro",
+      "description": "Taro小程序模板",
+      "type": "admin",
+      "belong": "template",
+      "materialsIncludes": [],
+      "git": "https://github.com/RootLinkFE/rh-template-miniprogram-taro.git"
     }
   ],
   "materials": [
@@ -30,7 +38,7 @@
       "name": "materials-vue",
       "description": "vue 物料库",
       "belong": "material",
-      "git": "https://gitlab.bighome360.com/frontend/rh/materials-vue.git"
+      "git": "https://github.com/RootLinkFE/materials-vue.git"
     },
     {
       "name": "pro-blocks",
