@@ -10,7 +10,6 @@ describe('rh api', () => {
   test('test swagger api CodeGen is normal', async () => {
     let config = { yes: true, output: 'src/rh/apis' };
     const result = await SwaggerAPI(swaggerUrl, config);
-    console.log('result', result);
     expect(result).toBeTruthy();
   });
 });
