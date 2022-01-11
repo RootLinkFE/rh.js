@@ -64,10 +64,11 @@ export default class SwaggerGen {
         rawRouteInfo: RawRouteInfo,
       ) => {
         // console.log('rawRouteInfo=', rawRouteInfo);
-        routeNameInfo.original = routeNameInfo.usage = resolveRequestFunctionName(
-          rawRouteInfo.route,
-          rawRouteInfo.moduleName,
-        );
+        routeNameInfo.original = routeNameInfo.usage =
+          resolveRequestFunctionName(
+            rawRouteInfo.route,
+            rawRouteInfo.moduleName,
+          );
         return routeNameInfo;
       },
       // onFormatRouteName: (routeInfo, templateRouteName) => {},
@@ -94,20 +95,25 @@ export default class SwaggerGen {
     const entryFile = new EntryFile(this.config);
     const output = this.config!.output!;
     const tempOutput = path.join(os.tmpdir(), '.rh', 'api_tmp');
+
     return this.specs
-      .reduce((_p, spec) => {
+      .reduce((_p, spec: any) => {
         delete spec.info.termsOfService;
         return _p.then(() => {
           return new Promise((resolve, reject) => {
             const resourceName =
-              normalizeSchemaName((spec as any).resourceName) || 'undefined';
+              normalizeSchemaName(spec.resourceName) ||
+              spec.host.split('.')[0] ||
+              'undefined';
 
-            generateApi({
+            const genConfig = {
               ...this.config,
               name: `${resourceName}.${this.config?.toJS ? 'js' : 'ts'}`,
               output: tempOutput,
               spec,
-            }).then(({ files, configuration }) => {
+            };
+
+            generateApi(genConfig).then(({ files, configuration }) => {
               entryFile.files.push(
                 ...files.map((file) => {
                   const target = path.join(output, file.name);

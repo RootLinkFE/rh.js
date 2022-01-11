@@ -10,10 +10,10 @@ import SwaggerGen from './swagger-gencode';
 import { fixDefinitionsChinese } from './utils';
 
 export type SwaggerApiCLIConfigType = {
-  js: boolean;
-  output: string;
-  yes: boolean;
-  no: boolean;
+  js?: boolean;
+  output?: string;
+  yes?: boolean;
+  no?: boolean;
 };
 
 const NO_VALID_SWAGGER_JSON = 'Not valid swagger schema json';
@@ -27,7 +27,7 @@ export default async function SwaggerAPI(
     return;
   }
 
-  config.output = path.resolve(process.cwd(), config?.output);
+  config.output = path.resolve(process.cwd(), config?.output || '');
 
   const specs: Spec[] = [];
   let isSingleSpecs = true;
@@ -69,7 +69,9 @@ export default async function SwaggerAPI(
   });
 
   const genInstance = new SwaggerGen(specs, config);
-  genInstance.gen();
+  await genInstance.gen();
+
+  return true;
 }
 
 function getSwaggerSchemaJSONByResources(

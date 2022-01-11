@@ -13,7 +13,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "declaration": true
   },
-  "include": ["**/types/**/*", "src/**/*", "**/typings.d.ts"],
+  "include": ["**/types/**/*", "packages/**/*", "**/typings.d.ts"],
   "exclude": [
     "node_modules",
     "dist",
