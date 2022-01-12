@@ -57,6 +57,7 @@ jobs:
         run: npm run build
 
       - name: Build components docs ⛏️
+        if: contains( env.commitmsg , 'components' ) || startsWith( env.commitmsg , 'chore(release):' )
         run: |
           cd packages/components
           npm run deploy
