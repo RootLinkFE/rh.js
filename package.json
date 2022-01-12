@@ -15,13 +15,15 @@
     "publish:minor": "lerna publish minor",
     "publish:patch": "lerna publish patch",
     "update-readme-toc": "doctoc README.md",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "report-coverage": "codecov"
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
     "@typescript-eslint/eslint-plugin": "^4.17.0",
     "@typescript-eslint/parser": "^4.17.0",
     "babel-jest": "^27.4.6",
+    "codecov": "^3.8.3",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
