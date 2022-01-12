@@ -1,6 +1,6 @@
 # Rh.js
 
-[![Test](https://github.com/RootLinkFE/rh.js/workflows/Test/badge.svg)](https://github.com/RootLinkFE/rh.js/actions?query=workflow%3ATest) [![Coverage](https://img.shields.io/codecov/c/github/RootLinkFE/rh.js/master.svg)](https://codecov.io/github/RootLinkFE/rh.js/) [![prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://prettier.io/)[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/RootLinkFE/rh.js/blob/master/LICENSE)
+[![Test](https://github.com/RootLinkFE/rh.js/workflows/Test/badge.svg)](https://github.com/RootLinkFE/rh.js/actions?query=workflow%3ATest) [![Coverage](https://codecov.io/gh/RootLinkFE/rh.js/branch/master/graph/badge.svg?token=SVSI9X9OF8)](https://codecov.io/github/RootLinkFE/rh.js/) [![prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://prettier.io/)[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/RootLinkFE/rh.js/blob/master/LICENSE)
 
 ## Packages & Libs
 
