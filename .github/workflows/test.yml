@@ -33,3 +33,5 @@ jobs:
         run: |
           npm run test
           npm run report-coverage
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
