@@ -1,3 +1,7 @@
+export const PATH_RESOURCE = '.roothub';
+
+export const URL_MATERIALS_JSON = 'http://106.52.67.59:8111/api/materials';
+
 export const RECOMMEND_MATERIALS = [
   {
     type: 'React',

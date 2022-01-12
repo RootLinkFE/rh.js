@@ -14,12 +14,11 @@ import util from 'util';
 import child_process from 'child_process';
 import ora from 'ora';
 import { Block, Repository } from './type';
-import { RECOMMEND_MATERIALS } from './config';
-
-const PATH_RESOURCE = '.roothub';
-
-const URL_MATERIALS_JSON =
-  'https://raw.githubusercontent.com/RootLinkFE/roothub/master/recommendMaterials.json';
+import {
+  RECOMMEND_MATERIALS,
+  PATH_RESOURCE,
+  URL_MATERIALS_JSON,
+} from './config';
 
 const exec = util.promisify(child_process.exec);
 
@@ -78,17 +77,12 @@ function ensurePath(path: string) {
   }
 }
 
-async function getRepositoryList(): Promise<Repository[]> {
-  console.log(
-    '💡资源都是从 GitHub 下载，请确保网络访问正常！',
-    URL_MATERIALS_JSON,
-  );
+export async function getRepositoryList(): Promise<Repository[]> {
+  console.log('💡从 RootHub 读取物料参考列表！', URL_MATERIALS_JSON);
   const spinner = ora('block repository fetching...').start();
   try {
-    // 国内大部分人可能会超时，不用梯子的话
-    const { data = RECOMMEND_MATERIALS } = await axios.get(URL_MATERIALS_JSON);
-
-    return data;
+    const { data } = await axios.get(URL_MATERIALS_JSON);
+    return data?.data?.recommendMaterials;
   } catch (error) {
     throw error;
   } finally {
