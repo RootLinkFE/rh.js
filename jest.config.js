@@ -11,10 +11,8 @@ module.exports = {
   modulePaths: ['<rootDir>/packages'],
   testEnvironment: 'node',
   coverageDirectory: 'coverage',
-  testMatch: [
-    '**/__tests__/**/*.(js|ts|tsx)',
-    '**/?(*.)+(spec|test).(js|ts|tsx)',
-  ],
+  testPathIgnorePatterns: ['<rootDir>/packages/components'], // 组件走 umi-test
+  testMatch: ['**/__tests__/**/*.(js|ts|tsx)', '**/?(*.)+(spec|test).(js|ts)'],
   transform: {
     '^.+\\.js?$': 'babel-jest',
     '^.+\\.ts?$': 'ts-jest',

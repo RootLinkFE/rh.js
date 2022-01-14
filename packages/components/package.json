@@ -13,8 +13,8 @@
     "deploy": "npm run docs:build && npm run docs:deploy",
     "release": "npm run build && npm publish",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
-    "test": "umi-test",
-    "test:coverage": "umi-test --coverage",
+    "test": "jest -u",
+    "test:coverage": "jest --coverage",
     "postpublish": "node ./scripts/notice.js"
   },
   "main": "dist/lib/index.js",
@@ -43,15 +43,30 @@
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
+    "@types/enzyme": "^3.10.11",
+    "@types/jest": "^27.4.0",
     "@types/lodash": "^4.14.177",
+    "@types/react-test-renderer": "^17.0.1",
     "@umijs/test": "^3.5.20",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
+    "cz-conventional-changelog": "^3.3.0",
     "dumi": "^1.1.32",
+    "enzyme": "^3.11.0",
+    "enzyme-to-json": "^3.6.2",
     "father-build": "^1.20.4",
     "fs-extra": "^10.0.0",
     "gh-pages": "^3.2.3",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.4.7",
     "lint-staged": "^12.0.2",
     "prettier": "^2.4.1",
     "shelljs": "^0.8.4",
+    "ts-jest": "^27.1.2",
     "yorkie": "^2.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
