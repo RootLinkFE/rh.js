@@ -11,23 +11,44 @@ import {
   RouteNameInfo,
   SchemaComponent,
 } from 'swagger-typescript-api';
-import { camelCase, kebabCase } from 'lodash';
+import { camelCase, kebabCase, capitalize } from 'lodash';
 import EntryFile from './entry-file';
 import { normalizeSchemaName } from './utils';
 
-function resolveRequestFunctionName(requestPath: string, moduleName: string) {
-  const paths = requestPath.split('/');
+// 用于去重
+const deDuplicate = {};
+
+export function resolveRequestFunctionName({
+  route,
+  moduleName,
+  method,
+}: RawRouteInfo) {
+  const paths = route.split('/');
   const moduleNamePaths = kebabCase(moduleName).split('-');
   // /api/devops-project-rp/project/project-version/deleteById
   // 在后端，project微服务名称，project-version 是controller类名，deleteById 方法名。
   // 现在微服务是个spec，独立文件夹了。所以controller + method唯一性保证的。
   // 后续有需要再改造
-  return camelCase(
+  let funcName = camelCase(
     paths
       .filter((p) => !moduleNamePaths.includes(p))
       .slice(-2)
       .join('-'),
   );
+  if (deDuplicate[funcName]) {
+    funcName = camelCase(
+      paths
+        .filter((p) => !moduleNamePaths.includes(p))
+        .slice(-3)
+        .join('-'),
+    );
+  }
+  if (deDuplicate[funcName]) {
+    funcName += capitalize(method);
+  }
+
+  deDuplicate[funcName] = true;
+  return funcName;
 }
 
 export default class SwaggerGen {
@@ -63,12 +84,12 @@ export default class SwaggerGen {
         routeNameInfo: RouteNameInfo,
         rawRouteInfo: RawRouteInfo,
       ) => {
-        // console.log('rawRouteInfo=', rawRouteInfo);
+        if (rawRouteInfo.route.indexOf('dmp/model/list') !== -1) {
+          console.log(rawRouteInfo);
+        }
+
         routeNameInfo.original = routeNameInfo.usage =
-          resolveRequestFunctionName(
-            rawRouteInfo.route,
-            rawRouteInfo.moduleName,
-          );
+          resolveRequestFunctionName(rawRouteInfo);
         return routeNameInfo;
       },
       // onFormatRouteName: (routeInfo, templateRouteName) => {},
@@ -99,6 +120,7 @@ export default class SwaggerGen {
     return this.specs
       .reduce((_p, spec: any) => {
         delete spec.info.termsOfService;
+
         return _p.then(() => {
           return new Promise((resolve, reject) => {
             const resourceName =
