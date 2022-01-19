@@ -6,7 +6,7 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "postpublish": "node ../../scripts/notice.js"
+    "postpublish": "node ./scripts/notice.js"
   },
   "dependencies": {
     "@gitbeaker/node": "^28.0.4",
