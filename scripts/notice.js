@@ -8,9 +8,8 @@ const readline = require('readline');
 const WEB_HOOK =
   'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=d57bb8ec-34f5-4641-91b1-e6ca908d37e3';
 
-function getChangeLog(changeLogPath = '') {
+function getChangeLog(changeLogPath = '', version) {
   const f = path.join(changeLogPath, '../CHANGELOG.md');
-  const { version } = require(`${path.join(changeLogPath, '../package.json')}`);
   if (!fse.existsSync(f)) return;
 
   const FRStream = fs.createReadStream(f);
@@ -43,8 +42,9 @@ function getChangeLog(changeLogPath = '') {
 
 function notice(packageName, changeLogPath) {
   console.log('changeLogPath=', changeLogPath);
+  const { version } = require(`${path.join(changeLogPath, '../package.json')}`);
 
-  getChangeLog(changeLogPath).then((changelog) => {
+  getChangeLog(changeLogPath, version).then((changelog) => {
     const data = {
       msgtype: 'markdown',
       markdown: {
