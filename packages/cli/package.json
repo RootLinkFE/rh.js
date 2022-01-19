@@ -1,6 +1,6 @@
 {
   "name": "@roothub/cli",
-  "version": "0.2.17",
+  "version": "0.2.18",
   "description": "",
   "main": "index.js",
   "author": "",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@gitbeaker/node": "^28.0.4",
-    "@roothub/material": "^0.2.17",
+    "@roothub/material": "^0.2.18",
     "axios": "^0.21.1",
     "chalk": "^4.1.0",
     "chinese-to-pinyin": "^1.3.1",
