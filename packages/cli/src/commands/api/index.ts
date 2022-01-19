@@ -1,5 +1,6 @@
 import commander from 'commander';
 import SwaggerAPI from './swagger-api';
+import { chooseApi } from './choose';
 /**
  * 根据Swagger生成API
  * @param program
@@ -19,7 +20,13 @@ export default function InitCommand(program: commander.Command) {
     .option('-n, --no', 'A negative answer')
     .option('--js', 'generate js api module with declaration file', false)
     .option('--axiosConfig <path>', 'export default axios config file path')
+    .option('-c, --choose', 'choose apiUrl')
     .action(async function (swaggerPath, config) {
-      await SwaggerAPI(swaggerPath, config);
+      let sPath = swaggerPath;
+      if (config.choose) {
+        sPath += await chooseApi(swaggerPath);
+        sPath = encodeURI(sPath.replace('/swagger-resources', ''));
+      }
+      await SwaggerAPI(sPath, config);
     });
 }
