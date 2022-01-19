@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RhSearchInput renders correctly 1`] = `
+<Input
+  allowClear={true}
+  bordered={true}
+  className="rh-search-input"
+  onChange={[Function]}
+  onKeyPress={[Function]}
+  placeholder="请输入"
+  size="small"
+  suffix={null}
+  type="text"
+  value=""
+/>
+`;

@@ -16,7 +16,7 @@
 # umi
 .umi
 .umi-production
-.umi-test
+# .umi-test
 .env.local
 
 # ide
