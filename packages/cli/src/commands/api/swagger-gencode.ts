@@ -84,10 +84,6 @@ export default class SwaggerGen {
         routeNameInfo: RouteNameInfo,
         rawRouteInfo: RawRouteInfo,
       ) => {
-        if (rawRouteInfo.route.indexOf('dmp/model/list') !== -1) {
-          console.log(rawRouteInfo);
-        }
-
         routeNameInfo.original = routeNameInfo.usage =
           resolveRequestFunctionName(rawRouteInfo);
         return routeNameInfo;
