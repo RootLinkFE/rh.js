@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.0.21 (2022-01-19)
+
+
+### Bug Fixes
+
+* postpublish 消息通知[skip ci] ([443d21f](https://github.com/RootLinkFE/rh.js/commit/443d21f552afacef3f2f82a7a66a778a882141a5))
+
+
+
+
+
 ## 0.0.20 (2022-01-06)
 
 **Note:** Version bump only for package @roothub/shared
