@@ -44,21 +44,26 @@ export async function chooseApi(apiUrl: string) {
   return url;
 }
 
-// 供选择 Spec
-export async function chooseSpec(choices: any) {
-  const { results } = await inquirer.prompt([
+export async function chooseSwaggerPaths(choices: any) {
+  const { url } = await inquirer.prompt([
     {
-      type: 'checkbox',
-      name: 'results',
-      message: '选择具体服务(可多选)',
+      type: 'list',
+      name: 'url',
+      message: 'choose apiUrl',
       choices,
     },
   ]);
-  return results.map((item: string) => {
-    const data = /^(.*)\((.*)\)$/.exec(item) || [];
-    return {
-      name: data[1],
-      url: data[2],
-    };
-  });
+  return url;
+}
+
+export async function chooseNeedMock() {
+  const answer = await inquirer.prompt([
+    {
+      name: 'ok',
+      type: 'confirm',
+      message: `是否需要 mock?`,
+      default: true,
+    },
+  ]);
+  return answer;
 }
