@@ -11,7 +11,7 @@ export default async (
     globalConfig: { outputFolder: string };
     group: any;
     specUrls: string | any[];
-    choose?: boolean;
+    all?: boolean;
   },
 ) => {
   const newConfig = {
@@ -25,7 +25,7 @@ export default async (
       resources = newConfig.specUrls;
     } else {
       resources = await getAllResources(swaggerUrl);
-      if (newConfig.choose) {
+      if (!newConfig.all) {
         resources = await chooseSpec(
           resources.map(
             (item: { url: any; name: any }) => `${item.name}(${item.url})`,

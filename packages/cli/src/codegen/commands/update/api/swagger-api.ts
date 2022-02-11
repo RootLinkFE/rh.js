@@ -22,7 +22,7 @@ export type SwaggerApiCLIConfigType = {
   no?: boolean;
   group?: boolean;
   apiSpecsPaths?: ApiSpecsPathsType[];
-  choose?: boolean;
+  all?: boolean;
   globalConfig?: Record<string, any>;
 };
 
@@ -71,7 +71,7 @@ export default async function SwaggerAPI(
     try {
       // 尝试获取资源文件
       let resources = await getAllResources(swaggerUrl);
-      if (config.choose) {
+      if (!config.all) {
         resources = await chooseSpec(
           resources.map(
             (item: { url: any; name: any }) => `${item.name}(${item.url})`,

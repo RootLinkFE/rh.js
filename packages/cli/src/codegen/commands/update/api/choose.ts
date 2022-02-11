@@ -45,15 +45,15 @@ export async function chooseApi(apiUrl: string) {
 }
 
 export async function chooseSwaggerPaths(choices: any) {
-  const { url } = await inquirer.prompt([
+  const { paths } = await inquirer.prompt([
     {
-      type: 'list',
-      name: 'url',
-      message: 'choose apiUrl',
+      type: 'checkbox',
+      name: 'paths',
+      message: '选择 swaggerPaths',
       choices,
     },
   ]);
-  return url;
+  return paths;
 }
 
 export async function chooseNeedMock() {

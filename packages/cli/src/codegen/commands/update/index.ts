@@ -1,23 +1,32 @@
 import commander from 'commander';
 import fse from 'fs-extra';
-import SwaggerAPI, { ApiSpecsPathsType } from './api/swagger-api';
+import SwaggerAPI from './api/swagger-api';
 import { CONFIG_FILE_NAME } from '../../constants';
-import { chooseNeedMock } from './api/choose';
+import { chooseNeedMock, chooseSwaggerPaths } from './api/choose';
 import doMock from './mock';
 
 export default function InitCommand(program: commander.Command) {
   program
     .command('update')
     .description('更新文件')
-    .option('-c, --choose', '选择具体服务')
+    .option('-a, --all', '跳过选择，更新所有数据')
     .option('--mock', '单独 mock 数据')
     .action(async (config) => {
       if (fse.existsSync(CONFIG_FILE_NAME)) {
         const globalConfig = JSON.parse(
           fse.readFileSync(CONFIG_FILE_NAME).toString('utf8'),
         );
-        const { swaggerPaths, outputFolder } = globalConfig;
-        const apiSpecsPathsList: ApiSpecsPathsType[][] = [];
+        const { outputFolder } = globalConfig;
+        let { swaggerPaths } = globalConfig;
+        // const apiSpecsPathsList: ApiSpecsPathsType[][] = [];
+        if (!config.all && swaggerPaths.length > 1) {
+          swaggerPaths = await chooseSwaggerPaths(
+            swaggerPaths.map((item: { name: any }) => ({
+              name: item.name,
+              value: item,
+            })),
+          );
+        }
         for (let i = 0; i < swaggerPaths.length; i++) {
           const allConfig = {
             ...swaggerPaths[i],
@@ -34,7 +43,7 @@ export default function InitCommand(program: commander.Command) {
                 output: outputFolder + '/api',
               },
             );
-            apiSpecsPathsList.push(apiSpecsPaths);
+            // apiSpecsPathsList.push(apiSpecsPaths);
             const needMock = await chooseNeedMock();
             if (needMock) {
               doMock(swaggerPaths[i].path, { ...allConfig, specUrls });
@@ -42,29 +51,29 @@ export default function InitCommand(program: commander.Command) {
           }
         }
 
-        // update 更新
-        if (apiSpecsPathsList.some((item) => item.length)) {
-          const newConfig = {
-            ...globalConfig,
-            swaggerPaths: globalConfig.swaggerPaths.map(
-              (item: any, index: string | number) => {
-                if (apiSpecsPathsList[index].length) {
-                  return {
-                    ...item,
-                    apiSpecsPaths: apiSpecsPathsList[index],
-                  };
-                } else {
-                  return item;
-                }
-              },
-            ),
-          };
+        // // update 更新 不使用
+        // if (apiSpecsPathsList.some((item) => item.length)) {
+        //   const newConfig = {
+        //     ...globalConfig,
+        //     swaggerPaths: globalConfig.swaggerPaths.map(
+        //       (item: any, index: string | number) => {
+        //         if (apiSpecsPathsList[index].length) {
+        //           return {
+        //             ...item,
+        //             apiSpecsPaths: apiSpecsPathsList[index],
+        //           };
+        //         } else {
+        //           return item;
+        //         }
+        //       },
+        //     ),
+        //   };
 
-          fse.writeFileSync(
-            CONFIG_FILE_NAME,
-            JSON.stringify(newConfig, null, 2),
-          );
-        }
+        //   fse.writeFileSync(
+        //     CONFIG_FILE_NAME,
+        //     JSON.stringify(newConfig, null, 2),
+        //   );
+        // }
       }
     });
 }

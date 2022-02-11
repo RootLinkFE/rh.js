@@ -1,40 +1,15 @@
 {
-  "outputFolder": "D:\\A-my-data\\projects\\rhData",
+  "outputFolder": "./rh",
   "swaggerPaths": [
     {
       "name": "protocol-model-server",
       "path": "http://protocol-model-server.nc-qa.rootcloudapp.com/frame-pmt",
-      "group": true,
-      "apiSpecsPaths": [
-        {
-          "name": "PROTOCOL SERVER base API",
-          "url": "/v2/api-docs?group=PROTOCOL SERVER base API"
-        },
-        {
-          "name": "PROTOCOL SERVER dbc API",
-          "url": "/v2/api-docs?group=PROTOCOL SERVER dbc API"
-        },
-        {
-          "name": "PROTOCOL SERVER protocol API",
-          "url": "/v2/api-docs?group=PROTOCOL SERVER protocol API"
-        },
-        {
-          "name": "PROTOCOL SERVER semanteme API",
-          "url": "/v2/api-docs?group=PROTOCOL SERVER semanteme API"
-        },
-        {
-          "name": "PROTOCOL SERVER statistics API",
-          "url": "/v2/api-docs?group=PROTOCOL SERVER statistics API"
-        },
-        {
-          "name": "PROTOCOL SERVER stp API",
-          "url": "/v2/api-docs?group=PROTOCOL SERVER stp API"
-        },
-        {
-          "name": "PROTOCOL SERVER stp Open API",
-          "url": "/v2/api-docs?group=PROTOCOL SERVER stp Open API"
-        }
-      ]
+      "group": true
+    },
+    {
+      "name": "dmp-server",
+      "path": "http://dmp-server.nc-qa.rootcloudapp.com/dmp-server",
+      "group": true
     }
   ],
   "options": {

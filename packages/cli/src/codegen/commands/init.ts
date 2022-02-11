@@ -12,9 +12,6 @@ const config = {
       path: 'http://protocol-model-server.nc-qa.rootcloudapp.com/frame-pmt',
       group: true, // 代表多服务
       mockPrefix: '', // mock 服务前缀
-      apiSpecsPaths: [
-        // update 操作时更新
-      ],
     },
   ],
   options: {
