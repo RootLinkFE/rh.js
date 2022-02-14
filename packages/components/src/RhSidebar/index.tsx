@@ -1,11 +1,16 @@
 import { Menu } from 'antd';
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { ReactNode } from 'react-dom/node_modules/@types/react';
+import React, {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useHistory } from 'react-router-dom';
 import IconFont from '../IconFont';
 import RhMenuIcon from './Icon';
-import type { RhMenuData, RhMenuItem, RhSidebarProps } from './type';
-import styles from './style.less';
+import styles from './style.module.less';
+import type { RhMenuItem, RhSidebarProps } from './type';
 
 const { SubMenu, Item } = Menu;
 
@@ -18,28 +23,25 @@ let Icon = IconFont;
 const RhSidebar = (props: RhSidebarProps) => {
   const {
     collapsible,
-    menuData = {},
+    menuData = { menuItems: [] },
     pathName = '',
     className = '',
     menuOptions = {},
     iconScriptUrl = '',
     onTitleClick = () => {},
-  } = props;
-
-  const history = useHistory();
-
+  }: RhSidebarProps = props;
   const {
     menuItems = [],
     subMenuCollapseIcon = '',
     subMenuExpandIcon = '',
     menuHeaderTitleIcon = '',
     menuHeaderTitle = '',
-  } = menuData as RhMenuData;
+  } = menuData;
+
+  const history = useHistory();
 
   useEffect(() => {
-    if (iconScriptUrl) {
-      Icon = RhMenuIcon(iconScriptUrl);
-    }
+    Icon = RhMenuIcon(iconScriptUrl);
   }, [iconScriptUrl]);
 
   const menuClickHandle = useCallback(
@@ -75,7 +77,16 @@ const RhSidebar = (props: RhSidebarProps) => {
         pathName.indexOf('?') > -1 ? pathName.split('?')[0] : pathName;
 
       const result = items.map((obj: RhMenuItem) => {
-        if (obj.children) {
+        if (!obj.name) {
+          return null;
+        }
+        if (!obj.url) {
+          obj.url = obj.path || '';
+        }
+        const children = (obj.children || obj.routes) ?? [];
+        const routeHaveName = children.some((c) => c.name);
+
+        if (children.length && routeHaveName) {
           return (
             <SubMenu
               title={
@@ -95,6 +106,7 @@ const RhSidebar = (props: RhSidebarProps) => {
                           color: '#9EA5B2',
                           position: 'relative',
                           top: '-2px',
+                          left: '-6px',
                         }}
                         type={subMenuCollapseIcon || 'rh-icon-arrow-right'}
                       />
@@ -107,19 +119,19 @@ const RhSidebar = (props: RhSidebarProps) => {
                   </span>
                 </div>
               }
-              key={obj.key}
+              key={obj.key || obj.name}
               popupClassName={styles.collaspsedPopup}
             >
               {collapsible && (
                 <Item
-                  key={obj.key}
+                  key={obj.key || obj.path}
                   disabled={!!obj.disabled}
                   className={styles.collaspsedMenuTitle}
                 >
                   <span title={obj.name}>{obj.name}</span>
                 </Item>
               )}
-              {renderMenuTree(obj.children as RhMenuItem[], 0)}
+              {renderMenuTree(children, 0)}
             </SubMenu>
           );
         }
@@ -128,12 +140,11 @@ const RhSidebar = (props: RhSidebarProps) => {
             <SubMenu
               title={
                 <span>
-                  {/* {obj.icon ? <Icon type={obj.icon} /> : null} */}
                   {iconRender(obj.icon)}
                   <span title={obj.name}>{obj.name}</span>
                 </span>
               }
-              key={obj.key}
+              key={obj.key || obj.name}
               popupClassName={styles.collaspsedPopup}
               onTitleClick={() => {
                 menuClickHandle(obj);
@@ -146,7 +157,7 @@ const RhSidebar = (props: RhSidebarProps) => {
             >
               {collapsible && (
                 <Item
-                  key={obj.key}
+                  key={obj.key || obj.name}
                   disabled={!!obj.disabled}
                   className={styles.collaspsedMenuTitle}
                 >
@@ -173,7 +184,7 @@ const RhSidebar = (props: RhSidebarProps) => {
         }
         return (
           <Item
-            key={obj.key}
+            key={obj.key || obj.name}
             disabled={!!obj.disabled}
             className={`rh_sidebar_collaspsedMenu ${styles.collaspsedMenu} ${
               isMenuSelected(menuPathName, obj.url)
@@ -235,11 +246,44 @@ const RhSidebar = (props: RhSidebarProps) => {
     );
   }, [menuHeaderTitleIcon, menuHeaderTitle]);
 
+  const [openKeys, setOpenKeys] = useState<string[]>([]);
+  const [menuSelectKeys, setMenuSelectKeys] = useState<string[]>([]);
+
+  // 初始化菜单选中状态
+  useEffect(() => {
+    const defaultOpenKeys: string[] = [];
+    const defaultSelectedOpenKeys: string[] = [];
+    for (const item of menuData.menuItems) {
+      if (pathName.indexOf(item.url) === 0) {
+        defaultOpenKeys.push(item.name);
+        if (item.routes && item.routes.length) {
+          for (const subItem of (item as any).routes) {
+            if (pathName.indexOf(subItem.url) === 0) {
+              defaultSelectedOpenKeys.push(subItem.name);
+              break;
+            }
+          }
+        }
+        break;
+      }
+    }
+    setOpenKeys(defaultOpenKeys);
+    setMenuSelectKeys(defaultSelectedOpenKeys);
+  }, []);
+
   return (
     <>
       <Menu
         className={`rh_sidebar_rhSidebarMenu ${styles.rhSidebarMenu} ${className}`}
-        inlineCollapsed={collapsible}
+        // inlineCollapsed={collapsible}
+        onOpenChange={(keys) => {
+          setOpenKeys(keys);
+        }}
+        openKeys={openKeys}
+        onSelect={({ selectedKeys }) => {
+          setMenuSelectKeys(selectedKeys);
+        }}
+        selectedKeys={menuSelectKeys}
         {...menuOptions}
       >
         {renderTreeTitle}

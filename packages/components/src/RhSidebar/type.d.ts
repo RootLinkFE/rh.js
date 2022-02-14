@@ -13,6 +13,11 @@ export type RhMenuItem = {
    */
   url: string;
   /**
+   * 路径path，当url空时取 path，兼容Umi路由配置
+   * @type string
+   */
+  path?: string;
+  /**
    * 菜单名称
    * @type string
    */
@@ -44,6 +49,11 @@ export type RhMenuItem = {
    */
 
   children?: RhMenuItem[];
+  /**
+   * 子菜单，当children空时取 routes，兼容Umi路由配置
+   * @type RhMenuItem[]
+   */
+  routes?: RhMenuItem[];
 };
 
 export type RhMenuData = {
@@ -93,7 +103,7 @@ export type RhSidebarProps = {
    * @requires
    * @type MenuProps
    */
-  menuOptions: MenuProps;
+  menuOptions?: MenuProps;
   /**
    * 当前的path name
    * @type string
