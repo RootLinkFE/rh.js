@@ -4,13 +4,19 @@ import commander from 'commander';
 import { CONFIG_FILE_NAME } from '../constants';
 
 const config = {
-  outputFolder: './src/rh', // 代码输出目录（内部有 apis/mocks两个目录）
+  outputFolder: './src/rh', // 代码输出目录
+  mockConfig: {
+    outputFolder: './', // mock 文件输出目录
+    ext: '.js', // 后缀名
+    independentServer: true, // 生成 entry-mock[ext] 文件 (入口)
+    port: 8081, // express 端口
+  },
   swaggerPaths: [
     // 预留数组结构，后续可能会是不同域名地址的微服务后端接口
     {
-      name: 'protocol-model-server',
-      path: 'http://protocol-model-server.nc-qa.rootcloudapp.com/frame-pmt',
-      group: true, // 代表多服务
+      name: '',
+      path: '',
+      group: false, // 代表多服务
       mockPrefix: '', // mock 服务前缀
     },
   ],

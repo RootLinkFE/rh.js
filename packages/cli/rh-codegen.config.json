@@ -1,5 +1,11 @@
 {
-  "outputFolder": "./rh",
+  "outputFolder": "./src/rh",
+  "mockConfig": {
+    "outputFolder": "./",
+    "ext": ".ts",
+    "independentServer": true,
+    "port": 8081
+  },
   "swaggerPaths": [
     {
       "name": "protocol-model-server",

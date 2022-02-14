@@ -8,15 +8,25 @@ import { chooseSpec } from '../../../../commands/api/choose';
 export default async (
   swaggerUrl: string,
   config: {
-    globalConfig: { outputFolder: string };
+    globalConfig: {
+      mockConfig: {
+        independentServer: boolean;
+        outputFolder: string;
+      };
+    };
     group: any;
     specUrls: string | any[];
     all?: boolean;
   },
 ) => {
+  const mockConfig = config.globalConfig.mockConfig;
+  const outputFolder = mockConfig.outputFolder + '/mock';
   const newConfig = {
     ...config,
-    outputFolder: config.globalConfig.outputFolder + '/mock',
+    mockConfig: {
+      ...mockConfig,
+      outputFolder,
+    },
   };
 
   if (newConfig.group) {
@@ -53,31 +63,41 @@ export default async (
       newConfig,
     );
   }
-  await genIndex(newConfig);
+  if (mockConfig.independentServer) {
+    await genIndex({ ...newConfig.mockConfig, outputFolder });
+  }
   console.log(chalk.green('生成 mock 数据成功！'));
 };
 
-async function genIndex({ outputFolder }: { outputFolder: string }) {
+async function genIndex({ outputFolder, port, ext }: any) {
   fse.readdir(outputFolder, function (err, files) {
     if (err) {
       console.log(err);
       return;
     }
+    const extReg = new RegExp(`${ext}`, 'g');
     const filteredFiles = files.filter(
-      (name) => /.js$/.test(name) && name.indexOf('index.js') === -1,
+      (name) => extReg.test(name) && name.indexOf('entry-mock' + ext) === -1,
     );
-    const imports = filteredFiles.map(
-      (file) =>
-        `const ${file.replace(/.js$/g, '')} = require('./${file}');\r\n`,
-    );
+    const imports = filteredFiles.map((file) => {
+      const fileName = file.replace(extReg, '');
+      return `import ${fileName} from './${fileName}';\r\n`;
+    });
     const uses = filteredFiles.map(
-      (file) => `${file.replace(/.js$/g, '')}(app);\r\n`,
+      (file) => `useMethods(${file.replace(extReg, '')});\r\n`,
     );
     const code = `
-    const express = require('express');
+    import express from 'express';
     ${imports.join('')}
     const app = express()
-    const port = 3000
+    const port = ${port || 8081}
+
+    function useMethods(pathSet){
+      Object.keys(pathSet).forEach(item=>{
+       const [method, path] = item.split(' ');
+       app[method.toLowerCase()](path, pathSet[item])
+      })
+    }
 
     ${uses.join('')}
 
@@ -86,27 +106,27 @@ async function genIndex({ outputFolder }: { outputFolder: string }) {
     })
     `;
     fse.writeFileSync(
-      outputFolder + '/index.js',
+      outputFolder + '/entry-mock' + ext,
       prettier.format(code, { parser: 'babel' }),
     );
-    const packageJson = {
-      name: 'mock',
-      version: '1.0.0',
-      description: '',
-      main: 'index.js',
-      scripts: {
-        test: 'echo "Error: no test specified" && exit 1',
-      },
-      author: '',
-      license: 'ISC',
-      dependencies: {
-        express: '^4.17.2',
-        mockjs: '^1.1.0',
-      },
-    };
-    fse.writeFile(
-      outputFolder + '/package.json',
-      JSON.stringify(packageJson, null, 2),
-    );
+    // const packageJson = {
+    //   name: 'mock',
+    //   version: '1.0.0',
+    //   description: '',
+    //   main: 'index.js',
+    //   scripts: {
+    //     test: 'echo "Error: no test specified" && exit 1',
+    //   },
+    //   author: '',
+    //   license: 'ISC',
+    //   dependencies: {
+    //     express: '^4.17.2',
+    //     mockjs: '^1.1.0',
+    //   },
+    // };
+    // fse.writeFile(
+    //   outputFolder + '/package.json',
+    //   JSON.stringify(packageJson, null, 2),
+    // );
   });
 }

@@ -7,24 +7,27 @@ import prettier from 'prettier';
 export const mock: any = {
   async init(
     opts: any,
-    config: { outputFolder?: string; mockPrefix?: string } = {},
+    config: { mockPrefix?: string; mockConfig: Record<string, any> } = {
+      mockConfig: {},
+    },
   ): Promise<any> {
-    this.blacklist = [];
-    this.whitelist = [];
-    this.outputPath = config.outputFolder;
-    this.dataLength = '1-8';
+    const { mockConfig } = config;
+    this.mockConfig = mockConfig;
+    this.outputPath = mockConfig.outputFolder;
+    this.dataLength = mockConfig.dataLength || '1-8';
     this.content = '';
     this.prefix = config.mockPrefix || '';
+    this.ext = mockConfig.ext;
     const group = new URL(opts.url).searchParams.get('group');
     try {
-      this.fileName = camelCase(group?.split('--')[0]) + '.js';
+      this.fileName = camelCase(group?.split('--')[0]) + this.ext;
     } catch (e) {
-      this.fileName = new URL(opts.url).hostname + '.js';
+      this.fileName = new URL(opts.url).hostname + this.ext;
     }
     await this.parse(opts);
 
     if (this.content) {
-      await writeToMockFile(this.outputPath, this.fileName, this.content, true);
+      await writeToMockFile(this.outputPath, this.fileName, this.content);
       return { state: 'success', content: this.content };
     } else {
       return { state: 'failed' };
@@ -86,20 +89,29 @@ export const mock: any = {
   },
 
   // 生成mock api模版
-  generateTemplate({ summary, example, method, path }: any) {
+  generateTemplate({
+    summary,
+    example,
+    method,
+    path,
+  }: {
+    summary: string;
+    example: string;
+    method: string;
+    path: string;
+  }) {
     // api path中的{petId}形式改为:petId
     const data = formatResToMock(path, example, this.dataLength);
     let temp = `
-        /**
-          ${summary}
-        **/
-        app.${method}('${this.prefix}${path.replace(
+    // ${summary}
+    '${method.toUpperCase()} ${this.prefix}${path.replace(
       /\{([^}]*)\}/g,
       ':$1',
-    )}', (req, res) => {
-        res.send(Mock.mock(${data.replace(/null/g, '') || `true`}));
-      });`;
-    return prettier.format(temp, { parser: 'babel' });
+    )}': (req, res) => {
+      res.send(Mock.mock(${data.replace(/null/g, '') || `true`}));
+    },
+    `;
+    return temp;
   },
 };
 
@@ -134,27 +146,16 @@ function formatResToMock(
 }
 
 // 将mock数据写入js文件
-function writeToMockFile(
-  outputPath: any,
-  fileName: any,
-  content: any,
-  independentServer: boolean,
-) {
+function writeToMockFile(outputPath: any, fileName: any, content: any) {
   // 写入文件
-  let template = !independentServer
-    ? `var Mock = require('mockjs')
+  const template = `const Mock = require('mockjs')
   export default {
     ${content}
   }
-    `
-    : `const Mock = require('mockjs')
-    module.exports = function(app) {
-      ${content}
-    }
-  `;
+`;
   fs.writeFileSync(
     `${outputPath}/${fileName}`,
-    template,
+    prettier.format(template, { parser: 'babel' }),
     'utf8',
     () => throwErr,
   );

@@ -18,6 +18,7 @@ export default function InitCommand(program: commander.Command) {
         );
         const { outputFolder } = globalConfig;
         let { swaggerPaths } = globalConfig;
+        const taskList = [];
         // const apiSpecsPathsList: ApiSpecsPathsType[][] = [];
         if (!config.all && swaggerPaths.length > 1) {
           swaggerPaths = await chooseSwaggerPaths(
@@ -34,21 +35,30 @@ export default function InitCommand(program: commander.Command) {
             globalConfig: globalConfig,
           };
           if (config.mock) {
-            doMock(swaggerPaths[i].path, allConfig);
-          } else {
-            const { apiSpecsPaths, specUrls } = await SwaggerAPI(
-              swaggerPaths[i].path,
-              {
-                ...allConfig,
-                output: outputFolder + '/api',
-              },
+            taskList.push(
+              async () => await doMock(swaggerPaths[i].path, allConfig),
             );
-            // apiSpecsPathsList.push(apiSpecsPaths);
-            const needMock = await chooseNeedMock();
-            if (needMock) {
-              doMock(swaggerPaths[i].path, { ...allConfig, specUrls });
-            }
+          } else {
+            const func = async () => {
+              const { apiSpecsPaths, specUrls } = await SwaggerAPI(
+                swaggerPaths[i].path,
+                {
+                  ...allConfig,
+                  output: outputFolder + '/api',
+                },
+              );
+              // apiSpecsPathsList.push(apiSpecsPaths);
+              const needMock = await chooseNeedMock();
+              if (needMock) {
+                await doMock(swaggerPaths[i].path, { ...allConfig, specUrls });
+              }
+            };
+            taskList.push(func);
           }
+        }
+
+        for (let i = 0; i < taskList.length; i++) {
+          await taskList[i]();
         }
 
         // // update 更新 不使用
@@ -74,6 +84,8 @@ export default function InitCommand(program: commander.Command) {
         //     JSON.stringify(newConfig, null, 2),
         //   );
         // }
+      } else {
+        console.error('请先生成配置文件, rh codegen init');
       }
     });
 }
