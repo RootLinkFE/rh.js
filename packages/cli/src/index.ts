@@ -11,7 +11,7 @@ const VALID_SUBCOMMANDS = [
   'create',
   'init',
   'create',
-  'whoami',
+  'update',
   'block',
 ];
 const program = new commander.Command();

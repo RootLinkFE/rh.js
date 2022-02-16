@@ -20,7 +20,8 @@ function getChangeLog(changeLogPath = '', version) {
   return new Promise((resolve) => {
     const result = [];
     let isEnterChange = false;
-    let enterRegex = new RegExp(`^## \\[${version}\\]`);
+    let enterRegex = new RegExp(`^## ${version}`);
+    // let enterRegex = new RegExp(`^## \\[${version}\\]`);
     rl.on('line', function (input) {
       if (/^## \[(\d*\.?)*\]/.test(input)) {
         if (isEnterChange) {

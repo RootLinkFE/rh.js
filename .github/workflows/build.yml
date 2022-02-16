@@ -68,7 +68,7 @@ jobs:
 
       - name: publish 🚀
         if: startsWith( env.commitmsg , 'chore(release):' )
-        run: ./node_modules/.bin/lerna publish -y
+        run: ./node_modules/.bin/lerna publish -y --include-merged-tags
         # run: ./node_modules/.bin/lerna publish patch -y
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
