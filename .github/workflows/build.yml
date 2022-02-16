@@ -65,6 +65,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_USER: ${{ secrets.NPM_USER }}
           NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
+          WECOM_WEBHOOK_KEY: ${{ secrets.WECOM_WEBHOOK_KEY }}
 
       - name: publish 🚀
         if: startsWith( env.commitmsg , 'chore(release):' )

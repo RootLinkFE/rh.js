@@ -5,8 +5,7 @@ var path = require('path');
 const fs = require('fs');
 const readline = require('readline');
 
-const WEB_HOOK =
-  'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=d57bb8ec-34f5-4641-91b1-e6ca908d37e3';
+const WEB_HOOK = `https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${process.env.WECOM_WEBHOOK_KEY}`;
 
 function getChangeLog(changeLogPath = '', version) {
   const f = path.join(changeLogPath, '../CHANGELOG.md');
@@ -22,6 +21,7 @@ function getChangeLog(changeLogPath = '', version) {
     let isEnterChange = false;
     let enterRegex = new RegExp(`^## ${version}`);
     // let enterRegex = new RegExp(`^## \\[${version}\\]`);
+    let count = 0;
     rl.on('line', function (input) {
       if (/^## \[(\d*\.?)*\]/.test(input)) {
         if (isEnterChange) {
@@ -30,9 +30,10 @@ function getChangeLog(changeLogPath = '', version) {
         }
       }
       if (enterRegex.test(input)) {
+        count += 1;
         isEnterChange = true;
       }
-      if (isEnterChange) {
+      if (isEnterChange && count <= 1) {
         result.push(input);
       }
     });
