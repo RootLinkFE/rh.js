@@ -2,7 +2,7 @@
   "outputFolder": "./src/rh",
   "mockConfig": {
     "outputFolder": "./",
-    "ext": ".ts",
+    "ext": ".js",
     "independentServer": true,
     "port": 8081
   },
@@ -16,6 +16,11 @@
       "name": "dmp-server",
       "path": "http://dmp-server.nc-qa.rootcloudapp.com/dmp-server",
       "group": true
+    },
+    {
+      "name": "pet-store",
+      "path": "https://petstore.swagger.io/v2/swagger.json",
+      "group": false
     }
   ],
   "options": {

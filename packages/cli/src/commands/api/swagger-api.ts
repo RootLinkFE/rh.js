@@ -34,9 +34,9 @@ export default async function SwaggerAPI(
   // 尝试获取当前地址，判断是否JSON的返回内容
   try {
     const spec = await getSwaggerSchemaJSON(swaggerUrl);
-    const group = new URL(swaggerUrl).searchParams.get('group');
+    const group = new URL(swaggerUrl).searchParams.get('group') || '';
     try {
-      (spec as any).resourceName = camelCase(group?.split('--')[0]);
+      (spec as any).resourceName = camelCase(group.split('--')[0]);
     } catch (e) {
       (spec as any).resourceName = new URL(swaggerUrl).hostname;
     }

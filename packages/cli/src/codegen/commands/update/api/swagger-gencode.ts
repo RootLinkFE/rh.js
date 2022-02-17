@@ -170,8 +170,8 @@ export default class SwaggerGen {
           });
         });
       }, Promise.resolve())
-      .then(() => {
-        entryFile.genFile(output);
+      .then(async () => {
+        await entryFile.genFile(output);
       });
   }
 }

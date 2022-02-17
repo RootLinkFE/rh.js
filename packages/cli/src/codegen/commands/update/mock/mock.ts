@@ -17,17 +17,24 @@ export const mock: any = {
     this.dataLength = mockConfig.dataLength || '1-8';
     this.content = '';
     this.prefix = config.mockPrefix || '';
-    this.ext = mockConfig.ext;
+    this.ext = mockConfig.ext || '.js';
     const group = new URL(opts.url).searchParams.get('group');
-    try {
-      this.fileName = camelCase(group?.split('--')[0]) + this.ext;
-    } catch (e) {
-      this.fileName = new URL(opts.url).hostname + this.ext;
+
+    if (group) {
+      this.fileName = camelCase(group.split('--')[0]) + this.ext;
+    } else {
+      this.fileName = camelCase(new URL(opts.url).hostname) + this.ext;
     }
+
     await this.parse(opts);
 
     if (this.content) {
-      await writeToMockFile(this.outputPath, this.fileName, this.content);
+      await writeToMockFile(
+        this.outputPath,
+        this.fileName,
+        this.content,
+        config,
+      );
       return { state: 'success', content: this.content };
     } else {
       return { state: 'failed' };
@@ -36,31 +43,33 @@ export const mock: any = {
   // 解析swagger-api-doc
   async parse(opts: any) {
     const { paths } = await parser(opts);
-    this.checkFileExist().then(this.traverse(paths));
+
+    await this.checkFileExist();
+    this.traverse(paths);
+
     if (!paths) return;
   },
   // 初始化目录 判断是否有该文件
-  async checkFileExist() {
+  checkFileExist() {
     return new Promise<void>((resolve, reject) => {
       if (!fs.existsSync(this.outputPath)) {
         // 新建该文件夹
         mkdirp(this.outputPath, (err: any) => {
           throwErr(err);
           initTemp(this.outputPath, this.fileName);
+          resolve();
         });
       } else {
         initTemp(this.outputPath, this.fileName);
+        resolve();
       }
-      resolve();
     });
   },
 
   // 遍历paths
   traverse(paths: any) {
-    let index = 0;
     this.content = '';
     for (let path in paths) {
-      index++;
       this.traverseMethod(paths, path);
     }
   },
@@ -74,7 +83,9 @@ export const mock: any = {
   ) {
     for (let method in paths[path]) {
       const summary = paths[path][method]['summary'];
-      const response = paths[path][method]['responses']['200'];
+      const responses = paths[path][method]['responses'];
+      const response = responses['200'] || responses;
+
       this.generate(summary, response['example'], method, path);
     }
   },
@@ -101,6 +112,9 @@ export const mock: any = {
     path: string;
   }) {
     // api path中的{petId}形式改为:petId
+    if (!example) {
+      return '';
+    }
     const data = formatResToMock(path, example, this.dataLength);
     let temp = `
     // ${summary}
@@ -108,7 +122,7 @@ export const mock: any = {
       /\{([^}]*)\}/g,
       ':$1',
     )}': (req, res) => {
-      res.send(Mock.mock(${data.replace(/null/g, '') || `true`}));
+      res.send(mockjs.mock(${data.replace(/null/g, '') || `true`}));
     },
     `;
     return temp;
@@ -146,12 +160,23 @@ function formatResToMock(
 }
 
 // 将mock数据写入js文件
-function writeToMockFile(outputPath: any, fileName: any, content: any) {
+function writeToMockFile(
+  outputPath: any,
+  fileName: any,
+  content: any,
+  config: any,
+) {
   // 写入文件
-  const template = `const Mock = require('mockjs')
+  const template = !config.globalConfig.codegenTest
+    ? `import mockjs from 'mockjs';
   export default {
     ${content}
   }
+`
+    : `
+    module.exports= {
+      ${content}
+    }
 `;
   fs.writeFileSync(
     `${outputPath}/${fileName}`,

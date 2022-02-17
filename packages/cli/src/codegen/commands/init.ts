@@ -3,7 +3,7 @@ import fse from 'fs-extra';
 import commander from 'commander';
 import { CONFIG_FILE_NAME } from '../constants';
 
-const config = {
+export const config = {
   outputFolder: './src/rh', // 代码输出目录
   mockConfig: {
     outputFolder: './', // mock 文件输出目录
@@ -26,12 +26,19 @@ const config = {
   },
 };
 
+export function init(extraConfig = {}) {
+  fse.writeFileSync(
+    CONFIG_FILE_NAME,
+    JSON.stringify({ ...config, ...extraConfig }, null, 2),
+  );
+  console.log(chalk.green('初始化成功！'));
+}
+
 export default function InitCommand(program: commander.Command) {
   program
     .command('init')
     .description('初始化配置文件')
     .action(() => {
-      fse.writeFileSync(CONFIG_FILE_NAME, JSON.stringify(config, null, 2));
-      console.log(chalk.green('初始化成功！'));
+      init();
     });
 }

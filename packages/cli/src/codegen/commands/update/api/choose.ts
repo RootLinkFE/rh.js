@@ -57,7 +57,7 @@ export async function chooseSwaggerPaths(choices: any) {
 }
 
 export async function chooseNeedMock() {
-  const answer = await inquirer.prompt([
+  const { ok } = await inquirer.prompt([
     {
       name: 'ok',
       type: 'confirm',
@@ -65,5 +65,5 @@ export async function chooseNeedMock() {
       default: true,
     },
   ]);
-  return answer;
+  return ok;
 }
