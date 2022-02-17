@@ -25,16 +25,15 @@ jobs:
       - name: Setup node 🔧
         uses: actions/setup-node@v2
         with:
-          node-version: '12.x'
+          node-version: '16.0.0'
           registry-url: 'https://registry.npmjs.org'
 
-      # Get commit message
+      # Get commit message ✨
       - name: Get commit message
         run: |
           COMMIT_MESSAGE=$(git log --format=%s -n 1)
           echo "commitmsg=${COMMIT_MESSAGE}" >> $GITHUB_ENV
-      - name: Show commit message
-        run: echo "$commitmsg"
+          echo "$commitmsg"
 
       - name: Git config 🔧
         run: |
@@ -45,22 +44,22 @@ jobs:
         run: |
           node -v
           npm -v
-          echo env.commitmsg
+          yarn -v
 
       - name: Install 🔧
-        run: npx yarn
+        run: yarn
 
       - name: Bootstrap 🔧
-        run: npm run bootstrap
+        run: yarn bootstrap
 
       - name: Build ⛏️
-        run: npm run build
+        run: yarn build
 
       - name: Build components docs ⛏️
         if: contains( env.commitmsg , 'components' ) || startsWith( env.commitmsg , 'chore(release):' )
         run: |
           cd packages/components
-          npm run deploy
+          yarn deploy
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_USER: ${{ secrets.NPM_USER }}
