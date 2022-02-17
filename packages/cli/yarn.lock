@@ -1197,6 +1197,8 @@
   dependencies:
     "graceful-fs" "^4.1.6"
     "universalify" "^2.0.0"
+  optionalDependencies:
+    "graceful-fs" "^4.1.6"
 
 "jsprim@^1.2.2":
   "integrity" "sha512-P2bSOMAc/ciLz6DzgjVlGJP9+BrJWu5UDGK70C2iweC5QBIeFf0ZXRvGjEj2uYgrY2MkAAhsSWHDWlFtEroZWw=="
@@ -1252,7 +1254,12 @@
     "chalk" "^4.1.0"
     "is-unicode-supported" "^0.1.0"
 
-"lowercase-keys@^1.0.0", "lowercase-keys@^1.0.1":
+"lowercase-keys@^1.0.0":
+  "integrity" "sha1-b54wtHCE2XGnyCD/FabFFnt0wm8="
+  "resolved" "https://registry.npmmirror.com/lowercase-keys/download/lowercase-keys-1.0.1.tgz?cache=0&sync_timestamp=1634551715073&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Flowercase-keys%2Fdownload%2Flowercase-keys-1.0.1.tgz"
+  "version" "1.0.1"
+
+"lowercase-keys@^1.0.1":
   "integrity" "sha1-b54wtHCE2XGnyCD/FabFFnt0wm8="
   "resolved" "https://registry.npmmirror.com/lowercase-keys/download/lowercase-keys-1.0.1.tgz?cache=0&sync_timestamp=1634551715073&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Flowercase-keys%2Fdownload%2Flowercase-keys-1.0.1.tgz"
   "version" "1.0.1"
