@@ -26,6 +26,9 @@ jobs:
       - name: Install 🔧
         run: npx yarn
 
+      - name: Clear cache 🔧
+        run: npm cache clear --force
+
       - name: Bootstrap 🔧
         run: npm run bootstrap
 
