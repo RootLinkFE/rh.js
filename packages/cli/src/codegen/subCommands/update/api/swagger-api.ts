@@ -4,11 +4,13 @@ import chalk from 'chalk';
 import request from 'request';
 import { camelCase } from 'lodash';
 
-import { getAllResources, SwaggerResourcesType } from './swagger-resources';
-
 import SwaggerGen from './swagger-gencode';
 import { fixDefinitionsChinese } from './utils';
-import { chooseSpec } from '../../../../commands/api/choose';
+import {
+  chooseSpec,
+  getAllResources,
+  SwaggerResourcesType,
+} from '../../../utils';
 
 export interface ApiSpecsPathsType {
   name: string;
@@ -61,7 +63,7 @@ export default async function SwaggerAPI(
       specs.push(spec);
       returnData.specUrls.push({ url: swaggerUrl });
     } catch (err: any) {
-      console.log('[rh api]', err);
+      console.log(err);
       if (err?.message !== NO_VALID_SWAGGER_JSON) {
         console.error(err);
         throw err;
@@ -77,18 +79,12 @@ export default async function SwaggerAPI(
             (item: { url: any; name: any }) => `${item.name}(${item.url})`,
           ),
         );
-        returnData.specUrls.push(
-          ...resources.map((item: { url: string }) => ({
-            url: encodeURI(swaggerUrl + item.url),
-          })),
-        );
-      } else {
-        returnData.specUrls.push(
-          ...resources.map((item) => ({
-            url: encodeURI(swaggerUrl + item.url),
-          })),
-        );
       }
+      returnData.specUrls.push(
+        ...resources.map((item) => ({
+          url: encodeURI(swaggerUrl + item.url),
+        })),
+      );
       if (config.apiSpecsPaths && config.apiSpecsPaths.length === 0) {
         returnData.apiSpecsPaths = resources.map((item) => ({
           name: item.name,
@@ -143,7 +139,7 @@ function getSwaggerSchemaJSON(url: string): Promise<Spec> {
   return new Promise((resolve, reject) => {
     request(encodeURI(url), function (err, resp, body) {
       if (err) {
-        console.log('[rh api]', err);
+        console.log(err);
         return reject(err);
       }
       if (body) {
@@ -154,7 +150,6 @@ function getSwaggerSchemaJSON(url: string): Promise<Spec> {
           }
           return resolve(data);
         } catch (err: any) {
-          // console.log('[rh api]',err);
           reject(new Error(err));
         }
       } else {

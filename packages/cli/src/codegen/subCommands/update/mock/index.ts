@@ -1,9 +1,8 @@
 import { mock } from './mock';
 import fse from 'fs-extra';
-import { getAllResources } from '../api/swagger-resources';
 import prettier from 'prettier';
 import chalk from 'chalk';
-import { chooseSpec } from '../../../../commands/api/choose';
+import { chooseSpec, getAllResources } from '../../../utils';
 
 export default async (
   swaggerUrl: string,

@@ -2,7 +2,7 @@ import commander from 'commander';
 import fse from 'fs-extra';
 import SwaggerAPI from './api/swagger-api';
 import { CONFIG_FILE_NAME } from '../../constants';
-import { chooseNeedMock, chooseSwaggerPaths } from './api/choose';
+import { chooseNeedMock, chooseSwaggerPaths } from '../../utils';
 import doMock from './mock';
 
 export async function update(config: { all: any; mock: any }) {

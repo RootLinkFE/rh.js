@@ -1,7 +1,7 @@
 'use strict';
 
-import { init, config } from '../src/codegen/commands/init';
-import { update } from '../src/codegen/commands/update';
+import { init, config } from '../src/codegen/subCommands/init';
+import { update } from '../src/codegen/subCommands/update';
 import { CONFIG_FILE_NAME } from '../src/codegen/constants';
 import fse from 'fs-extra';
 import path from 'path';
@@ -57,7 +57,7 @@ describe('rh codegen update', () => {
       const mockDir = dir + '/mock';
 
       const files = await fse.readdir(mockDir);
-      const ext = config.mockConfig.ext;
+      const ext = '.js';
       const extReg = new RegExp(`${ext}`, 'g');
       const filteredFiles = files.filter(
         (name) => extReg.test(name) && name.indexOf('entry-mock' + ext) === -1,

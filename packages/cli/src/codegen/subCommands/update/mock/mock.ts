@@ -17,7 +17,8 @@ export const mock: any = {
     this.dataLength = mockConfig.dataLength || '1-8';
     this.content = '';
     this.prefix = config.mockPrefix || '';
-    this.ext = mockConfig.ext || '.js';
+    this.ext = '.js';
+    // this.ext = mockConfig.ext || '.js'; // TODO
     const group = new URL(opts.url).searchParams.get('group');
 
     if (group) {

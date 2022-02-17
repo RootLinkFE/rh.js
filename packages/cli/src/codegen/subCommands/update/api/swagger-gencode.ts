@@ -9,7 +9,6 @@ import {
   GenerateApiParams,
   RawRouteInfo,
   RouteNameInfo,
-  SchemaComponent,
 } from 'swagger-typescript-api';
 import { camelCase, kebabCase, capitalize } from 'lodash';
 import EntryFile from './entry-file';

@@ -1,6 +1,6 @@
 'use strict';
 
-import { resolveRequestFunctionName } from '../src/codegen/commands/update/api/swagger-gencode';
+import { resolveRequestFunctionName } from '../src/codegen/subCommands/update/api/swagger-gencode';
 import { uniq } from 'lodash';
 
 const data = [

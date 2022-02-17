@@ -7,12 +7,11 @@ export const config = {
   outputFolder: './src/rh', // 代码输出目录
   mockConfig: {
     outputFolder: './', // mock 文件输出目录
-    ext: '.js', // 后缀名
-    independentServer: true, // 生成 entry-mock[ext] 文件 (入口)
+    independentServer: true, // 生成 entry-mock.js 文件 (入口) umi 环境下可配置 false 使得不生成
     port: 8081, // express 端口
   },
   swaggerPaths: [
-    // 预留数组结构，后续可能会是不同域名地址的微服务后端接口
+    // 可能会是不同域名地址的微服务后端接口
     {
       name: '',
       path: '',
