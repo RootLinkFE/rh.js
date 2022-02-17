@@ -48,19 +48,19 @@ jobs:
           echo env.commitmsg
 
       - name: Install 🔧
-        run: npx yarn
+        run: yarn
 
       - name: Bootstrap 🔧
-        run: npm run bootstrap
+        run: yarn bootstrap
 
       - name: Build ⛏️
-        run: npm run build
+        run: yarn build
 
       - name: Build components docs ⛏️
         if: contains( env.commitmsg , 'components' ) || startsWith( env.commitmsg , 'chore(release):' )
         run: |
           cd packages/components
-          npm run deploy
+          yarn deploy
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_USER: ${{ secrets.NPM_USER }}
