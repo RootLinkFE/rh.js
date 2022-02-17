@@ -12,7 +12,7 @@ const VALID_SUBCOMMANDS = [
   'create',
   'init',
   'create',
-  'whoami',
+  'update',
   'block',
   'codegen',
 ];

@@ -50,22 +50,22 @@ Usage:
 $ rh [command] [...entries] [...flags]
 ```
 
-#### `rh init`
+#### rh init
 
-_TODO: 建议重命名，init-materials 或 init-blocks_
+> TODO: 建议重命名，`init-materials` 或 `init-blocks`
 
-- rh init 初始化远程物料库到本地目录
+- `rh init` 初始化远程物料库到本地目录
 
-#### `rh block`
+#### rh block
 
-- rh block use [repository-name]:[block-name] 下载物料到当前目录。
+- `rh block use [repository-name]:[block-name]` 下载物料到当前目录。
 
-#### `rh create`
+#### rh create
 
 - `rh create [project-name]` 创建模板项目
 - `rh create [project-name] -t <template> -l <UIlib> -m <material> -p <path>` 基于已知物料直接生成项目，t=模板，l=ui 库，m=物料库，path=生成项目的路径
 
-#### `rh api`
+#### rh api
 
 - `rh api [swagger-url]` 根据 swagger 的接口文档，生成包括请求的代码
 - `rh api [swagger-url] --output <output> --axiosConfig <path> --js --help` 根据 swagger 的接口文档，生成包括请求的代码，output=文件输出路径，path=axios 配置输出路径，js=是否输出为 js，help=输出帮助
