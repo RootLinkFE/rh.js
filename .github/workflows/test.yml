@@ -31,11 +31,24 @@ jobs:
           node-version: '16.0.0'
           registry-url: 'https://registry.npmjs.org'
 
+      # Get commit message
+      - name: Get commit message ✨
+        run: |
+          COMMIT_MESSAGE=$(git log --format=%s -n 1)
+          echo "commitmsg=${COMMIT_MESSAGE}" >> $GITHUB_ENV
+          echo "$commitmsg"
+
+      - name: Display runtime info ✨
+        run: |
+          node -v
+          npm -v
+          yarn -v
+
       - name: Install 🔧
         run: yarn
 
       - name: Bootstrap 🔧
-        run: lerna bootstrap
+        run: yarn bootstrap
 
       - name: Test ⛏️
         run: |
