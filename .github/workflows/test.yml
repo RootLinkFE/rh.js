@@ -24,15 +24,22 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
 
+      # Setup .npmrc file to publish to npm
+      - name: Setup node 🔧
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.0.0'
+          registry-url: 'https://registry.npmjs.org'
+
       - name: Install 🔧
-        run: npx yarn
+        run: yarn
 
       - name: Bootstrap 🔧
-        run: npm run bootstrap
+        run: lerna bootstrap
 
       - name: Test ⛏️
         run: |
-          npm run test
-          npm run report-coverage
+          yarn test
+          yarn report-coverage
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
