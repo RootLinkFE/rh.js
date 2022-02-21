@@ -4,16 +4,28 @@ import chalk from 'chalk';
 import request from 'request';
 import { camelCase } from 'lodash';
 
-import { getAllResources, SwaggerResourcesType } from './swagger-resources';
-
 import SwaggerGen from './swagger-gencode';
 import { fixDefinitionsChinese } from './utils';
+import {
+  chooseSpec,
+  getAllResources,
+  SwaggerResourcesType,
+} from '../../../utils';
+
+export interface ApiSpecsPathsType {
+  name: string;
+  url: string;
+}
 
 export type SwaggerApiCLIConfigType = {
   js?: boolean;
   output?: string;
   yes?: boolean;
   no?: boolean;
+  group?: boolean;
+  apiSpecsPaths?: ApiSpecsPathsType[];
+  all?: boolean;
+  globalConfig?: Record<string, any>;
 };
 
 const NO_VALID_SWAGGER_JSON = 'Not valid swagger schema json';
@@ -22,38 +34,64 @@ export default async function SwaggerAPI(
   swaggerUrl: string,
   config: SwaggerApiCLIConfigType,
 ) {
+  const returnData: {
+    apiSpecsPaths: ApiSpecsPathsType[];
+    specs?: Spec[];
+    specUrls: {
+      url: string;
+    }[];
+  } = { apiSpecsPaths: [], specUrls: [] };
   if (!/https?:\/\//.test(swaggerUrl)) {
     console.log(chalk.red(` ${swaggerUrl} 不是有效的地址`));
-    return;
+    return returnData;
   }
 
   config.output = path.resolve(process.cwd(), config?.output || '');
 
   const specs: Spec[] = [];
-  let isSingleSpecs = true;
-  // 尝试获取当前地址，判断是否JSON的返回内容
-  try {
-    const spec = await getSwaggerSchemaJSON(swaggerUrl);
-    const group = new URL(swaggerUrl).searchParams.get('group') || '';
+  const isSingleSpecs = !config.group;
+  if (isSingleSpecs) {
+    // 尝试获取当前地址，判断是否JSON的返回内容
     try {
-      (spec as any).resourceName = camelCase(group.split('--')[0]);
-    } catch (e) {
-      (spec as any).resourceName = new URL(swaggerUrl).hostname;
+      const spec = await getSwaggerSchemaJSON(swaggerUrl);
+      const group = new URL(swaggerUrl).searchParams.get('group');
+      try {
+        (spec as any).resourceName = camelCase(group?.split('--')[0]);
+      } catch (e) {
+        (spec as any).resourceName = new URL(swaggerUrl).hostname;
+      }
+      specs.push(spec);
+      returnData.specUrls.push({ url: swaggerUrl });
+    } catch (err: any) {
+      console.log(err);
+      if (err?.message !== NO_VALID_SWAGGER_JSON) {
+        console.error(err);
+        throw err;
+      }
     }
-    specs.push(spec);
-  } catch (err: any) {
-    console.log('[rh api]', err);
-    isSingleSpecs = false;
-    if (err?.message !== NO_VALID_SWAGGER_JSON) {
-      console.error(err);
-      throw err;
-    }
-  }
-
-  if (!isSingleSpecs) {
+  } else {
     try {
       // 尝试获取资源文件
-      const resources = await getAllResources(swaggerUrl);
+      let resources = await getAllResources(swaggerUrl);
+      if (!config.all) {
+        resources = await chooseSpec(
+          resources.map(
+            (item: { url: any; name: any }) => `${item.name}(${item.url})`,
+          ),
+        );
+      }
+      returnData.specUrls.push(
+        ...resources.map((item) => ({
+          url: encodeURI(swaggerUrl + item.url),
+        })),
+      );
+      if (config.apiSpecsPaths && config.apiSpecsPaths.length === 0) {
+        returnData.apiSpecsPaths = resources.map((item) => ({
+          name: item.name,
+          url: item.url,
+        }));
+      }
+
       specs.push(
         ...(await getSwaggerSchemaJSONByResources(resources, swaggerUrl)),
       );
@@ -71,7 +109,9 @@ export default async function SwaggerAPI(
   const genInstance = new SwaggerGen(specs, config);
   await genInstance.gen();
 
-  return true;
+  returnData.specs = specs;
+
+  return returnData;
 }
 
 function getSwaggerSchemaJSONByResources(
@@ -83,8 +123,8 @@ function getSwaggerSchemaJSONByResources(
     resources
       .reduce((_p, resource) => {
         return _p.then(async () => {
-          const url = new URL(resource.url, swaggerUrl);
-          const spec = await getSwaggerSchemaJSON(url.toString());
+          const url = swaggerUrl.replace(/\/$/, '') + resource.url;
+          const spec = await getSwaggerSchemaJSON(url);
           (spec as any).resourceName = resource.name;
           result.push(spec);
         });
@@ -97,9 +137,9 @@ function getSwaggerSchemaJSONByResources(
 
 function getSwaggerSchemaJSON(url: string): Promise<Spec> {
   return new Promise((resolve, reject) => {
-    request(url, function (err, resp, body) {
+    request(encodeURI(url), function (err, resp, body) {
       if (err) {
-        console.log('[rh api]', err);
+        console.log(err);
         return reject(err);
       }
       if (body) {
@@ -110,7 +150,6 @@ function getSwaggerSchemaJSON(url: string): Promise<Spec> {
           }
           return resolve(data);
         } catch (err: any) {
-          // console.log('[rh api]',err);
           reject(new Error(err));
         }
       } else {

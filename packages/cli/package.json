@@ -27,6 +27,7 @@
     "rimraf": "^3.0.2",
     "semver": "^7.3.5",
     "string.prototype.replaceall": "^1.0.5",
+    "swagger-client": "^3.18.4",
     "swagger-typescript-api": "^9.3.1"
   },
   "bin": {

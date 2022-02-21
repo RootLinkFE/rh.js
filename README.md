@@ -70,3 +70,35 @@ $ rh [command] [...entries] [...flags]
 - `rh api [swagger-url]` 根据 swagger 的接口文档，生成包括请求的代码
 - `rh api [swagger-url] --output <output> --axiosConfig <path> --js --help` 根据 swagger 的接口文档，生成包括请求的代码，output=文件输出路径，path=axios 配置输出路径，js=是否输出为 js，help=输出帮助
 - [更多详情](./packages/cli/src/commands/api/README.md)
+
+#### rh codegen
+
+- `rh codegen init` 生成配置文件 rh-codegen.config.json
+
+```
+ const config = {
+  outputFolder: './src/rh', // 代码输出目录
+  mockConfig: {
+    outputFolder: './', // mock 文件输出目录
+    independentServer: true, // 生成 entry-mock.js 文件 (入口) umi 环境下可配置 false 使得不生成
+    port: 8081, // express 端口
+  },
+  swaggerPaths: [
+    // 可能会是不同域名地址的微服务后端接口
+    {
+      name: '',
+      path: '',
+      group: false, // 是否代表多服务
+      mockPrefix: '', // mock 服务前缀
+    },
+  ],
+  options: {
+    methodPrefix: '', // （预留）方法名称前缀
+    reatNativeCompatible: false, // （预留）是否兼容RN App （要考虑支持，https://github.com/RootLinkFE/react-native-template 模板的 http-cient.ts 是不依赖antd和window.location等变量的）
+  },
+};
+```
+
+- `rh codegen update` 根据配置文件（多个 spec 情况下是选择模式）生成 API 文件，并询问是否继续生成 mock;
+- `rh codegen update --all` 不需要选择，直接按照配置文件生成 API 文件与 MOCK 文件
+- `rh codegen update --mock` 根据配置文件生成 MOCK 文件

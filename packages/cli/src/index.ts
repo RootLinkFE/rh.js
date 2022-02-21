@@ -3,6 +3,7 @@ import path from 'path';
 import { loadContext } from './utils/module-utils';
 import updateNotifier from './utils/update-notifier';
 import registerBlockCommand from './block';
+import registerCodegenComand from './codegen';
 
 const { version } = require('../package.json');
 
@@ -13,6 +14,7 @@ const VALID_SUBCOMMANDS = [
   'create',
   'update',
   'block',
+  'codegen',
 ];
 const program = new commander.Command();
 const rh = new commander.Command('rh');
@@ -40,6 +42,7 @@ loadContext(path.resolve(path.join(__dirname, './commands'))).forEach(
 
 // SubCommands
 program.addCommand(registerBlockCommand());
+program.addCommand(registerCodegenComand());
 
 updateNotifier().then(() => {
   program.parse(process.argv);
