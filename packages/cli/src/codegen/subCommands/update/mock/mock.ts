@@ -1,6 +1,6 @@
 const { parser } = require('./parser');
 const fs = require('fs');
-const mkdirp = require('mkdirp');
+const { mkdirp } = require('fs-extra');
 import { camelCase } from 'lodash';
 import prettier from 'prettier';
 
