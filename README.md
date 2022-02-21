@@ -31,6 +31,7 @@
     - [`rh block`](#rh-block)
     - [`rh create`](#rh-create)
     - [`rh api`](#rh-api)
+    - [`rh codegen`](#rh-codegen)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -58,6 +59,8 @@ $ rh [command] [...entries] [...flags]
 
 #### rh block
 
+> block 可简写为 b
+
 - `rh block use [repository-name]:[block-name]` 下载物料到当前目录。
 
 #### rh create
@@ -73,10 +76,12 @@ $ rh [command] [...entries] [...flags]
 
 #### rh codegen
 
+> codegen 可简写为 cg
+
 - `rh codegen init` 生成配置文件 rh-codegen.config.json
 
-```
- const config = {
+```js
+const config = {
   outputFolder: './src/rh', // 代码输出目录
   mockConfig: {
     outputFolder: './', // mock 文件输出目录

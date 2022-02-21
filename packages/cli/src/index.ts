@@ -17,7 +17,7 @@ const VALID_SUBCOMMANDS = [
   'codegen',
 ];
 const program = new commander.Command();
-const rh = new commander.Command('rh');
+// const rh = new commander.Command('rh');
 
 program
   .name('rh')
@@ -26,11 +26,12 @@ program
   .action((cmd) => {
     if (VALID_SUBCOMMANDS.indexOf(cmd) === -1) {
       console.error('rh', 'Invalid command...');
-      rh.help();
+      program.help();
     }
   });
 
-rh.version(version, '-v, --version')
+program
+  .version(version, '-v, --version')
   .description('@roothub/cli')
   .usage('<command> [options]');
 
