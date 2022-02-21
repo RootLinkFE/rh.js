@@ -71,7 +71,7 @@ $ rh [command] [...entries] [...flags]
 - `rh api [swagger-url] --output <output> --axiosConfig <path> --js --help` 根据 swagger 的接口文档，生成包括请求的代码，output=文件输出路径，path=axios 配置输出路径，js=是否输出为 js，help=输出帮助
 - [更多详情](./packages/cli/src/commands/api/README.md)
 
-#### rh codegen
+#### rh codegen | 缩写形式 (rh cg)
 
 - `rh codegen init` 生成配置文件 rh-codegen.config.json
 
