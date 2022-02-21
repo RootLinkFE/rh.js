@@ -25,6 +25,7 @@ export default async (
     mockConfig: {
       ...mockConfig,
       outputFolder,
+      ext: '.js',
     },
   };
 
