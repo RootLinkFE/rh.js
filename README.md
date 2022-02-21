@@ -31,6 +31,7 @@
     - [`rh block`](#rh-block)
     - [`rh create`](#rh-create)
     - [`rh api`](#rh-api)
+    - [`rh codegen`](#rh-codegen)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -58,6 +59,8 @@ $ rh [command] [...entries] [...flags]
 
 #### rh block
 
+> block 可简写为 b
+
 - `rh block use [repository-name]:[block-name]` 下载物料到当前目录。
 
 #### rh create
@@ -71,12 +74,14 @@ $ rh [command] [...entries] [...flags]
 - `rh api [swagger-url] --output <output> --axiosConfig <path> --js --help` 根据 swagger 的接口文档，生成包括请求的代码，output=文件输出路径，path=axios 配置输出路径，js=是否输出为 js，help=输出帮助
 - [更多详情](./packages/cli/src/commands/api/README.md)
 
-#### rh codegen | 缩写形式 (rh cg)
+#### rh codegen
+
+> codegen 可简写为 cg
 
 - `rh codegen init` 生成配置文件 rh-codegen.config.json
 
-```
- const config = {
+```js
+const config = {
   outputFolder: './src/rh', // 代码输出目录
   mockConfig: {
     outputFolder: './', // mock 文件输出目录
