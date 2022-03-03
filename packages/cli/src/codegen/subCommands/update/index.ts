@@ -17,7 +17,10 @@ export async function update(config: UpdateCommandConfig) {
 
     for (const swPath of swaggerPaths) {
       if (!swPath.group && !swPath.name) {
-        console.log('[rh codegen]', chalk.red('group=false时，请配置相应的name'));
+        console.log(
+          '[rh codegen]',
+          chalk.red('group=false时，请配置相应的name'),
+        );
         return;
       }
     }
@@ -48,8 +51,7 @@ export async function update(config: UpdateCommandConfig) {
             ...apiConfig,
           });
           // apiSpecsPathsList.push(apiSpecsPaths);
-          let needMock =
-            config.all || globalConfig.mockConfig.needMock === true;
+          let needMock = config.all || globalConfig.mockConfig.mock === true;
           if (!needMock) {
             needMock = await chooseNeedMock();
           }

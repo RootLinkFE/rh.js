@@ -17,7 +17,7 @@ export interface ApiConfig {
 
 export interface MockConfig {
   output: string;
-  needMock?: boolean;
+  mock?: boolean;
   independentServer: boolean;
   port: number;
 }

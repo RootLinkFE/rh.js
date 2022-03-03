@@ -87,8 +87,8 @@ const config = {
     replaceEntryFile: false, // 是否替换 api 入口文件
   },
   mockConfig: {
+    mock: true, // ( true / false )是否需要mock，可配置，不用询问
     output: './mock', // mock 文件输出目录
-    needMock: true || false, // 是否需要mock，可配置，不用询问
     independentServer: true, // 生成 entry-mock.js 文件 (入口) umi 环境下可配置 false 使得不生成
     port: 8081, // express 端口
   },
