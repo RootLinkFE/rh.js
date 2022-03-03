@@ -17,7 +17,7 @@ export async function update(config: UpdateCommandConfig) {
 
     for (const swPath of swaggerPaths) {
       if (!swPath.group && !swPath.name) {
-        console.log(chalk.red('group=false时，请配置相应的name'));
+        console.log('[rh codegen]', chalk.red('group=false时，请配置相应的name'));
         return;
       }
     }
@@ -89,7 +89,7 @@ export async function update(config: UpdateCommandConfig) {
     //   );
     // }
   } else {
-    console.error('请先生成配置文件, rh codegen init');
+    console.error('[rh codegen init]', '请先生成配置文件');
   }
 }
 
