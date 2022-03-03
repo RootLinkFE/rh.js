@@ -23,6 +23,7 @@ export type SwaggerApiCLIConfigType = {
   yes?: boolean;
   no?: boolean;
   group?: boolean;
+  name?: string;
   apiSpecsPaths?: ApiSpecsPathsType[];
   all?: boolean;
   globalConfig?: Record<string, any>;
@@ -55,10 +56,11 @@ export default async function SwaggerAPI(
     try {
       const spec = await getSwaggerSchemaJSON(swaggerUrl);
       const group = new URL(swaggerUrl).searchParams.get('group');
-      try {
-        (spec as any).resourceName = camelCase(group?.split('--')[0]);
-      } catch (e) {
-        (spec as any).resourceName = new URL(swaggerUrl).hostname;
+
+      if (group) {
+        (spec as any).resourceName = camelCase(group.split('--')[0]);
+      } else {
+        (spec as any).resourceName = config.name;
       }
       specs.push(spec);
       returnData.specUrls.push({ url: swaggerUrl });

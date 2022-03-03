@@ -4,6 +4,7 @@ import SwaggerAPI from './api/swagger-api';
 import { CONFIG_FILE_NAME } from '../../constants';
 import { chooseNeedMock, chooseSwaggerPaths } from '../../utils';
 import doMock from './mock';
+import chalk from 'chalk';
 
 export async function update(config: { all: any; mock: any }) {
   if (fse.existsSync(CONFIG_FILE_NAME)) {
@@ -14,6 +15,13 @@ export async function update(config: { all: any; mock: any }) {
       apiConfig: { output },
     } = globalConfig;
     let { swaggerPaths } = globalConfig;
+
+    for (const swPath of swaggerPaths) {
+      if (!swPath.group && !swPath.name) {
+        console.log('[rh codegen]', chalk.red('group=false时，请配置相应的name'));
+        return;
+      }
+    }
     const taskList = [];
     // const apiSpecsPathsList: ApiSpecsPathsType[][] = [];
     if (!config.all && swaggerPaths.length > 1) {
@@ -81,7 +89,7 @@ export async function update(config: { all: any; mock: any }) {
     //   );
     // }
   } else {
-    console.error('请先生成配置文件, rh codegen init');
+    console.error('[rh codegen init]', '请先生成配置文件');
   }
 }
 
