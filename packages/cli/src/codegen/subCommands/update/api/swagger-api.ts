@@ -11,6 +11,7 @@ import {
   getAllResources,
   SwaggerResourcesType,
 } from '../../../utils';
+import { UpdateConfigType } from '../type';
 
 export interface ApiSpecsPathsType {
   name: string;
@@ -20,13 +21,13 @@ export interface ApiSpecsPathsType {
 export type SwaggerApiCLIConfigType = {
   js?: boolean;
   output?: string;
-  yes?: boolean;
+  replaceEntryFile?: boolean;
   no?: boolean;
   group?: boolean;
   name?: string;
   apiSpecsPaths?: ApiSpecsPathsType[];
   all?: boolean;
-  globalConfig?: Record<string, any>;
+  globalConfig: UpdateConfigType;
 };
 
 const NO_VALID_SWAGGER_JSON = 'Not valid swagger schema json';

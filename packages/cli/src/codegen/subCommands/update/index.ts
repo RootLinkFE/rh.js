@@ -5,20 +5,22 @@ import { CONFIG_FILE_NAME } from '../../constants';
 import { chooseNeedMock, chooseSwaggerPaths } from '../../utils';
 import doMock from './mock';
 import chalk from 'chalk';
+import { UpdateConfigType, UpdateCommandConfig } from './type';
 
-export async function update(config: { all: any; mock: any }) {
+export async function update(config: UpdateCommandConfig) {
   if (fse.existsSync(CONFIG_FILE_NAME)) {
-    const globalConfig = JSON.parse(
+    const globalConfig: UpdateConfigType = JSON.parse(
       fse.readFileSync(CONFIG_FILE_NAME).toString('utf8'),
     );
-    const {
-      apiConfig: { output },
-    } = globalConfig;
+    const { apiConfig } = globalConfig;
     let { swaggerPaths } = globalConfig;
 
     for (const swPath of swaggerPaths) {
       if (!swPath.group && !swPath.name) {
-        console.log('[rh codegen]', chalk.red('group=false时，请配置相应的name'));
+        console.log(
+          '[rh codegen]',
+          chalk.red('group=false时，请配置相应的name'),
+        );
         return;
       }
     }
@@ -46,10 +48,10 @@ export async function update(config: { all: any; mock: any }) {
         const func = async () => {
           const { specUrls } = await SwaggerAPI(swaggerPaths[i].path, {
             ...allConfig,
-            output,
+            ...apiConfig,
           });
           // apiSpecsPathsList.push(apiSpecsPaths);
-          let needMock = config.all;
+          let needMock = config.all || globalConfig.mockConfig.mock === true;
           if (!needMock) {
             needMock = await chooseNeedMock();
           }

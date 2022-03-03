@@ -3,20 +3,16 @@ import fse from 'fs-extra';
 import prettier from 'prettier';
 import chalk from 'chalk';
 import { chooseSpec, getAllResources } from '../../../utils';
+import { UpdateConfigType, UpdateCommandConfig, SwaggerPath } from '../type';
 
 export default async (
   swaggerUrl: string,
   config: {
-    globalConfig: {
-      mockConfig: {
-        independentServer: boolean;
-        output: string;
-      };
-    };
-    group: any;
-    specUrls: string | any[];
-    all?: boolean;
-  },
+    globalConfig: UpdateConfigType;
+  } & SwaggerPath &
+    UpdateCommandConfig & {
+      specUrls?: { url: string }[];
+    },
 ) => {
   const mockConfig = config.globalConfig.mockConfig;
   const output = mockConfig.output;
