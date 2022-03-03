@@ -10,7 +10,9 @@ export async function update(config: { all: any; mock: any }) {
     const globalConfig = JSON.parse(
       fse.readFileSync(CONFIG_FILE_NAME).toString('utf8'),
     );
-    const { outputFolder } = globalConfig;
+    const {
+      apiConfig: { output },
+    } = globalConfig;
     let { swaggerPaths } = globalConfig;
     const taskList = [];
     // const apiSpecsPathsList: ApiSpecsPathsType[][] = [];
@@ -36,7 +38,7 @@ export async function update(config: { all: any; mock: any }) {
         const func = async () => {
           const { specUrls } = await SwaggerAPI(swaggerPaths[i].path, {
             ...allConfig,
-            output: outputFolder + '/api',
+            output,
           });
           // apiSpecsPathsList.push(apiSpecsPaths);
           let needMock = config.all;

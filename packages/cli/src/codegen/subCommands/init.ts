@@ -4,9 +4,11 @@ import commander from 'commander';
 import { CONFIG_FILE_NAME } from '../constants';
 
 export const config = {
-  outputFolder: './src/rh', // 代码输出目录
+  apiConfig: {
+    output: './src/apis', // api 文件输出目录
+  },
   mockConfig: {
-    outputFolder: './', // mock 文件输出目录
+    output: './mock', // mock 文件输出目录
     independentServer: true, // 生成 entry-mock.js 文件 (入口) umi 环境下可配置 false 使得不生成
     port: 8081, // express 端口
   },
@@ -21,7 +23,7 @@ export const config = {
   ],
   options: {
     methodPrefix: '', // （预留）方法名称前缀
-    reatNativeCompatible: false, // （预留）是否兼容RN App （要考虑支持，https://github.com/RootLinkFE/react-native-template 模板的 http-cient.ts 是不依赖antd和window.location等变量的）
+    reactNativeCompatible: false, // （预留）是否兼容RN App （要考虑支持，https://github.com/RootLinkFE/react-native-template 模板的 http-cient.ts 是不依赖antd和window.location等变量的）
   },
 };
 
