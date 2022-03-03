@@ -43,9 +43,11 @@ describe('rh codegen update', () => {
         group: false,
       },
     ],
-    outputFolder: dir, // 代码输出目录
+    apiConfig: {
+      output: './src/apis',
+    },
     mockConfig: {
-      outputFolder: dir, // mock 文件输出目录
+      output: dir + '/mock', // mock 文件输出目录
       ext: '.js', // 后缀名
       independentServer: false, // 生成 entry-mock[ext] 文件 (入口)
     },

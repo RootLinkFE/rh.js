@@ -13,7 +13,7 @@ export const mock: any = {
   ): Promise<any> {
     const { mockConfig } = config;
     this.mockConfig = mockConfig;
-    this.outputPath = mockConfig.outputFolder;
+    this.outputPath = mockConfig.output;
     this.dataLength = mockConfig.dataLength || '1-8';
     this.content = '';
     this.prefix = config.mockPrefix || '';

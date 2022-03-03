@@ -1,8 +1,9 @@
 {
-  "outputFolder": "./src/rh",
+  "apiConfig": {
+    "output": "./src/apis"
+  },
   "mockConfig": {
-    "outputFolder": "./",
-    "ext": ".js",
+    "output": "./mock",
     "independentServer": true,
     "port": 8081
   },
@@ -25,6 +26,6 @@
   ],
   "options": {
     "methodPrefix": "",
-    "reatNativeCompatible": false
+    "reactNativeCompatible": false
   }
 }

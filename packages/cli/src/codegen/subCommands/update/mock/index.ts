@@ -10,7 +10,7 @@ export default async (
     globalConfig: {
       mockConfig: {
         independentServer: boolean;
-        outputFolder: string;
+        output: string;
       };
     };
     group: any;
@@ -19,12 +19,12 @@ export default async (
   },
 ) => {
   const mockConfig = config.globalConfig.mockConfig;
-  const outputFolder = mockConfig.outputFolder + '/mock';
+  const output = mockConfig.output;
   const newConfig = {
     ...config,
     mockConfig: {
       ...mockConfig,
-      outputFolder,
+      output,
       ext: '.js',
     },
   };
@@ -64,13 +64,13 @@ export default async (
     );
   }
   if (mockConfig.independentServer) {
-    await genIndex({ ...newConfig.mockConfig, outputFolder });
+    await genIndex({ ...newConfig.mockConfig, output });
   }
   console.log(chalk.green('生成 mock 数据成功！'));
 };
 
-async function genIndex({ outputFolder, port, ext }: any) {
-  fse.readdir(outputFolder, function (err, files) {
+async function genIndex({ output, port, ext }: any) {
+  fse.readdir(output, function (err, files) {
     if (err) {
       console.log(err);
       return;
@@ -106,27 +106,8 @@ async function genIndex({ outputFolder, port, ext }: any) {
     })
     `;
     fse.writeFileSync(
-      outputFolder + '/entry-mock' + ext,
+      output + '/entry-mock' + ext,
       prettier.format(code, { parser: 'babel' }),
     );
-    // const packageJson = {
-    //   name: 'mock',
-    //   version: '1.0.0',
-    //   description: '',
-    //   main: 'index.js',
-    //   scripts: {
-    //     test: 'echo "Error: no test specified" && exit 1',
-    //   },
-    //   author: '',
-    //   license: 'ISC',
-    //   dependencies: {
-    //     express: '^4.17.2',
-    //     mockjs: '^1.1.0',
-    //   },
-    // };
-    // fse.writeFile(
-    //   outputFolder + '/package.json',
-    //   JSON.stringify(packageJson, null, 2),
-    // );
   });
 }
