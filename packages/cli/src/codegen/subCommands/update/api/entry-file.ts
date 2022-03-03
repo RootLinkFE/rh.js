@@ -38,7 +38,7 @@ export default class EntryFile {
   async genFile(basePath: string) {
     const indexFilePath = path.join(basePath, 'index.' + this.ext);
     if (fs.existsSync(indexFilePath)) {
-      if (this.config.no) {
+      if (this.config.replaceEntryFile === false) {
         // console.log(`${indexFilePath} `, chalk.green('已存在'));
         return;
       }

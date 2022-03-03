@@ -1,6 +1,7 @@
 {
   "apiConfig": {
-    "output": "./src/apis"
+    "output": "./src/apis",
+    "replaceEntryFile": false
   },
   "mockConfig": {
     "output": "./mock",

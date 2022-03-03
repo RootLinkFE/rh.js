@@ -6,6 +6,7 @@ import { CONFIG_FILE_NAME } from '../constants';
 export const config = {
   apiConfig: {
     output: './src/apis', // api 文件输出目录
+    replaceEntryFile: false, // 是否替换 api 入口文件
   },
   mockConfig: {
     output: './mock', // mock 文件输出目录
