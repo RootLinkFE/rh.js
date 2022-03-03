@@ -7,7 +7,11 @@ import prettier from 'prettier';
 export const mock: any = {
   async init(
     opts: any,
-    config: { mockPrefix?: string; mockConfig: Record<string, any> } = {
+    config: {
+      mockPrefix?: string;
+      mockConfig: Record<string, any>;
+      name?: string;
+    } = {
       mockConfig: {},
     },
   ): Promise<any> {
@@ -24,7 +28,7 @@ export const mock: any = {
     if (group) {
       this.fileName = camelCase(group.split('--')[0]) + this.ext;
     } else {
-      this.fileName = camelCase(new URL(opts.url).hostname) + this.ext;
+      this.fileName = camelCase(config.name) + this.ext;
     }
 
     await this.parse(opts);
