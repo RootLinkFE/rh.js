@@ -9,16 +9,6 @@
 - 📦 **@roothub/materials** 物料资产命令
 - 🐠 **@roothub/shared** 工具包
 
-## TODO
-
-- [x] 命令行处理
-- [x] 模板依赖配置（package.json）
-- [x] 物料模板结构调整（base、config、模板）
-- [x] 生成初始模板
-- [x] 模板依赖及组合依赖合并，生成组合模板（完成第一版脚手架）
-- [x] 添加区块
-- [ ] 优化本地调试模板
-
 ## Documentation
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -68,7 +58,9 @@ $ rh [command] [...entries] [...flags]
 - `rh create [project-name]` 创建模板项目
 - `rh create [project-name] -t <template> -l <UIlib> -m <material> -p <path>` 基于已知物料直接生成项目，t=模板，l=ui 库，m=物料库，path=生成项目的路径
 
-#### rh api
+#### rh api （不维护）
+
+> 推荐使用 `rh codegen`
 
 - `rh api [swagger-url]` 根据 swagger 的接口文档，生成包括请求的代码
 - `rh api [swagger-url] --output <output> --axiosConfig <path> --js --help` 根据 swagger 的接口文档，生成包括请求的代码，output=文件输出路径，path=axios 配置输出路径，js=是否输出为 js，help=输出帮助
@@ -76,7 +68,7 @@ $ rh [command] [...entries] [...flags]
 
 #### rh codegen
 
-> codegen 可简写为 cg
+> `codegen` 可简写为 `cg`
 
 - `rh codegen init` 生成配置文件 rh-codegen.config.json
 
@@ -111,3 +103,11 @@ const config = {
 - `rh codegen update` 根据配置文件（多个 spec 情况下是选择模式）生成 API 文件，并询问是否继续生成 mock;
 - `rh codegen update --all` 不需要选择，直接按照配置文件生成 API 文件与 MOCK 文件
 - `rh codegen update --mock` 根据配置文件生成 MOCK 文件
+
+## Related
+
+- [RootHub](http://roothub.leekhub.com/) 前端研发平台
+
+## License
+
+MIT
