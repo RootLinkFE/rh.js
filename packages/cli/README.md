@@ -8,7 +8,9 @@
 
 **add-block**
 
-- `rh add-block [block-name] [repository-name]` 添加 block 到当前目录
+- `rh block use [repoName]:[block-name] [-p --path]` 添加 block 到当前目录/-p指定相对路径
+- `rh block update [-n repoName1,repoName2]` 更新指定物料库名字,如有多个请用逗号隔开
+- `rh block update  [-a --all]` 更新全部远程物料库
 
 **create**
 

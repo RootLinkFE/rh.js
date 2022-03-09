@@ -4,26 +4,32 @@
  * @Description: block command
  */
 
-import fse from 'fs-extra';
-import path from 'path';
-import chalk from 'chalk';
-import os from 'os';
-import inquirer from 'inquirer';
 import axios from 'axios';
-import util from 'util';
+import chalk from 'chalk';
 import child_process from 'child_process';
+import fse from 'fs-extra';
+import inquirer from 'inquirer';
 import ora from 'ora';
-import { Block, Repository } from './type';
+import os from 'os';
+import path from 'path';
+import util from 'util';
+import { copyFile } from '../utils/file-handler';
 import {
-  RECOMMEND_MATERIALS,
-  PATH_RESOURCE,
-  URL_MATERIALS_JSON,
+  PATH_RESOURCE, RECOMMEND_MATERIALS, URL_MATERIALS_JSON
 } from './config';
+import { Block, Repository } from './type';
 
 const exec = util.promisify(child_process.exec);
+const cwd = process.cwd(); // 当前node进程执行路径
 
 const homedir = os.homedir();
 const localStorageDir = path.join(homedir, PATH_RESOURCE); // 本地存储位置
+let spinnerRoot: any = null;
+
+const clearSpinnerRoot = () => {
+  spinnerRoot?.stop();
+  spinnerRoot = null;
+};
 
 async function getBlockKey(key: string) {
   if (!key) {
@@ -104,18 +110,19 @@ async function downloadRepository(repository: Repository) {
   const hasRepo = fse.existsSync(localRepositoryPath);
 
   if (hasRepo) {
-    const spinner = ora('block repository pulling...').start();
+    spinnerRoot = ora('block repository pulling...').start();
     await exec('git pull', {
       cwd: localRepositoryPath,
     });
-    spinner.stop();
   } else {
-    const spinner = ora('block repository cloning...').start();
+    spinnerRoot = ora('block repository cloning...').start();
     await exec(`git clone ${gitPath}`, {
       cwd: localStorageDir,
     });
-    spinner.stop();
   }
+  clearSpinnerRoot();
+
+  return true;
 }
 
 function getRepositoryName(gitPath: string) {
@@ -151,16 +158,59 @@ function copyBlock(repository: Repository, block: Block, destination: string) {
   console.log(chalk.blue(`[rh block] Block add successfully: ${destination}`));
 }
 
-export default async function rhBlockInsert(packageName: string) {
+export async function rhBlockUpdate(
+  packageNames: string[] | null,
+  logger = (msg: string) => console.log(msg),
+) {
+  const tmpPath = path.join(localStorageDir, '.tmp');
+  const repositoryList = (await getRepositoryList()) || RECOMMEND_MATERIALS;
+  const pkgs = !packageNames ? repositoryList.map((r) => r.name) : packageNames;
+  if (!fse.existsSync(tmpPath)) {
+    fse.mkdirSync(tmpPath);
+  }
+  for (let i = 0; i < pkgs.length; ++i) {
+    let isInit = true;
+    const pkName = pkgs[i];
+    const downloadBlockPath = path.join(localStorageDir, pkName);
+    const repo = repositoryList?.find((item) => item.name === pkName);
+    if (!repo) {
+      continue;
+    }
+    try {
+      if (fse.existsSync(downloadBlockPath)) {
+        isInit = false;
+        copyFile(downloadBlockPath, path.join(tmpPath, pkName));
+        fse.removeSync(downloadBlockPath);
+      }
+      await downloadRepository(repo);
+      if (isInit) {
+        logger(chalk.green(`${pkName}添加成功`));
+      } else {
+        logger(chalk.green(`${pkName}更新成功`));
+      }
+    } catch (error) {
+      if (fse.existsSync(path.join(tmpPath, pkName))) {
+        copyFile(path.join(tmpPath, pkName), path.join(localStorageDir, pkName));
+      }
+      logger(chalk.red(`${pkName}更新失败,原因：${error}`));
+      clearSpinnerRoot();
+    }
+  }
+  fse.removeSync(tmpPath);
+}
+
+export default async function rhBlockInsert(packageName: string,
+  pathName: string = '',) {
   try {
     // rh block use materials-react:FileImportModal
 
-    const cwd = process.cwd(); // 当前node进程执行路径
     const arr = packageName.split(':');
     const repositoryName = arr[0];
     const blockName = arr[1];
     const blockKey = await getBlockKey(blockName);
-    const downloadBlockPath = path.join(cwd, blockKey);
+    const downloadBlockPath = /^(.\/)/.test(pathName)
+      ? path.join(cwd, pathName, blockKey)
+      : path.join(cwd, blockKey);
     ensurePath(downloadBlockPath);
     const repository = await getRepository(repositoryName);
     await downloadRepository(repository);
@@ -168,5 +218,6 @@ export default async function rhBlockInsert(packageName: string) {
     copyBlock(repository, block, downloadBlockPath);
   } catch (error) {
     console.log(chalk.red(error));
+    clearSpinnerRoot();
   }
 }
