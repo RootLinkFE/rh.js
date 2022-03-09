@@ -34,6 +34,8 @@ export async function update(config: UpdateCommandConfig) {
         })),
       );
     }
+
+    let allSpecUrls: any[] = [];
     for (let i = 0; i < swaggerPaths.length; i++) {
       const allConfig = {
         ...swaggerPaths[i],
@@ -50,9 +52,11 @@ export async function update(config: UpdateCommandConfig) {
             ...allConfig,
             ...apiConfig,
           });
+
+          allSpecUrls = allSpecUrls.concat(specUrls);
           // apiSpecsPathsList.push(apiSpecsPaths);
-          let needMock = config.all || globalConfig.mockConfig.mock === true;
-          if (!needMock) {
+          let needMock = config.all || globalConfig.mockConfig.mock;
+          if (needMock === undefined) {
             needMock = await chooseNeedMock();
           }
           if (needMock) {
@@ -65,6 +69,15 @@ export async function update(config: UpdateCommandConfig) {
 
     for (let i = 0; i < taskList.length; i++) {
       await taskList[i]();
+    }
+
+    if (allSpecUrls.length) {
+      console.log(
+        `建议执行\n${chalk.blue(
+          'eslint --fix --ext .ts --format=pretty ' +
+            globalConfig.apiConfig.output,
+        )}`,
+      );
     }
 
     // // update 更新 不使用
