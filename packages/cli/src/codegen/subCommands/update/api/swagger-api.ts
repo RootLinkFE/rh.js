@@ -83,11 +83,13 @@ export default async function SwaggerAPI(
           ),
         );
       }
-      returnData.specUrls.push(
-        ...resources.map((item) => ({
-          url: encodeURI(swaggerUrl + item.url),
-        })),
-      );
+      returnData.specUrls = resources.map((item) => ({
+        url: encodeURI(swaggerUrl + item.url),
+      }));
+      if (!resources.length) {
+        console.log(chalk.red('未选择资源！'));
+        return returnData;
+      }
       if (config.apiSpecsPaths && config.apiSpecsPaths.length === 0) {
         returnData.apiSpecsPaths = resources.map((item) => ({
           name: item.name,

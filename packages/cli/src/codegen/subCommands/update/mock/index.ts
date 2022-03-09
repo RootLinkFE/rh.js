@@ -42,6 +42,10 @@ export default async (
         item.url = encodeURI(swaggerUrl + item.url);
       });
     }
+    if (!resources.length) {
+      console.log(chalk.red('未选择资源！'));
+      return;
+    }
 
     for (let i = 0; i < resources.length; i++) {
       await mock.init(

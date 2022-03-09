@@ -1,49 +1,6 @@
 const inquirer = require('inquirer');
 const request = require('request');
 
-interface swaggerResourceType {
-  location: 'string';
-  name: 'string';
-  swaggerVersion: 'string';
-  url: 'string';
-}
-
-type swaggerResourceTypeList = swaggerResourceType[];
-
-function getSwaggerResources(url: string): Promise<swaggerResourceTypeList> {
-  return new Promise((resolve, reject) => {
-    request(url, function (err: any, resp: any, body: string) {
-      if (err) {
-        console.log(err);
-        return reject(err);
-      }
-      if (body) {
-        try {
-          resolve(JSON.parse(body));
-        } catch (err: any) {
-          console.log(err);
-          reject(new Error(err));
-        }
-      } else {
-        reject(new Error());
-      }
-    });
-  });
-}
-
-export async function chooseApi(apiUrl: string) {
-  const data = await getSwaggerResources(apiUrl);
-  const { url } = await inquirer.prompt([
-    {
-      type: 'list',
-      name: 'url',
-      message: 'choose apiUrl',
-      choices: data.map((item) => item.url),
-    },
-  ]);
-  return url;
-}
-
 // 供选择 Spec
 export async function chooseSpec(choices: any) {
   const { results } = await inquirer.prompt([
@@ -52,6 +9,12 @@ export async function chooseSpec(choices: any) {
       name: 'results',
       message: '选择具体服务(可多选)',
       choices,
+      validate(answer: string | any[]) {
+        if (answer.length < 1) {
+          return '请至少选择一项';
+        }
+        return true;
+      },
     },
   ]);
   return results.map((item: string) => {
@@ -70,6 +33,12 @@ export async function chooseSwaggerPaths(choices: any) {
       name: 'paths',
       message: '选择 swaggerPaths',
       choices,
+      validate(answer: string | any[]) {
+        if (answer.length < 1) {
+          return '请至少选择一项';
+        }
+        return true;
+      },
     },
   ]);
   return paths;
