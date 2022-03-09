@@ -13,7 +13,7 @@ import ora from 'ora';
 import os from 'os';
 import path from 'path';
 import util from 'util';
-import { copyFile, delDir } from '../utils/file-handler';
+import { copyFile } from '../utils/file-handler';
 import {
   PATH_RESOURCE, RECOMMEND_MATERIALS, URL_MATERIALS_JSON
 } from './config';
@@ -180,7 +180,7 @@ export async function rhBlockUpdate(
       if (fse.existsSync(downloadBlockPath)) {
         isInit = false;
         copyFile(downloadBlockPath, path.join(tmpPath, pkName));
-        delDir(downloadBlockPath);
+        fse.removeSync(downloadBlockPath);
       }
       await downloadRepository(repo);
       if (isInit) {
@@ -196,7 +196,7 @@ export async function rhBlockUpdate(
       clearSpinnerRoot();
     }
   }
-  delDir(tmpPath);
+  fse.removeSync(tmpPath);
 }
 
 export default async function rhBlockInsert(packageName: string,

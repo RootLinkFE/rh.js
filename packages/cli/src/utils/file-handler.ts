@@ -1,6 +1,11 @@
-import fs from 'fs';
 import fse from 'fs-extra';
-import path from 'path';
+import { RH_MATERIAL_DIR } from './const';
+
+export function isExistRootHubDir () {
+  if (!fse.existsSync(RH_MATERIAL_DIR)) {
+    fse.mkdirsSync(RH_MATERIAL_DIR);
+  }
+}
 
 /**
  * 复制文件夹
@@ -23,7 +28,7 @@ import path from 'path';
  * @returns
  */
  export function checkDir(targetDir: string) {
-  if (fs.statSync(targetDir).isDirectory()) {
+  if (fse.statSync(targetDir).isDirectory()) {
     return true;
   } else {
     return false;
@@ -38,9 +43,9 @@ import path from 'path';
  */
  export function delDir(target: string) {
   // 判断目录是否存在
-  if (fs.existsSync(target)) {
+  if (fse.existsSync(target)) {
     // 遍历目录下存在的文件 / 目录
-    const targetList = fs.readdirSync(target);
+    const targetList = fse.readdirSync(target);
     if (targetList.length > 0) {
       // 计数器，用于判断是否删除当前目录
       let count = 0;
@@ -54,16 +59,16 @@ import path from 'path';
           configFlag = dirName === 'config.json' ? true : false;
           // 文件，则删除
           if (!configFlag) {
-            fs.unlinkSync(`${target}/${dirName}`);
+            fse.unlinkSync(`${target}/${dirName}`);
           }
         }
       });
       // 当计数器等于当前目录的文件/目录加起来的总值，则删除当前目录
       if (count === targetList.length && !configFlag) {
-        fs.rmdirSync(target);
+        fse.rmdirSync(target);
       }
     } else {
-      fs.rmdirSync(target);
+      fse.rmdirSync(target);
     }
   } else {
     console.log('该目录不存在: ', target);

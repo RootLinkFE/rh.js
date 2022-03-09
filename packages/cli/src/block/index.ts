@@ -3,7 +3,7 @@ import getGitRootPath from '../utils/getGitRootPath';
 import rhBlockInsert, { rhBlockUpdate } from './main';
 import chalk from 'chalk';
 import ora from 'ora';
-import { isExistRootDir } from '../utils/const';
+import { isExistRootHubDir } from '../utils/file-handler';
 
 function registerBlockCommand() {
   /**
@@ -19,7 +19,7 @@ function registerBlockCommand() {
     .option('-p, --path <pathName>', '物料存放的文件位置, 有“./”前缀代表相对路径，没有则取当前路径')
     .description('根据包名下载和使用物料')
     .action(async (packageName, options) => {
-      isExistRootDir();
+      isExistRootHubDir();
       // const projectDir = getGitRootPath();
       const projectPath = options.path || '';
       await rhBlockInsert(packageName, projectPath);
@@ -31,7 +31,7 @@ function registerBlockCommand() {
     .option('-a, --all', '更新全部远程物料库')
     .description('更新物料库')
     .action(async (options) => {
-      isExistRootDir();
+      isExistRootHubDir();
       const { name, all } = options;
       try {
         if (name || all) {
