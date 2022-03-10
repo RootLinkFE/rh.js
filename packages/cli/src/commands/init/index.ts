@@ -3,7 +3,8 @@ import ora from 'ora';
 import fse from 'fs-extra';
 import path from 'path';
 import { MaterialResourcesCollection } from '@roothub/material/lib/material-resources-collection';
-import { isExistRootHubDir, RH_MATERIAL_DIR } from '../../utils/file-handler';
+import { isExistRootHubDir } from '../../utils/file-handler';
+import { RH_MATERIAL_DIR } from '../../utils/const';
 
 const cwd = process.cwd();
 
