@@ -30,7 +30,7 @@ program
   });
 
 program
-  .version(version, '-v, --version')
+  .version(version, '-v, --ve2rsion')
   .description('@roothub/cli')
   .usage('<command> [options]');
 
