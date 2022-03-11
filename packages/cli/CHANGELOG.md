@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/RootLinkFE/rh.js/compare/@roothub/cli@0.2.26...@roothub/cli@0.3.0) (2022-03-11)
+
+
+### Features
+
+* asdasd ([2ab98e7](https://github.com/RootLinkFE/rh.js/commit/2ab98e7a0b1d2ec651b7f9e904bafb41be94de73))
+
+
+
+
+
+
 ## 0.2.26 (2022-03-10)
 
 **Note:** Version bump only for package @roothub/cli
