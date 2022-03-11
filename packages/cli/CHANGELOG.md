@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/RootLinkFE/rh.js/compare/@roothub/cli@0.2.26...@roothub/cli@0.4.0) (2022-03-11)
+
+
+### Features
+
+* 测试 ([6d0b966](https://github.com/RootLinkFE/rh.js/commit/6d0b9660ef1e7b58cd08fa7c7f1b4a4a80d2a9b6))
+* asdasd ([2ab98e7](https://github.com/RootLinkFE/rh.js/commit/2ab98e7a0b1d2ec651b7f9e904bafb41be94de73))
+
+
+
+
+
 # [0.3.0](https://github.com/RootLinkFE/rh.js/compare/@roothub/cli@0.2.26...@roothub/cli@0.3.0) (2022-03-11)
 
 
