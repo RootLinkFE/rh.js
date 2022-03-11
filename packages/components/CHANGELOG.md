@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/RootLinkFE/rh.js/compare/@roothub/components@0.2.20...@roothub/components@0.3.0) (2022-03-11)
+
+
+### Bug Fixes
+
+* fix npm ci by add a package-lock.json ([c4ae257](https://github.com/RootLinkFE/rh.js/commit/c4ae257216865c4c4796839be4f990f3564aef40))
+* update lock.json and yarn.lock ([da1a722](https://github.com/RootLinkFE/rh.js/commit/da1a722de0df2d31ad747efa0e1989621f9356d0))
+
+
+### Features
+
+* 暂存开发进度 ([e52f105](https://github.com/RootLinkFE/rh.js/commit/e52f105207a9d440740b97cd14497cb411f4ab60))
+
+
+
+
+
+
 ## 0.2.20 (2022-02-16)
 
 **Note:** Version bump only for package @roothub/components

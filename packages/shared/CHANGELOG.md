@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.24](https://github.com/RootLinkFE/rh.js/compare/@roothub/shared@0.0.23...@roothub/shared@0.0.24) (2022-03-11)
+
+**Note:** Version bump only for package @roothub/shared
+
+
+
+
+
+
 ## 0.0.23 (2022-02-16)
 
 **Note:** Version bump only for package @roothub/shared

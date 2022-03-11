@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/RootLinkFE/rh.js/compare/@roothub/cli@0.2.20...@roothub/cli@0.3.0) (2022-03-11)
+
+
+### Bug Fixes
+
+* 修改 mock 配置， 增加提示 eslint ([fb48eb2](https://github.com/RootLinkFE/rh.js/commit/fb48eb2b04ceb17d6c5d8b7f087e66e9df3b9b6d))
+* group=false时，需要配置相应的name ([86fd1fa](https://github.com/RootLinkFE/rh.js/commit/86fd1fa368ccbe3a897a82b448d3384064e37424))
+* inquirer 增加 validate ([c9a26ea](https://github.com/RootLinkFE/rh.js/commit/c9a26ea6e731b02ea681b543879552b693385939))
+* mkdirp ([a8a8631](https://github.com/RootLinkFE/rh.js/commit/a8a863135d5aa168adf5a064f68e229e76c2ae68))
+* needMock ([9c111b1](https://github.com/RootLinkFE/rh.js/commit/9c111b15173cf1add91bf02c781ee7b36f310610))
+* no mkdirp package ([19ff6fd](https://github.com/RootLinkFE/rh.js/commit/19ff6fde8ebf98d48edbd29d5787c09dd1265294))
+* no mkdirp package ([7594811](https://github.com/RootLinkFE/rh.js/commit/75948115e0a8f4072846699ffc38fdbc9eb64c40))
+* update lock.json and yarn.lock ([da1a722](https://github.com/RootLinkFE/rh.js/commit/da1a722de0df2d31ad747efa0e1989621f9356d0))
+
+
+### Features
+
+* 123 ([653e3ac](https://github.com/RootLinkFE/rh.js/commit/653e3ac5280b1c7c890ab27f5972f1670ff6275f))
+* 假如没有group参数，则取配置名称名字 ([f554998](https://github.com/RootLinkFE/rh.js/commit/f554998dbd45dc3cde94cffbb7101960fa7f17b0))
+* 暂存开发进度 ([e6feddd](https://github.com/RootLinkFE/rh.js/commit/e6feddd4d163f42acbd02c2463d09acbd17dc009))
+* 暂存开发进度 ([e52f105](https://github.com/RootLinkFE/rh.js/commit/e52f105207a9d440740b97cd14497cb411f4ab60))
+* 暂存开发进度 ([c157a71](https://github.com/RootLinkFE/rh.js/commit/c157a71f95da7614dea7ca82d3bc669b06c17dd0))
+* 增加命令缩写以及描述 ([d9dddb5](https://github.com/RootLinkFE/rh.js/commit/d9dddb5e86e1f4cbb0d76d41c267d7eed5fa314f))
+* 增加命令缩写以及描述 ([7004467](https://github.com/RootLinkFE/rh.js/commit/7004467f241b887481c8a232716cee3b626ccbc0))
+* 增加replaceEntryFile，needMock配置，增加TS类型 ([a33b7d5](https://github.com/RootLinkFE/rh.js/commit/a33b7d567fd834011af90eae6a2734353512bb63))
+* codegen - add a introduce ([c1a598f](https://github.com/RootLinkFE/rh.js/commit/c1a598f107240ead437fc76f7070d90c0b0a71c5))
+* codegen - cli/package-lock.json ([7e283d1](https://github.com/RootLinkFE/rh.js/commit/7e283d1f4027571a885d25e4d8dc3249db7f7008))
+* codegen (api and mock) ([ac5a98c](https://github.com/RootLinkFE/rh.js/commit/ac5a98c1f9e3b7695b9d0ed8fe8c247032eb702a))
+* optimize init config ([36725b6](https://github.com/RootLinkFE/rh.js/commit/36725b67458e264bbb0353b7b0bcdef7cc97d599))
+
+
+
+
+
+
 ## 0.2.20 (2022-02-16)
 
 **Note:** Version bump only for package @roothub/cli

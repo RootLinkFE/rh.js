@@ -1,7 +1,7 @@
 {
   "name": "@roothub/components",
   "license": "MIT",
-  "version": "0.2.20",
+  "version": "0.3.0",
   "publishConfig": {
     "access": "public"
   },

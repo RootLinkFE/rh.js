@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.21](https://github.com/RootLinkFE/rh.js/compare/@roothub/material@0.2.20...@roothub/material@0.2.21) (2022-03-11)
+
+
+### Bug Fixes
+
+* update lock.json and yarn.lock ([da1a722](https://github.com/RootLinkFE/rh.js/commit/da1a722de0df2d31ad747efa0e1989621f9356d0))
+
+
+
+
+
+
 ## 0.2.20 (2022-02-16)
 
 **Note:** Version bump only for package @roothub/material
