@@ -17,7 +17,6 @@ const VALID_SUBCOMMANDS = [
   'codegen',
 ];
 const program = new commander.Command();
-// const rh = new commander.Command('rh');
 
 program
   .name('rh')
