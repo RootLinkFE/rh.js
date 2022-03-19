@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       # Setup .npmrc file to publish to npm
       - name: Setup node 🔧
@@ -58,7 +60,7 @@ jobs:
           WECOM_WEBHOOK_KEY: ${{ secrets.WECOM_WEBHOOK_KEY }}
 
       - name: publish 🚀
-        run: ./node_modules/.bin/lerna publish -y
+        run: ./node_modules/.bin/lerna publish -y --include-merged-tags
         # run: ./node_modules/.bin/lerna publish patch -y
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -23,7 +23,7 @@ function getChangeLog(changeLogPath = '', version) {
     // let enterRegex = new RegExp(`^## \\[${version}\\]`);
     let count = 0;
     rl.on('line', function (input) {
-      if (/^## \[(\d*\.?)*\]/.test(input)) {
+      if (/^#+ \[?(\d+\.?)*\]?/.test(input)) {
         if (isEnterChange) {
           isEnterChange = false;
           FRStream.close();
@@ -51,14 +51,14 @@ function notice(packageName, changeLogPath) {
       msgtype: 'markdown',
       markdown: {
         content: `${packageName} 发布成功，最新版本号为<font color="warning">${version}</font>
-        发布人：${userName()}
-        发布时间：${new Date()}
-        Changelog：
+发布人：${userName()}
+发布时间：${new Date()}
+Changelog：
 
-        -------------------------
+-------------------------
 
 
-        ${changelog}`,
+${changelog}`,
       },
     };
     request.post(
