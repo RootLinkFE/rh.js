@@ -1,64 +1,92 @@
-import {
-  DesktopOutlined,
-  PieChartOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
 import { Layout } from 'antd';
-import React from 'react';
 import { useState } from 'react';
 import RhSidebar from '.';
-import type { RhMenuData } from './type';
+import type { RhMenuData } from './types';
 
 const { Content, Header, Sider } = Layout;
 
 const MENUS = {
-  menuHeaderTitle: 'Sidebar菜单组件',
-  menuHeaderTitleIcon: 'rh-icon-icon_yingyongguanli',
+  // menuHeader: {
+  //   key: 'goback',
+  //   icon: 'iconHome',
+  //   name: '首页',
+  //   url: '/dashboard',
+  //   isExternal: true
+  // },
+  menuHeaderTitle: '运营赋能服务',
+  menuHeaderTitleIcon: 'iconMenuoperate',
+  subMenuCollapseIcon: 'iconRightarrow-filled',
+  subMenuExpandIcon: 'iconarrow_down_line',
   menuItems: [
     {
-      key: 'chart',
-      name: 'RhSidebar',
-      icon: <PieChartOutlined />,
-      url: '/components/rh-sidebar',
+      key: 'tenant-admin',
+      name: '客户管理',
+      icon: 'iconDevice_select',
+      url: '/admin/company',
     },
     {
-      key: 'desktop',
-      name: 'SearchInput',
-      icon: <DesktopOutlined />,
-      url: '/components/rh-search-input',
-    },
-    {
-      key: 'user',
-      name: 'Tree',
-      icon: <UserOutlined />,
-      url: '/components/rh-tree',
+      key: 'admin-apply',
+      name: '正式版申请',
+      icon: 'iconCommoditymanagement',
+      url: '/admin/office-apply',
       children: [
         {
-          key: 'tom',
-          name: 'RhModal',
-          url: '/components/rh-modal',
+          key: 'pending',
+          name: '未处理申请',
+          url: '/admin/office-apply/pending',
+          isExternal: true,
         },
         {
-          key: 'Alex',
-          name: 'RhDrawer',
-          url: '/components/rh-drawer',
-          isExternal: true,
+          key: 'solved',
+          name: '已处理申请',
+          url: '/admin/office-apply/solved',
         },
       ],
     },
     {
-      key: 'changjingguanli',
-      icon: 'rh-icon-changjingguanli',
-      name: 'Icon',
-      url: '/components/rh-icon',
+      key: 'statistics',
+      icon: 'iconUsagestatistics',
+      name: '用量统计',
+      url: '/service/operating/statistics',
+    },
+    {
+      key: 'module-id',
+      icon: 'iconModuleIDmanagement',
+      name: '模组 ID 管理',
+      url: '/service/operating/moduleIdManagement',
+    },
+    {
+      key: 'warehouse-managegement',
+      icon: 'iconwarehouse',
+      name: '库存管理',
+      url: '/service/operating/wareHourseManagement',
+    },
+    {
+      key: 'contract-managegement',
+      icon: 'iconContractmanagement',
+      name: '合同管理',
+      url: '/service/operating/contractManagement',
+    },
+    {
+      key: 'bill-managegement',
+      icon: 'iconBillmanagement',
+      name: '设备模拟器 (公测)',
+      url: '/service/operating/billManagement',
       isExternal: true,
-      externalIcon: 'rh-icon-iconShare',
+      externalIcon: 'iconShare',
+    },
+    {
+      key: 'icona-Datasubscription',
+      icon: 'icona-Datasubscription',
+      name: '测试ICON',
     },
   ],
 };
 function RhSidebarDemo() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [collapsed, setCollapsed] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [pathName, setPathName] = useState('/service/operating/billManagement');
 
   return (
     <Layout
@@ -69,6 +97,10 @@ function RhSidebarDemo() {
       <Layout hasSider style={{ position: 'relative' }}>
         <Sider
           width={224}
+          /*
+          collapsible
+          onCollapse={(v) => setCollapsed(v)}
+          collapsed={collapsed} */
           style={{
             overflow: 'auto',
             height: '100%',
@@ -78,6 +110,18 @@ function RhSidebarDemo() {
             background: '#fff',
           }}
         >
+          {/*
+        collapsible: 当前菜单收缩状态
+        menuData: 菜单数据
+        pathName: 当前的path name
+        menuOption: 传入ant-design menu对应的配置:
+          mode: 侧边栏菜单类型
+          defaultOpenKeys: 初始展开的 SubMenu 菜单项 key 数组
+          selectedKeys: 当前选中的菜单项 key 数组
+          defaultSelectedKeys: 初始选中的菜单项 key 数组
+          openKeys: 当前展开的 SubMenu 菜单项 key 数组
+          onTitleClick: 点击子菜单标题
+      */}
           <RhSidebar
             menuOptions={{
               mode: 'inline',
@@ -86,7 +130,8 @@ function RhSidebarDemo() {
             }}
             menuData={MENUS as RhMenuData}
             collapsible={collapsed}
-            pathName={'/components/rh-sidebar'}
+            pathName={pathName}
+            iconScriptUrl="//at.alicdn.com/t/font_1464531_kbfzydihsfs.js"
           />
         </Sider>
         <Content />

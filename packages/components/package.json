@@ -41,7 +41,8 @@
   },
   "dependencies": {
     "ahooks": "^2.10.12",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",

@@ -19,8 +19,8 @@ export default defineConfig({
       children: [
         { title: 'rh.js', path: 'https://github.com/RootLinkFE/rh.js' },
         {
-          title: 'rh-template-react-umi',
-          path: 'https://github.com/RootLinkFE/rh-template-react-umi',
+          title: 'rh-template-umi',
+          path: 'https://github.com/giscafer/rh-template-umi',
         },
       ],
     },
