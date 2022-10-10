@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.27](https://github.com/RootLinkFE/rh.js/compare/@roothub/components@0.2.26...@roothub/components@0.2.27) (2022-10-10)
+
+
+### Bug Fixes
+
+*  Cannot find module '@ant-design/pro-form' ([1926098](https://github.com/RootLinkFE/rh.js/commit/19260981e4b89af54ac54202e931ecb006d75d2f))
+* components build error & 升级antd 依赖 ([579844e](https://github.com/RootLinkFE/rh.js/commit/579844e42cbef2bafd9db74977ba552172447662))
+* **components:** 处理公共库依赖 ([69074bb](https://github.com/RootLinkFE/rh.js/commit/69074bb950e1215d7f570d157d2ac46d356e1111))
+
+
+
+
+
 ## 0.2.26 (2022-03-10)
 
 **Note:** Version bump only for package @roothub/components

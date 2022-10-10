@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.28](https://github.com/RootLinkFE/rh.js/compare/@roothub/cli@0.2.27...@roothub/cli@0.2.28) (2022-10-10)
+
+
+### Bug Fixes
+
+* components build error & 升级antd 依赖 ([579844e](https://github.com/RootLinkFE/rh.js/commit/579844e42cbef2bafd9db74977ba552172447662))
+* fixDefinitionsChinese 鲁棒性问题 ([0b5398d](https://github.com/RootLinkFE/rh.js/commit/0b5398d606ef66058aa6d03c3df8b33504e22d87))
+* url本身encode了重复 encodeURI ([71da397](https://github.com/RootLinkFE/rh.js/commit/71da3976d4f485639671b381d796b2c0984ea15b))
+
+
+
+
+
 ## [0.2.27](https://github.com/RootLinkFE/rh.js/compare/@roothub/cli@0.2.26...@roothub/cli@0.2.27) (2022-03-14)
 
 
