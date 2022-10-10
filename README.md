@@ -7,7 +7,7 @@
 - 🚀 **@roothub/cli** 脚手架 cli [![npm package](https://img.shields.io/npm/v/@roothub/cli.svg)](https://www.npmjs.com/package/@roothub/cli)
 - 📦 **@roothub/components** React 组件库 [![npm package](https://img.shields.io/npm/v/@roothub/components.svg)](https://www.npmjs.com/package/@roothub/components)，文档：http://components.leekhub.com/
 - 📦 **@roothub/materials** 物料资产命令
-- 🐠 **@roothub/shared** 工具包
+- 🐠 **@roothub/shared** 工具库
 
 ## Development
 
