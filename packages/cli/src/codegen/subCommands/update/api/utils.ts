@@ -11,7 +11,7 @@ export function normalizeSchemaName(name: string) {
 }
 
 export function fixDefinitionsChinese(data: any) {
-  const { definitions, ...swaggerData } = data;
+  const { definitions = {}, ...swaggerData } = data;
   const newDefinitions = {};
   const swaggerDataText = JSON.stringify(swaggerData);
   Object.keys(definitions).forEach((key) => {

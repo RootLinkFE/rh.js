@@ -20,4 +20,5 @@ output.txt
 /examples/*/run
 /examples/*/.idea
 lerna-debug.log
-src/rh/apis
+/src/rh/*
+rh-codegen.config.json
