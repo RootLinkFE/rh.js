@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.30](https://github.com/RootLinkFE/rh.js/compare/@roothub/cli@0.2.28...@roothub/cli@0.2.30) (2022-10-10)
+
+
+### Bug Fixes
+
+* utils ([93f938d](https://github.com/RootLinkFE/rh.js/commit/93f938d8bbcf4f8e144a75e777c28fd0c973c7ab))
+
+
+
+
+
 ## [0.2.28](https://github.com/RootLinkFE/rh.js/compare/@roothub/cli@0.2.27...@roothub/cli@0.2.28) (2022-10-10)
 
 
