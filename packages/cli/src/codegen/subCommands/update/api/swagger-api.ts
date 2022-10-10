@@ -142,7 +142,8 @@ function getSwaggerSchemaJSONByResources(
 
 function getSwaggerSchemaJSON(url: string): Promise<Spec> {
   return new Promise((resolve, reject) => {
-    request(encodeURI(url), function (err, resp, body) {
+    const schemaUrl = encodeURI(decodeURI(url));
+    request(schemaUrl, function (err, resp, body) {
       if (err) {
         console.log(err);
         return reject(err);
