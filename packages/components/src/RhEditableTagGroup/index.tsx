@@ -28,7 +28,7 @@ const EditableTagGroup: React.FC<EditableTagGroupProps> = ({
   displayMaxLength = 20,
   onChange = () => {},
 }) => {
-  const inputRef = useRef<Input>(null);
+  const inputRef = useRef<any>(null);
   const [inputVisible, setInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState('');
 

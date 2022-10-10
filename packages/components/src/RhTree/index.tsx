@@ -162,7 +162,7 @@ const RhTree = (
 
   const handleTreeNodeClick = (
     e: React.MouseEvent,
-    node: Partial<EventDataNode & { name: string }>,
+    node: Partial<EventDataNode<any> & { name: string }>,
   ) => {
     e.stopPropagation();
     if (onClick && node) {

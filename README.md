@@ -9,6 +9,12 @@
 - 📦 **@roothub/materials** 物料资产命令
 - 🐠 **@roothub/shared** 工具包
 
+## Development
+
+- yarn
+- lerna bootstrap
+- yarn dev
+
 ## Documentation
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
