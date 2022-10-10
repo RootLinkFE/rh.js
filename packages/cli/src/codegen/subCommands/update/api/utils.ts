@@ -14,7 +14,7 @@ export function fixDefinitionsChinese(data: any) {
   const { definitions = {}, ...swaggerData } = data;
   const newDefinitions = {};
   const swaggerDataText = JSON.stringify(swaggerData);
-  Object.keys(definitions).forEach((key) => {
+  Object.keys(definitions || {}).forEach((key) => {
     if (!/^[\w-]*$/.test(key)) {
       const newKey = normalizeSchemaName(pinyin(key, { removeTone: true }));
       newDefinitions[newKey] = definitions[key];
