@@ -45,5 +45,10 @@
   "publishConfig": {
     "access": "public"
   },
+  "overrides": {
+    "swagger-typescript-api": {
+      "typescript": "4.7.4"
+    }
+  },
   "gitHead": "4b14e6c505335a6e2892051ad2e104ab9c8cc327"
 }
