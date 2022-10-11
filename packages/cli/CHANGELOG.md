@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.4](https://github.com/RootLinkFE/rh.js/compare/@roothub/cli@0.2.31...@roothub/cli@0.3.4) (2022-10-11)
+
+
+### Bug Fixes
+
+* swagger-typescript-api/**/typescript version ([c0e7d40](https://github.com/RootLinkFE/rh.js/commit/c0e7d40ff3ea541885263f7f77d1d8bd54cf1bda))
+
+
+
+
+
 ## [0.2.31](https://github.com/RootLinkFE/rh.js/compare/@roothub/cli@0.2.30...@roothub/cli@0.2.31) (2022-10-11)
 
 
