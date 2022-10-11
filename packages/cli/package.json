@@ -1,6 +1,6 @@
 {
   "name": "@roothub/cli",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "",
   "main": "index.js",
   "author": "",
@@ -47,11 +47,13 @@
     "access": "public"
   },
   "overrides": {
+    "typescript": "4.7.4",
     "swagger-typescript-api": {
       "typescript": "4.7.4"
     }
   },
   "resolutions": {
+    "typescript": "4.7.4",
     "swagger-typescript-api/**/typescript": "4.7.4"
   },
   "gitHead": "4b14e6c505335a6e2892051ad2e104ab9c8cc327"
